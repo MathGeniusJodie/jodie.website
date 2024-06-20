@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<style>
+@font-face {
+  font-family: 'Crimson Pro';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/crimsonpro/v24/q5uBsoa5M_tv7IihmnkabARekYNwDQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Crimson Pro';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/crimsonpro/v24/q5uDsoa5M_tv7IihmnkabARboYE.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+html {
+  font-family: 'Crimson Pro', serif;
+  background-size: 100% 21px;
+  line-height: 21px;
+}
+
+time {
+  opacity: 0.666;
+}
+
+header img {
+  width: 100px;
+  margin-right:1em;
+  border-radius:50%;
+  background: powderblue url(sky.png);
+  background-size: cover;
+  box-shadow: 0 10px 15px -3px rgba(0, 24, 55, 0.1), 0 4px 6px -4px rgb(0, 24, 55 , 0.1);
+}
+p,ol,ul,h2,h3,h4,pre,code {
+  max-width: 50ch;
+  margin-top:1lh;
+  margin-bottom:1lh;
+}
+article h3 {
+  margin: 0;
+}
+</style>
+<header style="display: flex; align-items: center;">
+    <img src="logo.svg" alt="">
+    <div>
+      <h1 style="margin-top:0">Jodie's Website</h1>
+      <nav>
+        <a href="https://github.com/MathGeniusJodie">GitHub</a>
+         <span aria-hidden="true">•</span>
+        <a href="https://www.shadertoy.com/user/Jodie">Shadertoy</a>
+      </nav>
+    <div>
+</header>
+<h2 id="blog">Blog:</h2>
+<article id="blog-post-3">
+  <time datetime="2024-06-19">June 19, 2024</time>
+  <h3>The Most Ergonomic Desk is No Desk At All</h3>
+  <p>So about a year back, I moved into a new apartment and couldn't bring my desk, I figured I could just work at the kitchen table or on the sofa in the meantime, but that plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.</p>
+  <p>Having no money for a desk at the time, I just sat on the floor in my room, and after a short adjustment period, I found that I had developped a new superpower, I could simply sit on the floor with no back support, and it was fine, in fact it was better than fine, it was better than sitting on a chair.</p>
+  <p>After a few months of this, I decided to buy a desk, and I found that I couldn't sit at it for more than a few hours without my back hurting, so I went back to sitting on the floor, and later donated the desk.</p>
+  <p>I haven't bought any furniture since, and I don't plan to, people didn't have furniture for most of human history, and many people in the third world still don't, this isn't as weird as it sounds.</p>
+</article>
+<article id="blog-post-2">
+  <time datetime="2024-06-18">June 18, 2024</time>
+  <h3>Get Off Your Phone</h3>
+  <p>Do you feel like you don't have any time? Do you feel like you don't have any energy? The culprit might just be that you spend 8 hours or more a day on your phone. Go ahead, check your screen time in your phone settings right now... </p>
+  <h4>A rude awakening</h4>
+  <p>When I first did this, I was shocked, I had absolutely no idea, I would have guessed 2 hours a day maximum if you asked me to estimate, but the software doesn't lie, I was spending 8 hours a day on average on my phone. That's a full-time job!</p>
+  <h4>What you can do</h4>
+  <p>Here's what worked for me and allowed me to cut my screen time down to 1-2 hours a day:</p>
+  <ol>
+    <li>Share a screenshot of your screen time to a group chat of your friends every day or week, to keep yourself accountable</li>
+    <li>Remove anything that you can doomscroll off your homescreen, in fact, consider removing the app entirely.</li>
+    <li>Add a screen time widget to your homescreen, this will remind you how much time you've spent on your phone today.</li>
+    <li>Apps like Instagram allow you to make widgets to take you directly to messages</li>
+    <li>Instead of checking apps constantly for new messages, turn on silent notifications, your phone won't vibrate, but you'll know if there's activity without having to open the app</li>
+    <li>Consider making more of your notifications silent</li>
+    <li>Don't check your phone in the morning, get up and work or do your morning routine right away</li>
+    <li>Embrace boredom, don't reach for your phone when you're bored, think, meditate, smell the flowers, etc.</li>
+  </ol>
+</article>
+<article id="blog-post-1">
+  <time datetime="2024-06-17">June 17, 2024</time>
+  <h3>Should I Buy the Thing? A Flowchart</h3>
+  <pre>
+Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
+            \  No: Will the thing make me happy?  - Yes: Buy the thing.
+                                                  \  No: Don't buy the thing
+  </pre>
+</article>
+<article id="blog-post-0">
+  <time datetime="2024-06-16">June 16, 2024</time>
+  <h3>Bit Arrays for Fast Graph Search</h3>
+  <p>One problem with every implementation of the HNSW paper I've seen is the use of ordered sets to keep track of visited neighbors, this causes a huge performance overhead.</p>
+  <p>After much experimentation, I've found that using a bit array to keep track of visited neighbors is much faster.</p>
+  <p>For a code example, see <a href="https://github.com/MathGeniusJodie/joann">Joann</a>, my HNSW implementation.</p>
+</article>
