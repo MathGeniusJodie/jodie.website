@@ -54,7 +54,20 @@ article img {
   display:flex;
   flex-wrap: wrap;
 }
+article {
+  display: none;
+}
+#life:checked ~ .life,
+#math:checked ~ .math,
+#poetry:checked ~ .poetry,
+#all:checked ~ article {
+  display: block;
+}
+.spacer {
+  height: 1lh;
+}
 </style>
+
 <header style="display: flex; align-items: center;">
     <img src="logo.svg" alt="">
     <div>
@@ -69,12 +82,21 @@ article img {
 <div class="wrapper">
 <main>
 <h2 id="blog">Blog:</h2>
-<article id="blog-post-12">
+<input type="radio" name="filter" id="all" checked>
+<label for="all">All</label>
+<input type="radio" name="filter" id="life">
+<label for="life">Productivity and Happiness</label>
+<input type="radio" name="filter" id="math">
+<label for="math">Math</label>
+<input type="radio" name="filter" id="poetry">
+<label for="poetry">Poetry</label>
+<div class="spacer"></div>
+<article id="blog-post-12" class="math">
   <time datetime="2024-12-07">December 7, 2024</time>
   <h3>Fast Sigmoid (Updated)</h3>
   <p><a href="https://godbolt.org/z/xbxnE61WT">https://godbolt.org/z/xbxnE61WT</a></p>
 </article>
-<article id="blog-post-11">
+<article id="blog-post-11" class="poetry">
   <time datetime="2024-12-06">December 6, 2024</time>
   <h3>Still</h3>
   <p>
@@ -98,14 +120,14 @@ article img {
   I can stop doing, and simply be
   </p>
 </article>
-<article id="blog-post-10">
+<article id="blog-post-10" class="life">
   <time datetime="2024-11-28">November 28, 2024</time>
   <h3>Stop Having Goals</h3>
   <p>Humans aren't made to have long-term goals. If you have a goal, don't think about the goal. Stop caring about the goal. Failure to achieve the goal is neutral. Do not let yourself think about it. Not having reached the goal yet should never be on your mind.</p>
   <p>Learn to enjoy the process. Want to be strong? Learn to enjoy exercise. Want to lose weight? Learn to enjoy hunger. Want to be rich? Learn to enjoy saving money. Want to make friends? Learn to enjoy being interested in people. Do it without an agenda.</p>
   <p>Do the process every day, prioritise it, make it a part of your schedule. Get good at the process.</p>
 </article>
-<article id="blog-post-9">
+<article id="blog-post-9" class="life">
   <time datetime="2024-11-27">November 27, 2024</time>
   <h3>Do you actually enjoy this or are you addicted?</h3>
   <p>Things that are pleasurable aren't necessarily addictive, and things that are addictive aren't necessarily pleasurable.</p>
@@ -115,7 +137,7 @@ article img {
   <h4>Hidden Addiction</h4>
   <p>Things you recognise as unpleasant often fly under the radar. They are frequently not identified as addictive. Pleasant things also often don't register as addiction. You just think you're doing them repeatedly because they are fun.</p>
 </article>
-<article id="blog-post-8">
+<article id="blog-post-8" class="poetry">
   <time datetime="2024-11-23">November 23, 2024</time>
   <h3>King of the Hill</h3>
   <p>shimmering dewdrops<br>
@@ -127,18 +149,18 @@ article img {
   <p>this hill, my ornate throne<br>
   where I am king</p>
 </article>
-<article id="blog-post-7">
+<article id="blog-post-7" class="life">
 	<time datetime="2024-10-31">October 31, 2024 🎃</time>
 	<h3>The Emotional Cyborg</h3>
 	<p>One limitation of therapy is that you can't have a therapist be with you 24/7 to examine your behavior. Luckily we now have ai that can monitor everything you say, and correct bad thought patterns and behaviours in real time.
 Just like smartphones turned us into information and math cyborgs with access to services such as google and wolfram alpha, now computers allow us to enhance our emotional intelligence.</p>
 </article>
-<article id="blog-post-6">
+<article id="blog-post-6" class="life">
 	<time datetime="2024-08-22">August 22, 2024</time>
 	<h3>Furniture Free</h3>
 	<p>I recently got interviewed by Charlotte Collins of Architectural Digest about furniture-free living, read the article <a href="https://www.architecturaldigest.com/story/extreme-minimalism-people-who-pared-all-the-way-down-talk-living-nearly-furniture-free">here</a>.</p>
 </article>
-<article id="blog-post-5">
+<article id="blog-post-5" class="life">
 	<time datetime="2024-06-29">June 29, 2024</time>
 	<h3>My Meditation Method</h3>
 	<p>No matter how wise I feel, staring at a wall always gives me new insights, and it doesn't take long either, I like to take off my glasses so the wall is blurry, and wearing headphones with white noise too.</p>
@@ -147,7 +169,7 @@ Just like smartphones turned us into information and math cyborgs with access to
 	<p>Writing down your thoughts is also important, it frees your mind from having to remember, and you can always come back to them later.</p>
 	<p>I'm starting to think that the key to creativity and introspection is just being extremely bored and understimulated, ideas always come.</p>
 </article>
-<article id="blog-post-4">
+<article id="blog-post-4" class="life">
 	<time datetime="2024-06-25">June 25, 2024</time>
 	<h3>A Programmer Without a Computer</h3>
 	<p>I've been using my phone as my main computer for a week now, I'm even coding on it, and it's... fine?</p>
@@ -155,7 +177,7 @@ Just like smartphones turned us into information and math cyborgs with access to
 	<p><img src="4-neovim.png" alt=""></p>
 	<p>I might get a foldable phone and/or a physical keyboard in the future, but honestly I'm not in a rush.</p>
 </article>
-<article id="blog-post-3">
+<article id="blog-post-3" class="life">
   <time datetime="2024-06-19">June 19, 2024</time>
   <h3>The Most Ergonomic Desk is No Desk At All</h3>
   <p>So about a year back, I moved into a new apartment and couldn't bring my desk, I figured I could just work at the kitchen table or on the sofa in the meantime, but that plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.</p>
@@ -163,7 +185,7 @@ Just like smartphones turned us into information and math cyborgs with access to
   <p>After a few months of this, I decided to buy a desk, and I found that I couldn't sit at it for more than a few hours without my back hurting, so I went back to sitting on the floor, and later donated the desk.</p>
   <p>I haven't bought any furniture since, and I don't plan to, people didn't have furniture for most of human history, and many people in the third world still don't, this isn't as weird as it sounds.</p>
 </article>
-<article id="blog-post-2">
+<article id="blog-post-2" class="life">
   <time datetime="2024-06-18">June 18, 2024</time>
   <h3>Get Off Your Phone</h3>
   <p>Do you feel like you don't have any time? Do you feel like you don't have any energy? The culprit might just be that you spend 8 hours or more a day on your phone. Go ahead, check your screen time in your phone settings right now... </p>
@@ -182,7 +204,7 @@ Just like smartphones turned us into information and math cyborgs with access to
     <li>Embrace boredom, don't reach for your phone when you're bored, think, meditate, smell the flowers, etc.</li>
   </ol>
 </article>
-<article id="blog-post-1">
+<article id="blog-post-1" class="life">
   <time datetime="2024-06-17">June 17, 2024</time>
   <h3>Should I Buy the Thing? A Flowchart</h3>
   <pre>
@@ -191,7 +213,7 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
                                                   \  No: Don't buy the thing
   </pre>
 </article>
-<article id="blog-post-0">
+<article id="blog-post-0" class="math">
   <time datetime="2024-06-16">June 16, 2024</time>
   <h3>Bit Arrays for Fast Graph Search</h3>
   <p>One problem with every implementation of the HNSW paper I've seen is the use of ordered sets to keep track of visited neighbors, this causes a huge performance overhead.</p>
