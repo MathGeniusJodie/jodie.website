@@ -91,6 +91,87 @@ article {
 <input type="radio" name="filter" id="poetry">
 <label for="poetry">Poetry</label>
 <div class="spacer"></div>
+<article id="blog-post-13" class="">
+  <time datetime="2024-12-08">February 7, 2025</time>
+  <h3>Modern Color Utility Classes</h3>
+  <style>
+    .swatches{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 1lh;
+    }
+    .swatch-group{
+      display:flex;
+      gap:10px;
+    }
+
+    .swatch{
+      padding:10px;
+      background:oklch(from var(--base) var(--l) c h );
+    }
+
+    .l-20{--l:0.2}
+    .l-40{--l:0.4}
+    .l-60{--l:0.6}
+    .l-80{--l:0.8}
+    .l-100{--l:1.0}
+
+    .powderblue{--base: powderblue}
+    .crimson   {--base: crimson}
+    .goldenrod {--base: goldenrod}
+    .indigo    {--base: indigo}
+  </style>
+  <div class="swatches">
+    <div class="swatch-group">
+      <div class="swatch powderblue l-20"></div>
+      <div class="swatch powderblue l-40"></div>
+      <div class="swatch powderblue l-60"></div>
+      <div class="swatch powderblue l-80"></div>
+      <div class="swatch powderblue l-100"></div>
+    </div>
+    <div class="swatch-group">
+      <div class="swatch crimson l-20"></div>
+      <div class="swatch crimson l-40"></div>
+      <div class="swatch crimson l-60"></div>
+      <div class="swatch crimson l-80"></div>
+      <div class="swatch crimson l-100"></div>
+    </div>
+      <div class="swatch-group">
+      <div class="swatch goldenrod l-20"></div>
+      <div class="swatch goldenrod l-40"></div>
+      <div class="swatch goldenrod l-60"></div>
+      <div class="swatch goldenrod l-80"></div>
+      <div class="swatch goldenrod l-100"></div>
+    </div>
+      <div class="swatch-group">
+      <div class="swatch indigo l-20"></div>
+      <div class="swatch indigo l-40"></div>
+      <div class="swatch indigo l-60"></div>
+      <div class="swatch indigo l-80"></div>
+      <div class="swatch indigo l-100"></div>
+    </div>
+  </div>
+  <p>The arrival of relative colors and oklch color spaces in CSS allows for a very clean way of making composable utility classes for colors. With one class for the base color and one for the lightness.</p>
+  <pre>
+    <code>
+.swatch{
+  background:oklch(from var(--base) var(--l) c h );
+}
+
+.l-20{--l:0.2}
+.l-40{--l:0.4}
+.l-60{--l:0.6}
+.l-80{--l:0.8}
+.l-100{--l:1.0}
+
+.aquamarine{--base: aquamarine}
+.crimson   {--base: crimson}
+.goldenrod {--base: goldenrod}
+.indigo    {--base: indigo}
+    </code>
+  </pre>
+</article>
 <article id="blog-post-12" class="math">
   <time datetime="2024-12-07">December 7, 2024</time>
   <h3>Fast Sigmoid (Updated)</h3>
