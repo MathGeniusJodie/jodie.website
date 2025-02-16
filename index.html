@@ -41,18 +41,23 @@ header img {
 }
 p,ol,ul,h2,h3,h4,pre,code {
   max-width: 50ch;
-  margin-top:1lh;
+  margin-top:0;
   margin-bottom:1lh;
 }
+h2{
+  margin-top:1lh;
+}
+h3,h4{
+  margin-bottom:0;
+} 
 article h3 {
   margin: 0;
-}
-article img {
-  max-width: 50ch;
 }
 .wrapper {
   display:flex;
   flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
 }
 article {
   display: none;
@@ -60,11 +65,25 @@ article {
 #life:checked ~ .life,
 #math:checked ~ .math,
 #poetry:checked ~ .poetry,
+#web:checked ~ .web,
 #all:checked ~ article {
   display: block;
 }
 .spacer {
   height: 1lh;
+}
+main {
+  width: 50ch;
+  max-width: 100%;
+}
+img{
+  max-width: 100%;
+}
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em;
 }
 </style>
 
@@ -85,14 +104,27 @@ article {
 <input type="radio" name="filter" id="all" checked>
 <label for="all">All</label>
 <input type="radio" name="filter" id="life">
-<label for="life">Productivity and Happiness</label>
+<label for="life">Life</label>
 <input type="radio" name="filter" id="math">
 <label for="math">Math</label>
 <input type="radio" name="filter" id="poetry">
 <label for="poetry">Poetry</label>
+<input type="radio" name="filter" id="web">
+<label for="web">Web Dev</label>
 <div class="spacer"></div>
+<article id="blog-post-16" class="life">
+<time datetime="2024-02-16">February 16, 2025</time>
+<h3>Why Productivity and Happiness are the Same Thing</h3>
+<p>One of the categories on this blog used to be called "Productivity and Happiness" (now renamed to "life"). I wanna expand on this, because I think it's one of the foundations of what makes for a successful life. Conversely I want to hammer home that idea of work-life balance is incredibly pernicious.</p>
+<h4>Work isn't Hard</h4>
+<p>I think it's a sad reflection of the society we live in that work is widely accepted to be difficult and unfun. We shouldn't simply accept that we're forced to do something that sucks. This framing isn't just bad for you, it makes workers as a group accept terrible working conditions. This shouldn't be considered "normal". This is a tragedy!</p>
+<h4>Fun isn't Easy</h4>
+<p>The other side of the coin isn't much better. Most people's idea of fun is spending money and engaging in vice. Fun is seen as synonymous with being counter-productive. You're expected to continuously destroy what you build in an endless cycle of consumption that never leads to your life improving.</p>
+<h4>Work-Life Maximisation</h4>
+<p>Productivity and happiness aren't opposing forces that need to be balanced. They aren't at odds with each-other. Work can be fun, and leisure can be productive. An activity can be more fun <em>and</em> more productive. What you want isn't "balance". You want work-life <em>maximisation</em>.</p>
+</article>
 <article id="blog-post-15" class="poetry">
-  <time datetime="2024-12-11">February 11, 2025</time>
+  <time datetime="2024-02-11">February 11, 2025</time>
   <h3>Story</h3>
 <p>there's a voicemail full of excuses<br>
 you haven't listened to yet</p>
@@ -110,19 +142,20 @@ I trace your name in the condensation</p>
 our story ended before it got old</p>
 </article>
 <article id="blog-post-14" class="life">
-  <time datetime="2024-12-10">February 10, 2025</time>
+  <time datetime="2024-02-10">February 10, 2025</time>
   <h3>Don't Quit Your Vices</h3>
   <p>Replace unhealthy sugary treats with fancy salads. Replace social media by hanging out with your friends or texting them. Replace gambling with starting a business. Vices usually fill a void, find out a healthy way of filling it.</p>
 </article>
-<article id="blog-post-13" class="">
-  <time datetime="2024-12-08">February 7, 2025</time>
+<article id="blog-post-13" class="web">
+  <time datetime="2024-02-08">February 7, 2025</time>
   <h3>Modern Color Utility Classes</h3>
   <style>
     .swatches{
       display:flex;
       flex-direction:column;
       gap:10px;
-      margin-top: 1lh;
+      margin-top:1lh;
+      margin-bottom: 1lh;
     }
     .swatch-group{
       display:flex;
