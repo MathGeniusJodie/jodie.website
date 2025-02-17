@@ -52,23 +52,16 @@
         <h1>Image Filter</h1>
         <input type="file" id="upload" accept="image/*">
         <div class="controls">
-            <select id="filter">
-                <option value="grayscale">Grayscale</option>
-                <option value="sepia">Sepia</option>
-                <option value="invert">Invert</option>
-                <option value="brightness">Brightness Boost</option>
-            </select>
             <button id="apply">Apply Filter</button>
             <button id="download">Download</button>
         </div>
         <canvas id="canvas"></canvas>
     </div>
 
-    <script>
+    <script type="module">
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const upload = document.getElementById('upload');
-        const filterSelect = document.getElementById('filter');
         const applyBtn = document.getElementById('apply');
         const downloadBtn = document.getElementById('download');
         let originalImage = null;
@@ -115,10 +108,6 @@
             ctx.putImageData(imageData, 0, 0);
         }
 
-        applyBtn.addEventListener('click', () => {
-            applyFilter(filterSelect.value);
-        });
-
         downloadBtn.addEventListener('click', () => {
             if (!canvas.width || !canvas.height) {
                 alert('Please upload and filter an image first');
@@ -132,7 +121,7 @@
             const originalFileName = upload.files[0] ? upload.files[0].name.replace(/\.[^/.]+$/, '') : 'filtered-image';
             
             // Set download attributes
-            link.download = `${originalFileName}-${filterSelect.value}.png`;
+            link.download = `${originalFileName}-compressed.png`;
             
             // Convert canvas to blob
             canvas.toBlob((blob) => {
