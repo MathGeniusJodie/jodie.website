@@ -1,153 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Compressor</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 8px 16px;
-            background: #0070f3;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #0051b3;
-        }
-        canvas {
-            max-width: 100%;
-            margin: 20px 0;
-            border: 1px solid #ddd;
-        }
-        select {
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .controls {
+        margin: 20px 0;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      button {
+        padding: 8px 16px;
+        background: #0070f3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0051b3;
+      }
+      canvas {
+        max-width: 100%;
+        margin: 20px 0;
+        border: 1px solid #ddd;
+      }
+      select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Image Compressor</h1>
-        <input type="file" id="upload" accept="image/*">
-        <div class="controls">
-            <button id="apply">Apply Filter</button>
-            <button id="download">Download</button>
-        </div>
-        <canvas id="canvas"></canvas>
+      <h1>Image Compressor</h1>
+      <p>
+        if alpha is 0, then obviously the color values don't matter. no matter
+        what the color is, it will never be visible as long as the alpha is 0 if
+        the alpha is 0.5, then the lab values can only have 128 possible
+        lightness values after compositing with a background and if the alpha is
+        0.25, then there can be 64 lightness values and so on.
+      </p>
+
+      <p>
+        similarly if lightness is 0, the pixel can only be black, and therefore
+        the a and b channels don't affect the image if lightness is 1, the pixel
+        can only be white, and therefore the a and b channels don't affect the
+        image only a lightness around 0.5 needs the full 256 possible values for
+        a and b a lightness of 0.25 or 0.75 would need 128 values for a and b,
+        and so on
+      </p>
+
+      <p>
+        if you combine these 2 heuristics with the formula `alpha *
+        2*(0.5-abs(l-0.5)) * 256` you get how many possible values of a and b
+        respectively you need
+      </p>
+      <input type="file" id="upload" accept="image/*" />
+      <div class="controls">
+        <button id="apply">Apply Filter</button>
+        <button id="download">Download</button>
+      </div>
+      <canvas id="canvas"></canvas>
     </div>
 
     <script type="module">
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const upload = document.getElementById('upload');
-        const applyBtn = document.getElementById('apply');
-        const downloadBtn = document.getElementById('download');
-        let originalImage = null;
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const upload = document.getElementById("upload");
+      const applyBtn = document.getElementById("apply");
+      const downloadBtn = document.getElementById("download");
+      let originalImage = null;
 
-        import {linearSrgbToOklab, oklabToLinearSrgb} from 'https://cdn.jsdelivr.net/npm/oklab@0.0.2-alpha.1/+esm';
+      import {
+        linearSrgbToOklab,
+        oklabToLinearSrgb,
+      } from "https://cdn.jsdelivr.net/npm/oklab@0.0.2-alpha.1/+esm";
 
-        const srgbToLinear = (srgb) => srgb.map((v) => v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
-        const linearToSrgb = (linear) => linear.map((v) => v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055);
+      const srgbToLinear = (srgb) =>
+        srgb.map((v) =>
+          v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+        );
+      const linearToSrgb = (linear) =>
+        linear.map((v) =>
+          v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055
+        );
 
-        upload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    originalImage = new Image();
-                    originalImage.onload = () => {
-                        canvas.width = originalImage.width;
-                        canvas.height = originalImage.height;
-                        ctx.drawImage(originalImage, 0, 0);
-                    };
-                    originalImage.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+      upload.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            originalImage = new Image();
+            originalImage.onload = () => {
+              canvas.width = originalImage.width;
+              canvas.height = originalImage.height;
+              ctx.drawImage(originalImage, 0, 0);
+            };
+            originalImage.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
 
-        function applyFilter(filterType) {
-            if (!originalImage) return;
-            
-            ctx.drawImage(originalImage, 0, 0);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
+      function applyFilter(filterType) {
+        if (!originalImage) return;
 
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i];
-                const g = data[i + 1];
-                const b = data[i + 2];
-                const a = data[i + 3];
-                const oklab = linearSrgbToOklab(srgbToLinear([r / 255, g / 255, b / 255]));
-                const [l, a_, b_] = oklab;
+        ctx.drawImage(originalImage, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
 
-                const lq = 2**Math.ceil(Math.log2(a+1));
-                // quantize
-                const crushedL = Math.round(l * lq) / lq;
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const a = data[i + 3];
+          const oklab = linearSrgbToOklab(
+            srgbToLinear([r / 255, g / 255, b / 255])
+          );
+          const [l, a_, b_] = oklab;
 
-                const abq = Math.ceil(a * 2*(0.5-abs(l-0.5)) * 256);
+          const lq = 2 ** Math.ceil(Math.log2(a + 1));
+          // quantize
+          const crushedL = Math.round(l * lq) / lq;
 
-                const crushedA = Math.round(a_ * abq) / abq;
-                const crushedB = Math.round(b_ * abq) / abq;
+          const abq = Math.ceil(a * 2 * (0.5 - abs(l - 0.5)) * 256);
 
-                const crushedOklab = [crushedL, crushedA, crushedB];
-                const crushedSrgb = linearToSrgb(oklabToLinearSrgb(crushedOklab));
+          const crushedA = Math.round(a_ * abq) / abq;
+          const crushedB = Math.round(b_ * abq) / abq;
 
-                data[i] = crushedSrgb[0] * 255;
-                data[i + 1] = crushedSrgb[1] * 255;
-                data[i + 2] = crushedSrgb[2] * 255;
-                data[i + 3] = a;
-            }
+          const crushedOklab = [crushedL, crushedA, crushedB];
+          const crushedSrgb = linearToSrgb(oklabToLinearSrgb(crushedOklab));
 
-            ctx.putImageData(imageData, 0, 0);
+          data[i] = crushedSrgb[0] * 255;
+          data[i + 1] = crushedSrgb[1] * 255;
+          data[i + 2] = crushedSrgb[2] * 255;
+          data[i + 3] = a;
         }
 
-        downloadBtn.addEventListener('click', () => {
-            if (!canvas.width || !canvas.height) {
-                alert('Please upload and filter an image first');
-                return;
-            }
-            
-            // Create a temporary link element
-            const link = document.createElement('a');
-            
-            // Get the original filename without extension
-            const originalFileName = upload.files[0] ? upload.files[0].name.replace(/\.[^/.]+$/, '') : 'filtered-image';
-            
-            // Set download attributes
-            link.download = `${originalFileName}-compressed.png`;
-            
-            // Convert canvas to blob
-            canvas.toBlob((blob) => {
-                link.href = URL.createObjectURL(blob);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
-            }, 'image/png');
-        });
+        ctx.putImageData(imageData, 0, 0);
+      }
+
+      downloadBtn.addEventListener("click", () => {
+        if (!canvas.width || !canvas.height) {
+          alert("Please upload and filter an image first");
+          return;
+        }
+
+        // Create a temporary link element
+        const link = document.createElement("a");
+
+        // Get the original filename without extension
+        const originalFileName = upload.files[0]
+          ? upload.files[0].name.replace(/\.[^/.]+$/, "")
+          : "filtered-image";
+
+        // Set download attributes
+        link.download = `${originalFileName}-compressed.png`;
+
+        // Convert canvas to blob
+        canvas.toBlob((blob) => {
+          link.href = URL.createObjectURL(blob);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(link.href);
+        }, "image/png");
+      });
     </script>
-</body>
+  </body>
 </html>
