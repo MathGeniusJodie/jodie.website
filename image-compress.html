@@ -68,8 +68,8 @@
 
         import {linearSrgbToOklab, oklabToLinearSrgb} from 'https://cdn.jsdelivr.net/npm/oklab@0.0.2-alpha.1/+esm';
 
-
-
+        const srgbToLinear = (srgb) => srgb.map((v) => v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+        const linearToSrgb = (linear) => linear.map((v) => v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055);
 
         upload.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -99,10 +99,26 @@
                 const r = data[i];
                 const g = data[i + 1];
                 const b = data[i + 2];
+                const a = data[i + 3];
+                const oklab = linearSrgbToOklab(srgbToLinear([r / 255, g / 255, b / 255]));
+                const [l, a_, b_] = oklab;
 
-                data[i] = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
-                data[i + 1] = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
-                data[i + 2] = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+                const lq = 2**Math.ceil(Math.log2(a+1));
+                // quantize
+                const crushedL = Math.round(l * lq) / lq;
+
+                const abq = a * 2*(0.5-abs(l-0.5)) * 256;
+
+                const crushedA = Math.round(a_ * abq) / abq;
+                const crushedB = Math.round(b_ * abq) / abq;
+
+                const crushedOklab = [crushedL, crushedA, crushedB];
+                const crushedSrgb = linearToSrgb(oklabToLinearSrgb(crushedOklab));
+
+                data[i] = crushedSrgb[0] * 255;
+                data[i + 1] = crushedSrgb[1] * 255;
+                data[i + 2] = crushedSrgb[2] * 255;
+                data[i + 3] = a;
             }
 
             ctx.putImageData(imageData, 0, 0);
