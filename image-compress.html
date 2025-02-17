@@ -121,7 +121,7 @@
 
       function applyFilter(filterType) {
         if (!originalImage) return;
-
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(originalImage, 0, 0);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
@@ -132,17 +132,6 @@
           const b = data[i + 2];
           const a = data[i + 3];
           const linear = srgbToLinear([r / 255, g / 255, b / 255]);
-          // test round trip
-          {
-            const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
-            const {L:l, a:a_, b:b_} = oklab;
-            const srgb = linearToSrgb(Object.values(oklabToLinearSrgb([l, a_, b_])));
-
-            if (Math.abs(srgb[0] - linear[0]) > 0.0001 || Math.abs(srgb[1] - linear[1]) > 0.0001 || Math.abs(srgb[2] - linear[2]) > 0.0001) {
-              console.log("round trip failed", srgb, linear);
-              break;
-            }
-          }
 
           const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
           const {L:l, a:a_, b:b_} = oklab;
@@ -156,7 +145,7 @@
           const crushedA = Math.round(a_ * abq) / abq;
           const crushedB = Math.round(b_ * abq) / abq;
 
-          const crushedOklab = [crushedL, crushedA, crushedB];
+          const crushedOklab = {L:crushedL, a:crushedA, b:crushedB};
           const crushedSrgb = linearToSrgb(Object.values(oklabToLinearSrgb(crushedOklab)));
 
           data[i] = crushedSrgb[0] * 255;
