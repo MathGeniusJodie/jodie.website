@@ -6,7 +6,8 @@
     <title>Image Compressor</title>
     <style>
       body {
-        font-family: system-ui, -apple-system, sans-serif;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
@@ -51,26 +52,25 @@
     <div class="container">
       <h1>Image Compressor</h1>
       <p>
-        if alpha is 0, then obviously the color values don't matter. no matter
-        what the color is, it will never be visible as long as the alpha is 0 if
+        If alpha is 0, then obviously the color values don't matter. No matter
+        what the color is, it will never be visible. If
         the alpha is 0.5, then the lab values can only have 128 possible
         lightness values after compositing with a background and if the alpha is
         0.25, then there can be 64 lightness values and so on.
       </p>
 
       <p>
-        similarly if lightness is 0, the pixel can only be black, and therefore
-        the a and b channels don't affect the image if lightness is 1, the pixel
+        Similarly if lightness is 0, the pixel can only be black, and therefore
+        the a and b channels don't affect the image. If lightness is 1, the pixel
         can only be white, and therefore the a and b channels don't affect the
-        image only a lightness around 0.5 needs the full 256 possible values for
-        a and b a lightness of 0.25 or 0.75 would need 128 values for a and b,
-        and so on
+        image. Only a lightness around 0.5 needs the full 256 possible values for
+        a and b. A lightness of 0.25 or 0.75 would need 128 values for a and b,
+        and so on.
       </p>
 
       <p>
-        if you combine these 2 heuristics with the formula `alpha *
-        2*(0.5-abs(l-0.5)) * 256` you get how many possible values of a and b
-        respectively you need
+        If you combine these 2 heuristics with the formula `alpha *
+        2*(0.5-abs(l-0.5)) * 256` you get how many possible values of a and b respectively you need.
       </p>
       <input type="file" id="upload" accept="image/*" />
       <div class="controls">
