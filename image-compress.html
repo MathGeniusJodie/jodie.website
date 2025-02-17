@@ -133,7 +133,7 @@
           const a = data[i + 3];
           const linear = srgbToLinear([r / 255, g / 255, b / 255]);
           const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
-          const [l, a_, b_] = oklab;
+          const {L:l, a:a_, b:b_} = oklab;
 
           const lq = 2 ** Math.ceil(Math.log2(a + 1));
           // quantize
