@@ -139,7 +139,7 @@
           // quantize
           const crushedL = Math.round(l * lq) / lq;
 
-          const abq = Math.ceil(a * 2 * (0.5 - abs(l - 0.5)) * 256);
+          const abq = Math.ceil(a * 2 * (0.5 - Math.abs(l - 0.5)) * 256);
 
           const crushedA = Math.round(a_ * abq) / abq;
           const crushedB = Math.round(b_ * abq) / abq;
