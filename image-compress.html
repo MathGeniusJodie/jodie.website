@@ -141,6 +141,7 @@
             if (Math.abs(srgb[0] - linear[0]) > 0.0001 || Math.abs(srgb[1] - linear[1]) > 0.0001 || Math.abs(srgb[2] - linear[2]) > 0.0001) {
               console.log("round trip failed", srgb, linear);
             }
+            break;
           }
 
           const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
