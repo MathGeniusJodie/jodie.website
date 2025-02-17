@@ -130,7 +130,7 @@
           const r = data[i];
           const g = data[i + 1];
           const b = data[i + 2];
-          const a = data[i + 3]/255;
+          const a = data[i + 3];
           const linear = srgbToLinear([r / 255, g / 255, b / 255]);
           const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
           const {L:l, a:a_, b:b_} = oklab;
@@ -139,7 +139,7 @@
           // quantize
           const crushedL = Math.round(l * lq) / lq;
 
-          const abq = Math.ceil(a * 2 * (0.5 - Math.abs(l - 0.5)) * 256);
+          const abq = Math.ceil((a/255) * 2 * (0.5 - Math.abs(l - 0.5)) * 256);
 
           const crushedA = Math.round(a_ * abq) / abq;
           const crushedB = Math.round(b_ * abq) / abq;
@@ -150,7 +150,7 @@
           data[i] = crushedSrgb[0] * 255;
           data[i + 1] = crushedSrgb[1] * 255;
           data[i + 2] = crushedSrgb[2] * 255;
-          data[i + 3] = a*255;
+          data[i + 3] = a;
         }
 
         ctx.putImageData(imageData, 0, 0);
