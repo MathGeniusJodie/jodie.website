@@ -142,8 +142,8 @@
 
           const abq = Math.ceil((a/255) * 2 * (0.5 - Math.abs(l - 0.5)) * 255);
 
-          const crushedA = Math.round(a_ * abq) / abq;
-          const crushedB = Math.round(b_ * abq) / abq;
+          const crushedA = Math.round(a_ / 0.3116199795778039 * abq) / abq * 0.3116199795778039;
+          const crushedB = Math.round(b_ / 0.3116199795778039 * abq) / abq * 0.3116199795778039;
 
           const crushedOklab = {L:crushedL, a:crushedA, b:crushedB};
           const crushedSrgb = linearToSrgb(Object.values(oklabToLinearSrgb(crushedOklab)));
