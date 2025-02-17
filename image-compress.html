@@ -135,11 +135,15 @@
           const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
           const {L:l, a:a_, b:b_} = oklab;
 
+          if(a<128){
+            alert("Alpha is less than 128, big error");
+          }
+
           const lq = 2 ** Math.ceil(Math.log2(a + 1));
           // quantize
           const crushedL = Math.round(l * lq) / lq;
 
-          const abq = Math.ceil((a/255) * 2 * (0.5 - Math.abs(l - 0.5)) * 256);
+          const abq = Math.ceil((a/255) * 2 * (0.5 - Math.abs(l - 0.5)) * 255);
 
           const crushedA = Math.round(a_ * abq) / abq;
           const crushedB = Math.round(b_ * abq) / abq;
