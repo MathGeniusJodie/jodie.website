@@ -132,13 +132,19 @@
           const b = data[i + 2];
           const a = data[i + 3];
           const linear = srgbToLinear([r / 255, g / 255, b / 255]);
+          // test round trip
+          {
+            const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
+            const {L:l, a:a_, b:b_} = oklab;
+            const srgb = linearToSrgb(Object.values(oklabToLinearSrgb([l, a_, b_])));
+
+            if (Math.abs(srgb[0] - linear[0]) > 0.0001 || Math.abs(srgb[1] - linear[1]) > 0.0001 || Math.abs(srgb[2] - linear[2]) > 0.0001) {
+              console.log("round trip failed", srgb, linear);
+            }
+          }
+
           const oklab = linearSrgbToOklab({ r: linear[0], g: linear[1], b: linear[2] });
           const {L:l, a:a_, b:b_} = oklab;
-
-          if(a<128){
-            alert("Alpha is less than 128, big error");
-            break;
-          }
 
           const lq = 2 ** Math.ceil(Math.log2(a + 1));
           // quantize
