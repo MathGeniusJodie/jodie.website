@@ -157,6 +157,11 @@
         ctx.putImageData(imageData, 0, 0);
       }
 
+      applyBtn.addEventListener("click", () => {
+        applyFilter();
+        alert("Filter applied successfully");
+      });
+
       downloadBtn.addEventListener("click", () => {
         if (!canvas.width || !canvas.height) {
           alert("Please upload and filter an image first");
