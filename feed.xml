@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title><![CDATA[Jodie's Blog]]></title>
-        <description><![CDATA[math, poetry, web development, and life]]></description>
+        <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 25 Feb 2025 03:24:11 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 25 Feb 2025 03:59:58 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 25 Feb 2025 03:24:11 GMT</pubDate>
+        <pubDate>Tue, 25 Feb 2025 03:59:58 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[RSS Feed]]></title>
+            <description><![CDATA[My blog now has an RSS feed! You can find it [here](/feed.xml).
+
+[here](/feed.xml)
+
+The script to generate the feed is my first experience trusting AI to write all the code. The recently released Claude 3.7 is pretty good so far. I found out today that GitHub Copilot allows you to use it right in your IDE.]]></description>
+            <link>https://jodie.website#blog-post-17</link>
+            <guid isPermaLink="false">blog-post-17</guid>
+            <category><![CDATA[poetry]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Invalid Date</pubDate>
+        </item>
         <item>
             <title><![CDATA[Why Productivity and Happiness are the Same Thing]]></title>
             <description><![CDATA[One of the categories on this blog used to be called "Productivity and Happiness" (now renamed to "life"). I wanna expand on this, because I think it's one of the foundations of what makes for a successful life. Conversely I want to hammer home that idea of work-life balance is incredibly pernicious.
