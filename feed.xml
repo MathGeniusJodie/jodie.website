@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[Jodie's Blog]]></title>
+        <description><![CDATA[math, poetry, web development, and life]]></description>
+        <link>https://jodie.website</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Tue, 25 Feb 2025 03:24:11 GMT</lastBuildDate>
+        <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Tue, 25 Feb 2025 03:24:11 GMT</pubDate>
+        <language><![CDATA[en]]></language>
+        <ttl>60</ttl>
+        <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Why Productivity and Happiness are the Same Thing]]></title>
+            <description><![CDATA[One of the categories on this blog used to be called "Productivity and Happiness" (now renamed to "life"). I wanna expand on this, because I think it's one of the foundations of what makes for a successful life. Conversely I want to hammer home that idea of work-life balance is incredibly pernicious.
+
+#### Work isn't Hard
+
+I think it's a sad reflection of the society we live in that work is widely accepted to be difficult and unfun. We shouldn't simply accept that we're forced to do something that sucks. This framing isn't just bad for you, it makes workers as a group accept terrible working conditions. This shouldn't be considered "normal". This is a tragedy!
+
+#### Fun isn't Easy
+
+The other side of the coin isn't much better. Most people's idea of fun is spending money and engaging in vice. Fun is seen as synonymous with being counter-productive. You're expected to continuously destroy what you build in an endless cycle of consumption that never leads to your life improving.
+
+#### Work-Life Maximisation
+
+Productivity and happiness aren't opposing forces that need to be balanced. They aren't at odds with each-other. Work can be fun, and leisure can be productive. An activity can be more fun _and_ more productive. What you want isn't "balance". You want work-life _maximisation_.
+
+_and__maximisation_]]></description>
+            <link>https://jodie.website#blog-post-16</link>
+            <guid isPermaLink="false">blog-post-16</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Fri, 16 Feb 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Story]]></title>
+            <description><![CDATA[there's a voicemail full of excuses  
+you haven't listened to yet
+
+  
+
+I wonder if you miss me like I do  
+if you'll rewind the tape to hear my voice
+
+  
+
+your scarf still hangs by my door  
+waiting for you to walk in
+
+  
+
+I watch the snow fall outside my window  
+I trace your name in the condensation
+
+  
+
+I don't think I feel sad anymore  
+our story ended before it got old]]></description>
+            <link>https://jodie.website#blog-post-15</link>
+            <guid isPermaLink="false">blog-post-15</guid>
+            <category><![CDATA[poetry]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sun, 11 Feb 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Don't Quit Your Vices]]></title>
+            <description><![CDATA[Replace unhealthy sugary treats with fancy salads. Replace social media by hanging out with your friends or texting them. Replace gambling with starting a business. Vices usually fill a void, find out a healthy way of filling it.]]></description>
+            <link>https://jodie.website#blog-post-14</link>
+            <guid isPermaLink="false">blog-post-14</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sat, 10 Feb 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Modern Color Utility Classes]]></title>
+            <description><![CDATA[.swatches{ display:flex; flex-direction:column; gap:10px; margin-top:1lh; margin-bottom: 1lh; } .swatch-group{ display:flex; gap:10px; } .swatch{ padding:10px; background:oklch(from var(--base) var(--l) c h ); } .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0} .powderblue{--base: powderblue} .crimson {--base: crimson} .goldenrod {--base: goldenrod} .indigo {--base: indigo}
+
+The arrival of [relative colors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) and the oklch color space to CSS allows for a very clean way of making composable utility classes for colors. With one class for the base color and one for the lightness. You can play around with the code on this [codepen](https://codepen.io/Jodie-themathgenius/pen/VYZJrYE).
+
+[relative colors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors)[codepen](https://codepen.io/Jodie-themathgenius/pen/VYZJrYE)```
+    `.swatch{   background: oklch(from var(--base) var(--l) c h ); }  .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0}  .aquamarine{--base: aquamarine} .crimson   {--base: crimson} .goldenrod {--base: goldenrod} .indigo    {--base: indigo}`
+    
+  
+```
+`.swatch{ background: oklch(from var(--base) var(--l) c h ); } .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0} .aquamarine{--base: aquamarine} .crimson {--base: crimson} .goldenrod {--base: goldenrod} .indigo {--base: indigo}`]]></description>
+            <link>https://jodie.website#blog-post-13</link>
+            <guid isPermaLink="false">blog-post-13</guid>
+            <category><![CDATA[web]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 08 Feb 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Fast Sigmoid (Updated)]]></title>
+            <description><![CDATA[[https://godbolt.org/z/xbxnE61WT](https://godbolt.org/z/xbxnE61WT)
+
+[https://godbolt.org/z/xbxnE61WT](https://godbolt.org/z/xbxnE61WT)]]></description>
+            <link>https://jodie.website#blog-post-12</link>
+            <guid isPermaLink="false">blog-post-12</guid>
+            <category><![CDATA[math]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sat, 07 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Still]]></title>
+            <description><![CDATA[time moves like honey  
+sweet and slow
+
+  
+
+even the wind limps  
+dragging its hem across the thorns
+
+  
+
+the clouds weep softly  
+too heavy for the sky to hold
+
+  
+
+each moment settles like dust  
+remembered but never recalled
+
+  
+
+here, for a moment or an eternity  
+I can stop doing, and simply be]]></description>
+            <link>https://jodie.website#blog-post-11</link>
+            <guid isPermaLink="false">blog-post-11</guid>
+            <category><![CDATA[poetry]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Fri, 06 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Stop Having Goals]]></title>
+            <description><![CDATA[Humans aren't made to have long-term goals. If you have a goal, don't think about the goal. Stop caring about the goal. Failure to achieve the goal is neutral. Do not let yourself think about it. Not having reached the goal yet should never be on your mind.
+
+Learn to enjoy the process. Want to be strong? Learn to enjoy exercise. Want to lose weight? Learn to enjoy hunger. Want to be rich? Learn to enjoy saving money. Want to make friends? Learn to enjoy being interested in people. Do it without an agenda.
+
+Do the process every day, prioritise it, make it a part of your schedule. Get good at the process.]]></description>
+            <link>https://jodie.website#blog-post-10</link>
+            <guid isPermaLink="false">blog-post-10</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 28 Nov 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Do you actually enjoy this or are you addicted?]]></title>
+            <description><![CDATA[Things that are pleasurable aren't necessarily addictive, and things that are addictive aren't necessarily pleasurable.
+
+Addiction is a cycle of craving (unpleasant), a short hit of meaningless pleasure (optional), followed by a sense of emptiness (also unpleasant).
+
+#### Why it Doesn't Feel That Way
+
+Addiction is a trickster. It makes you rationalise your addiction, convincing you that you actually need it and that you truly enjoy it. If you didn’t need it, it would mean you were being unproductive. If you didn’t enjoy it, it would follow that you were hurting yourself. To not rationalise addiction is to feel guilty, helpless, and foolish.
+
+#### Hidden Addiction
+
+Things you recognise as unpleasant often fly under the radar. They are frequently not identified as addictive. Pleasant things also often don't register as addiction. You just think you're doing them repeatedly because they are fun.]]></description>
+            <link>https://jodie.website#blog-post-9</link>
+            <guid isPermaLink="false">blog-post-9</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[King of the Hill]]></title>
+            <description><![CDATA[shimmering dewdrops  
+jewels in the grass
+
+  
+
+dawn's vaulted ceiling  
+adorned with golden clouds
+
+  
+
+this hill, my ornate throne  
+where I am king]]></description>
+            <link>https://jodie.website#blog-post-8</link>
+            <guid isPermaLink="false">blog-post-8</guid>
+            <category><![CDATA[poetry]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sat, 23 Nov 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Emotional Cyborg]]></title>
+            <description><![CDATA[One limitation of therapy is that you can't have a therapist be with you 24/7 to examine your behavior. Luckily we now have ai that can monitor everything you say, and correct bad thought patterns and behaviours in real time. Just like smartphones turned us into information and math cyborgs with access to services such as google and wolfram alpha, now computers allow us to enhance our emotional intelligence.]]></description>
+            <link>https://jodie.website#blog-post-7</link>
+            <guid isPermaLink="false">blog-post-7</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 31 Oct 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Furniture Free]]></title>
+            <description><![CDATA[I recently got interviewed by Charlotte Collins of Architectural Digest about furniture-free living, read the article [here](https://www.architecturaldigest.com/story/extreme-minimalism-people-who-pared-all-the-way-down-talk-living-nearly-furniture-free).
+
+[here](https://www.architecturaldigest.com/story/extreme-minimalism-people-who-pared-all-the-way-down-talk-living-nearly-furniture-free)]]></description>
+            <link>https://jodie.website#blog-post-6</link>
+            <guid isPermaLink="false">blog-post-6</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 22 Aug 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[My Meditation Method]]></title>
+            <description><![CDATA[No matter how wise I feel, staring at a wall always gives me new insights, and it doesn't take long either, I like to take off my glasses so the wall is blurry, and wearing headphones with white noise too.
+
+I try to think about nothing, but thoughts always come up, and when they do, I write them down in my notebook.
+
+Trying to think about nothing makes you really analyse all your thoughts non-judgementally and forces you to reframe them in a way that they stop bothering you, because if they still bother you. good luck thinking about nothing.
+
+Writing down your thoughts is also important, it frees your mind from having to remember, and you can always come back to them later.
+
+I'm starting to think that the key to creativity and introspection is just being extremely bored and understimulated, ideas always come.]]></description>
+            <link>https://jodie.website#blog-post-5</link>
+            <guid isPermaLink="false">blog-post-5</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sat, 29 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[A Programmer Without a Computer]]></title>
+            <description><![CDATA[I've been using my phone as my main computer for a week now, I'm even coding on it, and it's... fine?
+
+I'm writing this blog post on my phone right now in fact. Just using termux, neovim and unexpected keyboard.
+
+![](4-neovim.png)
+
+![](4-neovim.png)
+
+I might get a foldable phone and/or a physical keyboard in the future, but honestly I'm not in a rush.]]></description>
+            <link>https://jodie.website#blog-post-4</link>
+            <guid isPermaLink="false">blog-post-4</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Tue, 25 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Most Ergonomic Desk is No Desk At All]]></title>
+            <description><![CDATA[So about a year back, I moved into a new apartment and couldn't bring my desk, I figured I could just work at the kitchen table or on the sofa in the meantime, but that plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.
+
+Having no money for a desk at the time, I just sat on the floor in my room, and after a short adjustment period, I found that I had developped a new superpower, I could simply sit on the floor with no back support, and it was fine, in fact it was better than fine, it was better than sitting on a chair.
+
+After a few months of this, I decided to buy a desk, and I found that I couldn't sit at it for more than a few hours without my back hurting, so I went back to sitting on the floor, and later donated the desk.
+
+I haven't bought any furniture since, and I don't plan to, people didn't have furniture for most of human history, and many people in the third world still don't, this isn't as weird as it sounds.]]></description>
+            <link>https://jodie.website#blog-post-3</link>
+            <guid isPermaLink="false">blog-post-3</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Wed, 19 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Get Off Your Phone]]></title>
+            <description><![CDATA[Do you feel like you don't have any time? Do you feel like you don't have any energy? The culprit might just be that you spend 8 hours or more a day on your phone. Go ahead, check your screen time in your phone settings right now...
+
+#### A rude awakening
+
+When I first did this, I was shocked, I had absolutely no idea, I would have guessed 2 hours a day maximum if you asked me to estimate, but the software doesn't lie, I was spending 8 hours a day on average on my phone. That's a full-time job!
+
+#### What you can do
+
+Here's what worked for me and allowed me to cut my screen time down to 1-2 hours a day:
+
+1.  Share a screenshot of your screen time to a group chat of your friends every day or week, to keep yourself accountable
+2.  Remove anything that you can doomscroll off your homescreen, in fact, consider removing the app entirely.
+3.  Add a screen time widget to your homescreen, this will remind you how much time you've spent on your phone today.
+4.  Apps like Instagram allow you to make widgets to take you directly to messages
+5.  Instead of checking apps constantly for new messages, turn on silent notifications, your phone won't vibrate, but you'll know if there's activity without having to open the app
+6.  Consider making more of your notifications silent
+7.  Don't check your phone in the morning, get up and work or do your morning routine right away
+8.  Embrace boredom, don't reach for your phone when you're bored, think, meditate, smell the flowers, etc.
+
+*   Share a screenshot of your screen time to a group chat of your friends every day or week, to keep yourself accountable
+*   Remove anything that you can doomscroll off your homescreen, in fact, consider removing the app entirely.
+*   Add a screen time widget to your homescreen, this will remind you how much time you've spent on your phone today.
+*   Apps like Instagram allow you to make widgets to take you directly to messages
+*   Instead of checking apps constantly for new messages, turn on silent notifications, your phone won't vibrate, but you'll know if there's activity without having to open the app
+*   Consider making more of your notifications silent
+*   Don't check your phone in the morning, get up and work or do your morning routine right away
+*   Embrace boredom, don't reach for your phone when you're bored, think, meditate, smell the flowers, etc.]]></description>
+            <link>https://jodie.website#blog-post-2</link>
+            <guid isPermaLink="false">blog-post-2</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Tue, 18 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Should I Buy the Thing? A Flowchart]]></title>
+            <description><![CDATA[```
+Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
+            \\  No: Will the thing make me happy?  - Yes: Buy the thing.
+                                                  \\  No: Don't buy the thing
+  
+```]]></description>
+            <link>https://jodie.website#blog-post-1</link>
+            <guid isPermaLink="false">blog-post-1</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Mon, 17 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Bit Arrays for Fast Graph Search]]></title>
+            <description><![CDATA[One problem with every implementation of the HNSW paper I've seen is the use of ordered sets to keep track of visited neighbors, this causes a huge performance overhead.
+
+After much experimentation, I've found that using a bit array to keep track of visited neighbors is much faster.
+
+For a code example, see [Joann](https://github.com/MathGeniusJodie/joann), my HNSW implementation.
+
+[Joann](https://github.com/MathGeniusJodie/joann)]]></description>
+            <link>https://jodie.website#blog-post-0</link>
+            <guid isPermaLink="false">blog-post-0</guid>
+            <category><![CDATA[math]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sun, 16 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

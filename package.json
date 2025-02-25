@@ -1,0 +1,28 @@
+{
+  "name": "jodie.website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathGeniusJodie/jodie.website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MathGeniusJodie/jodie.website/issues"
+  },
+  "homepage": "https://github.com/MathGeniusJodie/jodie.website#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "jsdom": "^26.0.0",
+    "rss": "^1.2.2",
+    "tsx": "^4.19.3",
+    "turndown": "^7.2.0",
+    "typescript": "^5.7.3"
+  }
+}
