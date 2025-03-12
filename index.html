@@ -399,5 +399,37 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
     <li><a href="http://www.lgbtq2centre.com/" target="_blank">West Island LGBTQ2+ Centre</a></li>
     <li><a href="https://wgpu.rs/" target="_blank">wgpu</a></li>
   </ul>
+  <h2>Newsletter:</h2>
+  <form id="newsletter-form">
+    <label>Email:
+      <input type="email" id="email" name="email" required>
+      <button type="submit">Subscribe</button>
+    </label>
+  </form>
 </aside>
 </div>
+<script>
+  async function addEmail(email) {
+    const response = await fetch('https://2svhxxx2i7vcx74golmncpvxre0ohyvn.lambda-url.us-east-1.on.aws/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+    });
+
+    const result = await response.json();
+    return result;
+}
+document.getElementById('newsletter-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    try {
+        const result = await addEmail(email);
+        alert('Subscription successful!');
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Subscription failed. Please try again.');
+    }
+});
+</script>
