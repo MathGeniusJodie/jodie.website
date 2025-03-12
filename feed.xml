@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 12 Mar 2025 10:24:27 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 12 Mar 2025 10:27:29 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 12 Mar 2025 10:24:26 GMT</pubDate>
+        <pubDate>Wed, 12 Mar 2025 10:27:29 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -25,7 +25,7 @@ The script to generate the feed is my first experience trusting AI to write all 
         </item>
         <item>
             <title><![CDATA[Why Productivity and Happiness are the Same Thing]]></title>
-            <description><![CDATA[One of the categories on this blog used to be called "Productivity and Happiness" (now renamed to "life"). I wanna expand on this, because I think it's one of the foundations of what makes for a successful life. Conversely I want to hammer home that idea of work-life balance is incredibly pernicious.
+            <description><![CDATA[One of the categories on this blog used to be called "Productivity and Happiness" (now renamed to "life"). I wanna expand on this, because I think it's one of the foundations of what makes for a successful life. Conversely I want to hammer home that the idea of work-life balance is incredibly pernicious.
 
 #### Work isn't Hard
 
