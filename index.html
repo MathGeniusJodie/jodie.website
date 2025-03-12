@@ -411,6 +411,8 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
 </div>
 <script>
   async function addEmail(email) {
+    const button = document.getElementById('newsletter-form').querySelector('button');
+    button.disabled = true;
     const response = await fetch('https://2svhxxx2i7vcx74golmncpvxre0ohyvn.lambda-url.us-east-1.on.aws/', {
         method: 'POST',
         headers: {
@@ -418,6 +420,8 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
         },
         body: JSON.stringify({ email })
     });
+    button.disabled = false;
+
 }
 document.getElementById('newsletter-form').addEventListener('submit', async (event) => {
     event.preventDefault();
