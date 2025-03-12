@@ -417,15 +417,12 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
         },
         body: JSON.stringify({ email })
     });
-
-    const result = await response.json();
-    return result;
 }
 document.getElementById('newsletter-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     const email = document.getElementById('email').value;
     try {
-        const result = await addEmail(email);
+        await addEmail(email);
         alert('Subscription successful!');
     } catch (error) {
         console.error('Error:', error);
