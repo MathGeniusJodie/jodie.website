@@ -4,15 +4,15 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 23 Mar 2025 22:34:36 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 23 Mar 2025 22:45:39 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sun, 23 Mar 2025 22:34:36 GMT</pubDate>
+        <pubDate>Sun, 23 Mar 2025 22:45:39 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[Fast Approximate Length and Squaring]]></title>
-            <description><![CDATA[Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the lenth of a vector.
+            <description><![CDATA[Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the length of a vector.
 
 ```
     `static float garbage_len(float a, float b){   return utf(ftu(       utf(ftu(a)<<1u)       +utf(ftu(b)<<1u)   )>>1u); }`
