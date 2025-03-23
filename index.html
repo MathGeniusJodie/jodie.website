@@ -229,7 +229,19 @@ our story ended before it got old</p>
 <article id="blog-post-12" class="math">
   <time datetime="2024-12-07">December 7, 2024</time>
   <h3>Fast Sigmoid (Updated)</h3>
-  <p><a href="https://godbolt.org/z/xbxnE61WT">https://godbolt.org/z/xbxnE61WT</a></p>
+  <p><a href="https://godbolt.org/z/djTqa5x7K">https://godbolt.org/z/djTqa5x7K</a></p>
+  <pre>
+    <code>
+static float garbage_sigmoid(float x){
+  return utf(
+      ~ftu(
+          utf(~ftu(x))-
+          utf(ftu(4.f)|ftu(x)&ftu(-0.f))
+      )
+  );
+}
+    </code>
+  </pre>
 </article>
 <article id="blog-post-11" class="poetry">
   <time datetime="2024-12-06">December 6, 2024</time>

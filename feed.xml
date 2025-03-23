@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 15 Mar 2025 10:40:35 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 23 Mar 2025 11:34:57 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 15 Mar 2025 10:40:35 GMT</pubDate>
+        <pubDate>Sun, 23 Mar 2025 11:34:57 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -105,9 +105,14 @@ The arrival of [relative colors](https://developer.mozilla.org/en-US/docs/Web/CS
         </item>
         <item>
             <title><![CDATA[Fast Sigmoid (Updated)]]></title>
-            <description><![CDATA[[https://godbolt.org/z/xbxnE61WT](https://godbolt.org/z/xbxnE61WT)
+            <description><![CDATA[[https://godbolt.org/z/djTqa5x7K](https://godbolt.org/z/djTqa5x7K)
 
-[https://godbolt.org/z/xbxnE61WT](https://godbolt.org/z/xbxnE61WT)]]></description>
+[https://godbolt.org/z/djTqa5x7K](https://godbolt.org/z/djTqa5x7K)```
+    `static float garbage_sigmoid(float x){   return utf(       ~ftu(           utf(~ftu(x))-           utf(ftu(4.f)|ftu(x)&ftu(-0.f))       )   ); }`
+    
+  
+```
+`static float garbage_sigmoid(float x){ return utf( ~ftu( utf(~ftu(x))- utf(ftu(4.f)|ftu(x)&ftu(-0.f)) ) ); }`]]></description>
             <link>https://jodie.website#blog-post-12</link>
             <guid isPermaLink="false">blog-post-12</guid>
             <category><![CDATA[math]]></category>
