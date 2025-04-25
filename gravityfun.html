@@ -3,6 +3,11 @@
 <head>
     <title>Center of Mass Gravity Simulation</title>
     <style>
+        /*
+        todo: adapt to screen size
+        don't draw if outside of canvas
+        or window not visible
+        */
         body {
             margin: 0;
             display: flex;
@@ -101,7 +106,7 @@
         canvas.width = 600;
         canvas.height = 600;
 
-        const G = 0.01;
+        const G = 0.05;
         let paused = false;
         
         class Particle {
@@ -109,9 +114,9 @@
                 this.x = x;
                 this.y = y;
                 this.z = Math.random() * 1000 - 500;
-                this.vx =0;// (Math.random() - 0.5) * 4;
-                this.vy =0;// (Math.random() - 0.5) * 4;
-                this.vz =0;// (Math.random() - 0.5) * 4;
+                this.vx = (Math.random() - 0.5);
+                this.vy = (Math.random() - 0.5);
+                this.vz = (Math.random() - 0.5);
                 this.mass = Math.random()**4 * 40 + 2;
                 this.radius = Math.sqrt(this.mass)/2;
             }
