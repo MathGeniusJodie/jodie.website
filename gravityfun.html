@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Center of Mass Gravity Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 1px solid #333;
+            margin: 20px;
+            width:min(100%,100vh);
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <h2>Center of Mass Gravity Simulation</h2>
+    <div class="controls">
+        <button id="clear">Clear All</button>
+        <button id="pause">Pause</button>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+
+        const bb = [
+   "#ff3800", 
+   "#ff5300", 
+   "#ff6500", 
+   "#ff7300", 
+   "#ff7e00", 
+   "#ff8912", 
+   "#ff932c", 
+   "#ff9d3f", 
+   "#ffa54f", 
+   "#ffad5e", 
+   "#ffb46b", 
+   "#ffbb78", 
+   "#ffc184", 
+   "#ffc78f", 
+   "#ffcc99", 
+   "#ffd1a3", 
+   "#ffd5ad", 
+   "#ffd9b6", 
+   "#ffddbe", 
+   "#ffe1c6", 
+   "#ffe4ce", 
+   "#ffe8d5", 
+   "#ffebdc", 
+   "#ffeee3", 
+   "#fff0e9", 
+   "#fff3ef", 
+   "#fff5f5", 
+   "#fff8fb", 
+   "#fef9ff", 
+   "#f9f6ff", 
+   "#f5f3ff", 
+   "#f0f1ff", 
+   "#edefff", 
+   "#e9edff", 
+   "#e6ebff",
+"#e3e9ff", 
+"#e0e7ff", 
+"#dde6ff", 
+"#dae4ff", 
+"#d8e3ff", 
+"#d6e1ff", 
+"#d3e0ff", 
+"#d1dfff", 
+"#cfddff", 
+"#cedcff", 
+"#ccdbff"];
+
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const clearBtn = document.getElementById('clear');
+        const pauseBtn = document.getElementById('pause');
+
+        canvas.width = 600;
+        canvas.height = 600;
+
+        const G = 0.01;
+        let paused = false;
+        
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.z = Math.random() * 1000 - 500;
+                this.vx =0;// (Math.random() - 0.5) * 4;
+                this.vy =0;// (Math.random() - 0.5) * 4;
+                this.vz =0;// (Math.random() - 0.5) * 4;
+                this.mass = Math.random()**4 * 40 + 2;
+                this.radius = Math.sqrt(this.mass)/2;
+            }
+
+            draw() {
+                ctx.beginPath();
+                const prevX = this.x - this.vx;
+                const prevY = this.y - this.vy;
+                ctx.moveTo(prevX, prevY);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = `oklch(from ${bb[Math.floor(this.mass)]} l c h )`; //`hsl(${(this.mass-5) * 9}, 70%, ${(this.z / 1000 + 0.5)*100}%)`;
+                ctx.lineWidth = this.radius*2;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            }
+        }
+
+        let particles = [];
+
+        for (let i = 0; i < 200; i++) {
+            particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+        }
+
+        function update() {
+            if (true) {            
+                particles.forEach((particle,i) => {
+                    particles.forEach((other,j) => {
+                        if (particle !== other) {
+                            const dx = other.x - particle.x;
+                            const dy = other.y - particle.y;
+                            const dz = other.z - particle.z;
+                            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                            const force = G * particle.mass * other.mass / (distance * distance);
+                            const ax = force * dx / distance / particle.mass;
+                            const ay = force * dy / distance / particle.mass;
+                            const az = force * dz / distance / particle.mass;
+                            if (distance > particle.radius + other.radius) {
+                                particle.vx += ax;
+                                particle.vy += ay;
+                                particle.vz += az;
+                            } else {
+                                // Collision
+                            }
+                        }
+                    });
+                    // attract towards center of canvas
+                    const centerX = canvas.width / 2;
+                    const centerY = canvas.height / 2;
+                    const centerZ = 0;
+                    const dx = particle.x - centerX;
+                    const dy = particle.y - centerY;
+                    const dz = particle.z - centerZ;
+                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    const force = particle.mass * distance / 10000000000;
+                    particle.vx += force * -dx;
+                    particle.vy += force * -dy;
+                    particle.vz += force * -dz;
+                });
+
+                particles.forEach(p => {
+                    p.x = p.x + p.vx;
+                    p.y = p.y + p.vy;
+                    p.z = p.z + p.vz;
+                });
+            }
+        }
+
+        function draw() {
+            ctx.globalCompositeOperation = "source-over";
+            ctx.fillStyle = `rgba(0, 0, 0, .9)`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = "lighter";
+            particles.sort((a, b) => a.z - b.z)
+                .forEach(p => p.draw());
+        }
+
+        function animate() {
+            if (!paused) {
+                update();
+                update();
+                draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            particles.push(new Particle(e.clientX - rect.left, e.clientY - rect.top));
+        });
+
+        clearBtn.addEventListener('click', () => particles = []);
+        pauseBtn.addEventListener('click', () => {
+            paused = !paused;
+            pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+        });
+
+        for (let i = 0; i < 5; i++) {
+            update();
+        }
+
+        animate();
+    </script>
+</body>
+</html>
