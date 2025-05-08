@@ -4,12 +4,33 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 06 May 2025 04:13:54 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 08 May 2025 16:12:21 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 06 May 2025 04:13:54 GMT</pubDate>
+        <pubDate>Thu, 08 May 2025 16:12:21 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Wake]]></title>
+            <description><![CDATA[Your words linger in the silence.  
+Eyes wet, throat dry,  
+I felt the cold wind blow,  
+and I broke like a wave.
+
+  
+  
+  
+
+In the wake of my deeds,  
+am I the only one?  
+or did you feel the same cold wind  
+as you sailed away?]]></description>
+            <link>https://jodie.website#blog-post-19</link>
+            <guid isPermaLink="false">blog-post-19</guid>
+            <category><![CDATA[poetry]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 08 May 2025 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Fast Approximate Length and Squaring]]></title>
             <description><![CDATA[Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the length of a vector.
