@@ -4,12 +4,97 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 08 May 2025 16:30:21 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 15 May 2025 19:47:34 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 08 May 2025 16:30:21 GMT</pubDate>
+        <pubDate>Thu, 15 May 2025 19:47:34 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Graphics Optimization is Information Theory]]></title>
+            <description><![CDATA[I've been working on an image compression format lately (coming soon!). This led me down the rabbit hole of [information theory](https://en.wikipedia.org/wiki/Information_theory), and it's made me see graphics programming with a fresh perspective.
+
+[information theory](https://en.wikipedia.org/wiki/Information_theory)
+
+Information theory is criminally underrated in the context of graphics optimization. It’s not just adjacent to what we do. It's the whole darn map!
+
+#### Compute Generates Data
+
+Information theory teaches us that any data with redundancy can be compressed or skipped entirely. This principle applies just as well to compute as it does to storage.
+
+#### Less Data Also Matters
+
+Low-end hardware is usually bottlenecked by memory bandwidth, not compute. Phones and IGPU powered laptops also tend to have less vram!
+
+Making things smaller also makes space for something else, like lookup tables or acceleration structures that would be unviable otherwise
+
+#### Where?
+
+*   **Temporal Redundancy:** The current frame is often similar to the previous one. Reprojection, TAA, and impostors exploit this to reduce work.
+*   **Derived Data:** Don’t store what you can calculate. Like normals and positions from depth.
+*   **Spatial Redundancy:** Adjacent pixels are often the same material and are similarly lit.
+*   **Impossible States:** If the camera can’t possibly see it. Cull it.
+
+*   **Temporal Redundancy:** The current frame is often similar to the previous one. Reprojection, TAA, and impostors exploit this to reduce work.
+**Temporal Redundancy:***   **Derived Data:** Don’t store what you can calculate. Like normals and positions from depth.
+**Derived Data:***   **Spatial Redundancy:** Adjacent pixels are often the same material and are similarly lit.
+**Spatial Redundancy:***   **Impossible States:** If the camera can’t possibly see it. Cull it.
+**Impossible States:**
+
+#### Human Perception has a Limited Bitrate
+
+If there's more of one type of information, you can perceive less of another.
+
+*   **High Frequency, High Contrast Detail:** Allows for lower bit depth especially for chroma.
+*   **High Motion:** Lower resolution is fine.
+*   **Low Motion:** More temporal redundancy.
+*   **More Pixels and More Frames:** Temporal tricks and dithering shine at high framerate and resolution.
+*   **Blur:** Rough reflections and depth of field need more rays or more texture samples, but you can use a lower resolution for raytracing and texture lookups.
+
+*   **High Frequency, High Contrast Detail:** Allows for lower bit depth especially for chroma.
+**High Frequency, High Contrast Detail:***   **High Motion:** Lower resolution is fine.
+**High Motion:***   **Low Motion:** More temporal redundancy.
+**Low Motion:***   **More Pixels and More Frames:** Temporal tricks and dithering shine at high framerate and resolution.
+**More Pixels and More Frames:***   **Blur:** Rough reflections and depth of field need more rays or more texture samples, but you can use a lower resolution for raytracing and texture lookups.
+**Blur:**
+
+#### Some Quick Tips
+
+*   One texture + different vertex colors = many looks.
+*   If your floating point data is only positive, put data in the sign bit.
+*   If float data is always < 1, there's a free bit in the exponent.
+*   The least significant bit of a float probably doesn't matter. Yolo.
+*   Float precision issues are often skill issues. Use [Herbie](https://herbie.uwplse.org/) and floatfloat methods before giving up and using larger types.
+*   Decouple framerates. Shadows, GI, terrain and entities don't all need to update at the same frequency.
+*   Quantize vertex positions
+*   Paletting
+*   Checkerboarded chroma
+*   Lower LODs = fewer animation frames needed
+*   Velocity buffers: 2D and a low bitrate are often enough
+*   Normalized vectors can be stored in 2D
+*   Impostors only need to be loaded for what faces the camera and this makes them extremely overpowered
+*   Learn about sparse bit octrees/contrees
+
+*   One texture + different vertex colors = many looks.
+*   If your floating point data is only positive, put data in the sign bit.
+*   If float data is always < 1, there's a free bit in the exponent.
+*   The least significant bit of a float probably doesn't matter. Yolo.
+*   Float precision issues are often skill issues. Use [Herbie](https://herbie.uwplse.org/) and floatfloat methods before giving up and using larger types.
+[Herbie](https://herbie.uwplse.org/)*   Decouple framerates. Shadows, GI, terrain and entities don't all need to update at the same frequency.
+*   Quantize vertex positions
+*   Paletting
+*   Checkerboarded chroma
+*   Lower LODs = fewer animation frames needed
+*   Velocity buffers: 2D and a low bitrate are often enough
+*   Normalized vectors can be stored in 2D
+*   Impostors only need to be loaded for what faces the camera and this makes them extremely overpowered
+*   Learn about sparse bit octrees/contrees]]></description>
+            <link>https://jodie.website#information</link>
+            <guid isPermaLink="false">information</guid>
+            <category><![CDATA[math]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 15 May 2025 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Wake]]></title>
             <description><![CDATA[Your words linger in the silence.  
