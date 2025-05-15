@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 15 May 2025 19:47:34 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 15 May 2025 20:08:05 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 15 May 2025 19:47:34 GMT</pubDate>
+        <pubDate>Thu, 15 May 2025 20:08:04 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -16,7 +16,9 @@
 
 [information theory](https://en.wikipedia.org/wiki/Information_theory)
 
-Information theory is criminally underrated in the context of graphics optimization. It’s not just adjacent to what we do. It's the whole darn map!
+Information theory is criminally underrated in the context of graphics optimization. It’s not just adjacent to what we do. It's the whole darn [map](https://en.wikipedia.org/wiki/Map%E2%80%93territory_relation)!
+
+[map](https://en.wikipedia.org/wiki/Map%E2%80%93territory_relation)
 
 #### Compute Generates Data
 
