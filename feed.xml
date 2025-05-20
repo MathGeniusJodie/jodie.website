@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 19 May 2025 17:41:22 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 20 May 2025 02:12:24 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 19 May 2025 17:41:21 GMT</pubDate>
+        <pubDate>Tue, 20 May 2025 02:12:24 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -399,33 +399,57 @@ I haven't bought any furniture since, and I don't plan to, people didn't have fu
         </item>
         <item>
             <title><![CDATA[Get Off Your Phone]]></title>
-            <description><![CDATA[Do you feel like you don't have any time? Do you feel like you don't have any energy? The culprit might just be that you spend 8 hours or more a day on your phone. Go ahead, check your screen time in your phone settings right now...
+            <description><![CDATA[Do you feel like you have no time? No energy? Check your screen time in your phone settings. Mine was _eight_! If you had asked me to estimate, I would have said 2! I had no idea! That's a full-time job!__
 
-#### A rude awakening
+_eight_! If you had asked me to estimate, I would have said 2! I had no idea! That's a full-time job!___! If you had asked me to estimate, I would have said 2! I had no idea! That's a full-time job!___
 
-When I first did this, I was shocked, I had absolutely no idea, I would have guessed 2 hours a day maximum if you asked me to estimate, but the software doesn't lie, I was spending 8 hours a day on average on my phone. That's a full-time job!
+#### How I Regained Control
 
-#### What you can do
+Here's what allowed me to cut my screen time down to 1-2 hours a day:
 
-Here's what worked for me and allowed me to cut my screen time down to 1-2 hours a day:
+1.  I started sharing my screen time with my friends every day to keep myself accountable
+2.  I removed time wasting apps from my home screen
+3.  I added the screen time widget to my home screen
+4.  Apps like Instagram allow you to make widgets to take you directly to direct messages, or you can use an app like Beeper
+5.  Silent notifications! I don't feel like checking the app, but it also doesn't distract me by buzzing
+6.  I don't check my phone first thing in the morning, I get up and work
+7.  I try to smell the flowers and enjoy being bored
 
-1.  Share a screenshot of your screen time to a group chat of your friends every day or week, to keep yourself accountable
-2.  Remove anything that you can doomscroll off your homescreen, in fact, consider removing the app entirely.
-3.  Add a screen time widget to your homescreen, this will remind you how much time you've spent on your phone today.
-4.  Apps like Instagram allow you to make widgets to take you directly to messages
-5.  Instead of checking apps constantly for new messages, turn on silent notifications, your phone won't vibrate, but you'll know if there's activity without having to open the app
-6.  Consider making more of your notifications silent
-7.  Don't check your phone in the morning, get up and work or do your morning routine right away
-8.  Embrace boredom, don't reach for your phone when you're bored, think, meditate, smell the flowers, etc.
+___
 
-*   Share a screenshot of your screen time to a group chat of your friends every day or week, to keep yourself accountable
-*   Remove anything that you can doomscroll off your homescreen, in fact, consider removing the app entirely.
-*   Add a screen time widget to your homescreen, this will remind you how much time you've spent on your phone today.
-*   Apps like Instagram allow you to make widgets to take you directly to messages
-*   Instead of checking apps constantly for new messages, turn on silent notifications, your phone won't vibrate, but you'll know if there's activity without having to open the app
-*   Consider making more of your notifications silent
-*   Don't check your phone in the morning, get up and work or do your morning routine right away
-*   Embrace boredom, don't reach for your phone when you're bored, think, meditate, smell the flowers, etc.]]></description>
+#### How I Regained Control
+
+Here's what allowed me to cut my screen time down to 1-2 hours a day:
+
+1.  I started sharing my screen time with my friends every day to keep myself accountable
+2.  I removed time wasting apps from my home screen
+3.  I added the screen time widget to my home screen
+4.  Apps like Instagram allow you to make widgets to take you directly to direct messages, or you can use an app like Beeper
+5.  Silent notifications! I don't feel like checking the app, but it also doesn't distract me by buzzing
+6.  I don't check my phone first thing in the morning, I get up and work
+7.  I try to smell the flowers and enjoy being bored
+
+_
+
+#### How I Regained Control
+
+Here's what allowed me to cut my screen time down to 1-2 hours a day:
+
+1.  I started sharing my screen time with my friends every day to keep myself accountable
+2.  I removed time wasting apps from my home screen
+3.  I added the screen time widget to my home screen
+4.  Apps like Instagram allow you to make widgets to take you directly to direct messages, or you can use an app like Beeper
+5.  Silent notifications! I don't feel like checking the app, but it also doesn't distract me by buzzing
+6.  I don't check my phone first thing in the morning, I get up and work
+7.  I try to smell the flowers and enjoy being bored
+
+*   I started sharing my screen time with my friends every day to keep myself accountable
+*   I removed time wasting apps from my home screen
+*   I added the screen time widget to my home screen
+*   Apps like Instagram allow you to make widgets to take you directly to direct messages, or you can use an app like Beeper
+*   Silent notifications! I don't feel like checking the app, but it also doesn't distract me by buzzing
+*   I don't check my phone first thing in the morning, I get up and work
+*   I try to smell the flowers and enjoy being bored]]></description>
             <link>https://jodie.website#phone</link>
             <guid isPermaLink="false">phone</guid>
             <category><![CDATA[life]]></category>
