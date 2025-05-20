@@ -4,12 +4,52 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 20 May 2025 02:39:34 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 20 May 2025 15:27:14 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 20 May 2025 02:39:34 GMT</pubDate>
+        <pubDate>Tue, 20 May 2025 15:27:14 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Time isn't real man]]></title>
+            <description><![CDATA[> “There is nothing more deceptive than an obvious fact.”  
+> ― Arthur Conan Doyle
+
+  
+
+Anyone who's taken LSD, pulled an all-nighter, been bored, or fell into a YouTube rabbit knows that time is subjective. Brains aren't clocks. They cheat constantly. Compressing sequences of events, deleting traumatic evens, buffering sensory delays, stretching and compressing depending on how arousing whatever you're experiencing is.
+
+#### Code Monks
+
+Programmers enter multi-hour flow states without fatigue or hunger. Usually helped by autism headphones and chemical stimulants.
+
+#### Bullet Time
+
+When put in life-or-death situations, many report time slowing down. It's like the brain temporarily overclocks and hyper-saturates itself with sensory perception.
+
+#### Teleportation
+
+Notice how commuting to your job feels like a time skip? It's like mundane regular tasks simply don't exist to us.
+
+#### Time Travel
+
+When you travel, a few weeks turn into a whole-ass chapter of your life. A giant exotic memory palace. At the end you often feel like you're leaving an entire life behind.
+
+#### Time Merchants
+
+Video platforms optimize for smoothness and hyperstimulus. They make you forget where videos start and end.
+
+#### Chronohacking
+
+Time perception seems to me like a fertile ground for exploits. It's not just fun, it feels _necessary_ in a world where attention is farmed and sold. There's only so much we can do to have a longer life, so why not try to make our life _denser_.
+
+_necessary__denser_]]></description>
+            <link>https://jodie.website#time</link>
+            <guid isPermaLink="false">time</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Tue, 20 May 2025 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Graphics Optimization is Information Theory]]></title>
             <description><![CDATA[I've been working on an image compression format lately (coming soon!). This led me down the rabbit hole of [information theory](https://en.wikipedia.org/wiki/Information_theory), and it's made me see graphics programming with a fresh perspective.
