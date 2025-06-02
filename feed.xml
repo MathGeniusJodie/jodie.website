@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 26 May 2025 21:04:23 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 02 Jun 2025 17:06:47 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 26 May 2025 21:04:23 GMT</pubDate>
+        <pubDate>Mon, 02 Jun 2025 17:06:47 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
