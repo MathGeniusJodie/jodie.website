@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="alternate" type="application/rss+xml" title="Jodie's Blog RSS Feed" href="/feed.xml" />
 <link rel="alternate" type="application/atom+xml" title="Jodie's Blog Atom Feed" href="/feed.xml" />
@@ -29,6 +30,16 @@ p,ol,ul,h2,h3,h4,pre,code {
   margin-top:0;
   margin-bottom:1lh;
 }
+h4{
+  font-size: 1.1em;
+  margin-bottom:0;
+}
+h3{
+  font-size: 1.4em;
+}
+h2{
+  font-size: 2em;
+}
 ul,ol{
   padding-inline-start:2ch;
 }
@@ -37,11 +48,7 @@ h2{
   margin-top:1lh;
 }
 h3,h4{
-  margin-bottom:0;
   text-wrap-style: balance;
-} 
-article h3 {
-  margin: 0;
 }
 .wrapper {
   display:flex;
@@ -52,6 +59,8 @@ article h3 {
 }
 article {
   display: none;
+  border-bottom: 2px solid;
+  margin-bottom: calc(1lh - 2px);
 }
 #life:checked ~ .life,
 #math:checked ~ .math,
@@ -60,17 +69,22 @@ article {
 #all:checked ~ article {
   display: block;
 }
+
+.poetry p{
+  text-wrap: balance;
+}
+
 .spacer {
   height: 1lh;
 }
 main {
-  width: 55ch;
+  width: 56ch;
   max-width: 100%;
 }
 aside{
   max-width: 30ch;
 }
-aside p{
+p{
   text-wrap: pretty;
 }
 img{
