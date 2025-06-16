@@ -8,6 +8,9 @@ html {
   font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
   background-size: 100% 21px;
   line-height: 22px;
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-underline-offset: 2px;
+  font-synthesis: none;
 }
 
 html,body {
@@ -53,7 +56,7 @@ h3,h4{
 .wrapper {
   display:flex;
   flex-wrap: wrap;
-  gap: 2em;
+  gap: 3em;
   justify-content: center;
   max-width: 100%;
 }
@@ -84,9 +87,6 @@ main {
 aside{
   max-width: 30ch;
 }
-p{
-  text-wrap: pretty;
-}
 img{
   max-width: 100%;
 }
@@ -99,6 +99,32 @@ body{
 pre,table{
   overflow-x: auto;
   max-width: 100%;
+}
+@supports (text-wrap: pretty) {
+  p {
+    hyphens: auto;
+    text-wrap: pretty;
+  }
+}
+blockquote {
+  hanging-punctuation: first;
+  text-wrap: balance;
+}
+
+@media (prefers-color-scheme: dark) {
+  html{
+    background: black;
+    color: white
+  }
+  a:link{
+    color: skyblue
+  }
+  a:visited{
+    color:plum;
+  }
+  a:active{
+    color:tomato;
+  }
 }
 </style>
 
