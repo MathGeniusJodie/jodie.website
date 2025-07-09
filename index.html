@@ -136,6 +136,19 @@ blockquote {
 <input type="radio" name="filter" id="web">
 <label for="web">Web Dev</label>
 <div class="spacer"></div>
+<article id="sqrt" class="math">
+  <time datetime="2025-07-09">July 9, 2025</time>
+  <h3>Fast Square Root</h3>
+  <p>Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)</p>
+  <p><a href="https://godbolt.org/z/chqhjnP1o" target="_blank">https://godbolt.org/z/chqhjnP1o</a></p>
+  <pre><code>static float decent_sqrt(float x){
+    unsigned int b = ftu(x) >> 1;
+    float s = utf(0x1FBD22DF + b);
+    float r = utf(0x5EC2DD20 - b);
+    return fmaf(fmaf(-s, s, x), r, s);
+}</code></pre>
+  <p>I didn't optimise the constants yet, but I'll post up some accuracy stats when I do!</p>
+</article>
 <article id="time" class="life">
   <time datetime="2025-05-20">May 20, 2025</time>
   <h3>Time isn't real man</h3>
