@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 09 Jul 2025 22:34:46 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 11 Jul 2025 04:51:47 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 09 Jul 2025 22:34:46 GMT</pubDate>
+        <pubDate>Fri, 11 Jul 2025 04:51:47 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -14,17 +14,17 @@
             <title><![CDATA[Fast Square Root]]></title>
             <description><![CDATA[Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)
 
-[https://godbolt.org/z/chqhjnP1o](https://godbolt.org/z/chqhjnP1o)
+[https://godbolt.org/z/36oWKPPhz](https://godbolt.org/z/36oWKPPhz)
 
-[https://godbolt.org/z/chqhjnP1o](https://godbolt.org/z/chqhjnP1o)```
+[https://godbolt.org/z/36oWKPPhz](https://godbolt.org/z/36oWKPPhz)```
 static float decent_sqrt(float x){
     unsigned int b = ftu(x) >> 1;
-    float s = utf(0x1FBD22DF + b);
-    float r = utf(0x5EC2DD20 - b);
+    float s = utf(0x1fc00000 + b);
+    float r = utf(0x5eaf0000 - b);
     return fmaf(fmaf(-s, s, x), r, s);
 }
 ```
-`static float decent_sqrt(float x){ unsigned int b = ftu(x) >> 1; float s = utf(0x1FBD22DF + b); float r = utf(0x5EC2DD20 - b); return fmaf(fmaf(-s, s, x), r, s); }`
+`static float decent_sqrt(float x){ unsigned int b = ftu(x) >> 1; float s = utf(0x1fc00000 + b); float r = utf(0x5eaf0000 - b); return fmaf(fmaf(-s, s, x), r, s); }`
 
 I didn't optimise the constants yet, but I'll post up some accuracy stats when I do!]]></description>
             <link>https://jodie.website#sqrt</link>

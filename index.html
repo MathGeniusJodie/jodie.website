@@ -140,11 +140,11 @@ blockquote {
   <time datetime="2025-07-09">July 9, 2025</time>
   <h3>Fast Square Root</h3>
   <p>Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)</p>
-  <p><a href="https://godbolt.org/z/chqhjnP1o" target="_blank">https://godbolt.org/z/chqhjnP1o</a></p>
+  <p><a href="https://godbolt.org/z/36oWKPPhz" target="_blank">https://godbolt.org/z/36oWKPPhz</a></p>
   <pre><code>static float decent_sqrt(float x){
     unsigned int b = ftu(x) >> 1;
-    float s = utf(0x1FBD22DF + b);
-    float r = utf(0x5EC2DD20 - b);
+    float s = utf(0x1fc00000 + b);
+    float r = utf(0x5eaf0000 - b);
     return fmaf(fmaf(-s, s, x), r, s);
 }</code></pre>
   <p>I didn't optimise the constants yet, but I'll post up some accuracy stats when I do!</p>
