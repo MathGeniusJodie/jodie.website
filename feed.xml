@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 11 Jul 2025 04:51:47 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 14 Jul 2025 18:25:52 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Fri, 11 Jul 2025 04:51:47 GMT</pubDate>
+        <pubDate>Mon, 14 Jul 2025 18:25:52 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -162,7 +162,11 @@ If there's more of one type of information, you can perceive less of another.
         </item>
         <item>
             <title><![CDATA[Wake]]></title>
-            <description><![CDATA[Your words linger in the silence.  
+            <description><![CDATA[![](https://mtlws-static.s3.us-east-1.amazonaws.com/wake.png)
+
+![](https://mtlws-static.s3.us-east-1.amazonaws.com/wake.png)
+
+Your words linger in the silence.  
 Eyes wet, throat dry,  
 I felt the cold wind blow,  
 and I broke like a wave.
