@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 14 Jul 2025 18:25:52 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 15 Jul 2025 10:50:42 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 14 Jul 2025 18:25:52 GMT</pubDate>
+        <pubDate>Tue, 15 Jul 2025 10:50:42 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -242,7 +242,11 @@ _and__maximisation_]]></description>
         </item>
         <item>
             <title><![CDATA[Story]]></title>
-            <description><![CDATA[there's a voicemail full of excuses  
+            <description><![CDATA[![](https://mtlws-static.s3.us-east-1.amazonaws.com/story.jpg)
+
+![](https://mtlws-static.s3.us-east-1.amazonaws.com/story.jpg)
+
+there's a voicemail full of excuses  
 you haven't listened to yet
 
   
@@ -381,7 +385,11 @@ Things you recognise as unpleasant often fly under the radar. They are frequentl
         </item>
         <item>
             <title><![CDATA[King of the Hill]]></title>
-            <description><![CDATA[shimmering dewdrops  
+            <description><![CDATA[![](https://mtlws-static.s3.us-east-1.amazonaws.com/hill.jpg)
+
+![](https://mtlws-static.s3.us-east-1.amazonaws.com/hill.jpg)
+
+shimmering dewdrops  
 jewels in the grass
 
   
