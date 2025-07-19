@@ -4,12 +4,43 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 15 Jul 2025 11:06:17 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 19 Jul 2025 15:28:59 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 15 Jul 2025 11:06:17 GMT</pubDate>
+        <pubDate>Sat, 19 Jul 2025 15:28:59 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Rational Black-body]]></title>
+            <description><![CDATA[I made this dead-simple rational approximation of the [black-body](https://en.wikipedia.org/wiki/Black-body_radiation) radiation formula.
+
+[black-body](https://en.wikipedia.org/wiki/Black-body_radiation)```
+vec3 blackbody(float t){
+    vec3 a = vec3(2.59734600e-07,4.72510121e-07,1.47450666e-07);
+    vec3 b = vec3(9.63147451e-04,6.61403216e-04,-2.61032012e-04);
+    vec3 c = vec3(8.43099559e+00,-8.07987659e-01,-4.90914001e-02);
+    vec3 d = vec3(4.15314246e-07,4.77927333e-07,6.80670967e-08);
+    vec3 e = vec3(9.26918288e-04,4.08475977e-04,7.59001852e-05);
+    return max(vec3(0), ((a*t+b)*t+c) / ((d*t+e)*t+1.));
+}
+```
+`vec3 blackbody(float t){ vec3 a = vec3(2.59734600e-07,4.72510121e-07,1.47450666e-07); vec3 b = vec3(9.63147451e-04,6.61403216e-04,-2.61032012e-04); vec3 c = vec3(8.43099559e+00,-8.07987659e-01,-4.90914001e-02); vec3 d = vec3(4.15314246e-07,4.77927333e-07,6.80670967e-08); vec3 e = vec3(9.26918288e-04,4.08475977e-04,7.59001852e-05); return max(vec3(0), ((a*t+b)*t+c) / ((d*t+e)*t+1.)); }`
+
+Here's a demo on [Shadertoy](https://www.shadertoy.com/view/lslBWl).
+
+[Shadertoy](https://www.shadertoy.com/view/lslBWl)
+
+A neat feature I don't see often in such approximations is that the luma is always 1, so you can tweak the lighting color without messing with the perceived brightness.
+
+![The function has a maximum relative error of 7e-5](https://mtlws-static.s3.us-east-1.amazonaws.com/black_body_error.png)
+
+![The function has a maximum relative error of 7e-5](https://mtlws-static.s3.us-east-1.amazonaws.com/black_body_error.png)]]></description>
+            <link>https://jodie.website#blackbody</link>
+            <guid isPermaLink="false">blackbody</guid>
+            <category><![CDATA[math]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sat, 19 Jul 2025 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Fast Square Root]]></title>
             <description><![CDATA[Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)
@@ -26,7 +57,13 @@ static float decent_sqrt(float x){
 ```
 `static float decent_sqrt(float x){ unsigned int b = ftu(x) >> 1; float s = utf(0x1fc00000 + b); float r = utf(0x5eaf0000 - b); return fmaf(fmaf(-s, s, x), r, s); }`
 
-I didn't optimise the constants yet, but I'll post up some accuracy stats when I do!]]></description>
+![The function has a maximum relative error of 0.0003](https://mtlws-static.s3.us-east-1.amazonaws.com/decent_sqrt_error.png)
+
+Relative Error Plot
+
+![The function has a maximum relative error of 0.0003](https://mtlws-static.s3.us-east-1.amazonaws.com/decent_sqrt_error.png)
+
+Relative Error Plot]]></description>
             <link>https://jodie.website#sqrt</link>
             <guid isPermaLink="false">sqrt</guid>
             <category><![CDATA[math]]></category>
