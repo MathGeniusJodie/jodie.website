@@ -169,11 +169,11 @@ figcaption {
   <time datetime="2025-07-09">July 9, 2025</time>
   <h3>Fast Square Root</h3>
   <p>Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)</p>
-  <p><a href="https://godbolt.org/z/36oWKPPhz" target="_blank">https://godbolt.org/z/36oWKPPhz</a></p>
+  <p><a href="https://godbolt.org/z/6dnW6dKW3" target="_blank">https://godbolt.org/z/6dnW6dKW3</a></p>
   <pre><code>static float decent_sqrt(float x){
     unsigned int b = ftu(x) >> 1;
-    float s = utf(0x1fc00000 + b);
-    float r = utf(0x5eaf0000 - b);
+    float s = utf(0x1fbf8ddb + b);
+    float r = utf(0x5eaf6eaf - b);
     return fmaf(fmaf(-s, s, x), r, s);
 }</code></pre>
   <figure>
@@ -574,6 +574,7 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
     <li><a href="https://www.jeremyeliosoff.com/" target="_blank">Jeremy Eliosoff</a></li>
     <li><a href="https://jodiejodieroger.bandcamp.com/" target="_blank">Jodie Jodie Roger</a></li>
     <li><a href="https://junofrescno.bandcamp.com/" target="_blank">Juno Frescno</a></li>
+    <li><a href="https://soranostra.com/" target="_blank">Lillian Frances</a></li>
     <li><a href="https://maryamnoorzai.art/" target="_blank">Maryam</a></li>
     <li><a href="https://blog.massimogauthier.com" target="_blank">Massimo</a></li>
     <li><a href="https://rats.quebec/" target="_blank">Montreal Rats</a></li>
