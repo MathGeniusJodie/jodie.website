@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 21 Jul 2025 16:36:38 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 21 Jul 2025 18:22:00 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 21 Jul 2025 16:36:38 GMT</pubDate>
+        <pubDate>Mon, 21 Jul 2025 18:22:00 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -32,9 +32,9 @@ Here's a demo on [Shadertoy](https://www.shadertoy.com/view/lslBWl).
 
 A neat feature I don't see often in such approximations is that the luma is always 1, so you can tweak the lighting color without messing with the perceived brightness.
 
-![The function has a maximum relative error of 7e-5](https://mtlws-static.s3.us-east-1.amazonaws.com/black_body_error.png)
+![The function has a maximum relative error of 7e-5](https://static.mtlws.ca/black_body_error.png)
 
-![The function has a maximum relative error of 7e-5](https://mtlws-static.s3.us-east-1.amazonaws.com/black_body_error.png)]]></description>
+![The function has a maximum relative error of 7e-5](https://static.mtlws.ca/black_body_error.png)]]></description>
             <link>https://jodie.website#blackbody</link>
             <guid isPermaLink="false">blackbody</guid>
             <category><![CDATA[math]]></category>
@@ -57,11 +57,11 @@ static float decent_sqrt(float x){
 ```
 `static float decent_sqrt(float x){ unsigned int b = ftu(x) >> 1; float s = utf(0x1fbf8ddb + b); float r = utf(0x5eaf6eaf - b); return fmaf(fmaf(-s, s, x), r, s); }`
 
-![The function has a maximum relative error of 0.0003](https://mtlws-static.s3.us-east-1.amazonaws.com/decent_sqrt_error.png)
+![The function has a maximum relative error of 0.0003](https://static.mtlws.ca/decent_sqrt_error.png)
 
 Relative Error Plot
 
-![The function has a maximum relative error of 0.0003](https://mtlws-static.s3.us-east-1.amazonaws.com/decent_sqrt_error.png)
+![The function has a maximum relative error of 0.0003](https://static.mtlws.ca/decent_sqrt_error.png)
 
 Relative Error Plot]]></description>
             <link>https://jodie.website#sqrt</link>
@@ -199,9 +199,9 @@ If there's more of one type of information, you can perceive less of another.
         </item>
         <item>
             <title><![CDATA[Wake]]></title>
-            <description><![CDATA[![](https://mtlws-static.s3.us-east-1.amazonaws.com/wake.png)
+            <description><![CDATA[![](https://static.mtlws.ca/wake.png)
 
-![](https://mtlws-static.s3.us-east-1.amazonaws.com/wake.png)
+![](https://static.mtlws.ca/wake.png)
 
 Your words linger in the silence.  
 Eyes wet, throat dry,  
@@ -279,9 +279,9 @@ _and__maximisation_]]></description>
         </item>
         <item>
             <title><![CDATA[Story]]></title>
-            <description><![CDATA[![](https://mtlws-static.s3.us-east-1.amazonaws.com/story.jpg)
+            <description><![CDATA[![](https://static.mtlws.ca/story.jpg)
 
-![](https://mtlws-static.s3.us-east-1.amazonaws.com/story.jpg)
+![](https://static.mtlws.ca/story.jpg)
 
 there's a voicemail full of excuses  
 you haven't listened to yet
@@ -422,9 +422,9 @@ Things you recognise as unpleasant often fly under the radar. They are frequentl
         </item>
         <item>
             <title><![CDATA[King of the Hill]]></title>
-            <description><![CDATA[![](https://mtlws-static.s3.us-east-1.amazonaws.com/hill.jpg)
+            <description><![CDATA[![](https://static.mtlws.ca/hill.jpg)
 
-![](https://mtlws-static.s3.us-east-1.amazonaws.com/hill.jpg)
+![](https://static.mtlws.ca/hill.jpg)
 
 shimmering dewdrops  
 jewels in the grass
