@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- entirely vibe coded by Claude btw -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackbody Radiation Color Demo</title>
+    <style>
+        html{
+            color-scheme: light dark;
+            overflow:hidden;
+        }
+        body {
+            font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+            margin: 18px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .slider-container {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .tick-marks {
+            position: relative;
+            height: 40px;
+            margin-top: 8px;
+            pointer-events: none;
+        }
+        
+        .tick {
+            position: absolute;
+            width: 2px;
+            height: 12px;
+            background: currentColor;
+            border-radius: 1px;
+            transform: translateX(-50%);
+            top: 0;
+        }
+        
+        .tick.major {
+            height: 16px;
+            width: 3px;
+            background: currentColor
+        }
+        
+        .tick-label {
+            position: absolute;
+            font-size: 14px;
+            transform: translateX(-50%);
+            top: 20px;
+            font-weight: 900;
+            text-align: center;
+            min-width: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #333;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .temp-value {
+            font-size: 0.9em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .color-preview {
+            height: 80px;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .canvas-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        canvas {
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <div class="color-preview" id="colorPreview">
+            </div>
+            
+            <div class="slider-container">
+                <input type="range" id="tempSlider" min="1000" max="12000" value="5778" step="10">
+                <div class="tick-marks" id="tickMarks"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Convert GLSL blackbody function to JavaScript
+        function blackbody(t) {
+            const a = [2.59734600e-07, 4.72510121e-07, 1.47450666e-07];
+            const b = [9.63147451e-04, 6.61403216e-04, -2.61032012e-04];
+            const c = [8.43099559e+00, -8.07987659e-01, -4.90914001e-02];
+            const d = [4.15314246e-07, 4.77927333e-07, 6.80670967e-08];
+            const e = [9.26918288e-04, 4.08475977e-04, 7.59001852e-05];
+            
+            const result = [];
+            for (let i = 0; i < 3; i++) {
+                const numerator = (a[i] * t + b[i]) * t + c[i];
+                const denominator = (d[i] * t + e[i]) * t + 1.0;
+                result[i] = Math.max(0, numerator / denominator);
+            }
+            
+            return result;
+        }
+        
+        // Convert linear RGB to sRGB for display
+        function linearToSRGB(linear) {
+            return linear <= 0.0031308 
+                ? linear * 12.92 
+                : 1.055 * Math.pow(linear, 1.0 / 2.4) - 0.055;
+        }
+        
+        // Convert RGB array to CSS color string
+        function rgbToCSS(rgb) {
+            // Multiply by 0.24 to avoid clipping before sRGB conversion
+            const scaled = rgb.map(c => c * 0.24);
+            const srgb = scaled.map(linearToSRGB);
+            const clamped = srgb.map(c => Math.max(0, Math.min(1, c)));
+            const final = clamped.map(c => Math.round(c * 255));
+            return `rgb(${final[0]}, ${final[1]}, ${final[2]})`;
+        }
+        
+        // Generate gradient for slider background
+        function generateSliderGradient() {
+            const minTemp = 1000;
+            const maxTemp = 12000;
+            const steps = 100;
+            let gradientStops = [];
+            
+            for (let i = 0; i <= steps; i++) {
+                const temp = minTemp + (maxTemp - minTemp) * (i / steps);
+                const rgb = blackbody(temp);
+                const color = rgbToCSS(rgb);
+                const percent = (i / steps) * 100;
+                gradientStops.push(`${color} ${percent}%`);
+            }
+            
+            return `linear-gradient(to right, ${gradientStops.join(', ')})`;
+        }
+        
+        // Create tick marks for the slider
+        function createTickMarks() {
+            const tickContainer = document.getElementById('tickMarks');
+            tickContainer.innerHTML = ''; // Clear existing ticks
+            
+            const minTemp = 1000;
+            const maxTemp = 12000;
+            const tempRange = maxTemp - minTemp;
+            
+            // Define tick positions and labels
+            const majorTicks = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000];
+            const minorTicks = [1500, 2500, 3500, 4500, 5500, 6500, 7500, 8500, 9500, 10500, 11500];
+            
+            // Create major ticks with labels
+            majorTicks.forEach(temp => {
+                const position = ((temp - minTemp) / tempRange) * 100;
+                
+                // Create tick mark
+                const tick = document.createElement('div');
+                tick.className = 'tick major';
+                tick.style.left = `${position}%`;
+                tickContainer.appendChild(tick);
+                
+                // Create label
+                const label = document.createElement('div');
+                label.className = 'tick-label';
+                label.style.left = `${position}%`;
+                
+                // Format label - show in K for all values
+                if (temp >= 1000) {
+                    label.textContent = `${(temp/1000).toFixed(0)}K`;
+                } else {
+                    label.textContent = `${temp}K`;
+                }
+                
+                tickContainer.appendChild(label);
+            });
+            
+            // Create minor ticks (no labels)
+            minorTicks.forEach(temp => {
+                const position = ((temp - minTemp) / tempRange) * 100;
+                
+                const tick = document.createElement('div');
+                tick.className = 'tick';
+                tick.style.left = `${position}%`;
+                tickContainer.appendChild(tick);
+            });
+        }
+        
+        // Update display based on temperature
+        function updateDisplay() {
+            const temp = parseInt(document.getElementById('tempSlider').value);
+            const rgb = blackbody(temp);
+            const color = rgbToCSS(rgb);
+            
+            // Update color preview
+            document.getElementById('colorPreview').style.backgroundColor = color;
+        }
+        
+        // Initialize slider background and display
+        function initializeDemo() {
+            // Set slider background to blackbody gradient
+            const slider = document.getElementById('tempSlider');
+            slider.style.background = generateSliderGradient();
+            
+            // Create tick marks
+            createTickMarks();
+            
+            // Initial display update
+            updateDisplay();
+        }
+        
+        // Event listeners
+        document.getElementById('tempSlider').addEventListener('input', updateDisplay);
+        
+        // Initial render
+        initializeDemo();
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                createTickMarks();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
