@@ -36,8 +36,10 @@ h4{
   font-size: 1.1em;
   margin-bottom:0;
 }
-h3{
+h3,.h3{
   font-size: 1.4em;
+  font-weight: bold;
+  font-family: inherit;
 }
 h2{
   font-size: 2em;
@@ -125,6 +127,37 @@ figure{
 figcaption {
   text-align: center;
 }
+.block {
+  display: block;
+}
+.mb{
+  margin-bottom:1lh
+}
+.h3 mtext{
+  margin: .2em;
+  margin-bottom:0;
+}
+math.h3{
+  height:1lh
+}
+.bright-adjust {
+  filter: brightness(50%);
+}
+@media (prefers-color-scheme: dark){
+  .bright-adjust {
+    filter: brightness(160%);
+  }
+}
+@font-face {
+  font-family: DSEG14;
+  src: url(DSEG14ClassicMini-Bold.woff);
+  font-weight: bold;
+  font-display: swap;
+}
+[aria-hidden="true"] {
+  user-select: none;
+  opacity:0.5;
+}
 </style>
 
 <header style="display: flex; align-items: center;">
@@ -154,7 +187,7 @@ figcaption {
 <div class="spacer"></div>
 <article id="blackbody" class="math">
   <time datetime="2025-07-19">July 19, 2025</time>
-  <h3>Rational Black-body</h3>
+  <h3 class="bright-adjust"><span style="color:rgb(254, 57, 0)">Ra</span><span style="color:rgb(214, 103, 0)">ti</span><span style="color:rgb(182, 121, 63)">on</span><span style="color:rgb(161, 128, 96)">al</span> <span style="color:rgb(149, 131, 116)">Bl</span><span style="color:rgb(141, 133, 130)">ac</span><span style="color:rgb(135, 134, 140)">k-</span><span style="color:rgb(130, 134, 148)">bo</span><span style="color:rgb(127, 134, 153)">dy</span></h3>
   <iframe loading="lazy" src="blackbody.html" style="width: 100%; height: 186px; margin: -18px; border: none; margin-bottom: 1lh;"></iframe>
   <p>I made this dead-simple rational approximation of the <a href="https://en.wikipedia.org/wiki/Black-body_radiation" target="_blank">black-body</a> radiation formula.</p>
 <pre><code>vec3 blackbody(float t){
@@ -171,7 +204,13 @@ figcaption {
 </article>
 <article id="sqrt" class="math">
   <time datetime="2025-07-09">July 9, 2025</time>
-  <h3>Fast Square Root</h3>
+  <math class="block mb h3">
+    <msqrt>
+      <mtext>
+        Fast Square Root
+      </mtext>
+    </msqrt>
+  </math>
   <p>Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)</p>
   <p><a href="https://godbolt.org/z/6dnW6dKW3" target="_blank">https://godbolt.org/z/6dnW6dKW3</a></p>
   <pre><code>static float decent_sqrt(float x){
@@ -187,7 +226,7 @@ figcaption {
 </article>
 <article id="time" class="life">
   <time datetime="2025-05-20">May 20, 2025</time>
-  <h3>Time isn't real man</h3>
+  <h3 style="font-family: DSEG14, monospace;">Time isn't real man</h3>
   <blockquote>
     “There is nothing more deceptive than an obvious fact.”<br>
     ― Arthur Conan Doyle
@@ -283,7 +322,7 @@ as you sailed away?</p>
 </article>
 <article id="length" class="math">
   <time datetime="2025-03-23">March 23, 2025</time>
-  <h3>Fast Approximate Length and Squaring</h3>
+  <h3>Fast Approximate <span aria-hidden="true">|</span>Length<span aria-hidden="true">|</span> and Squaring<span aria-hidden="true">²</span></h3>
   <p>Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the length of a vector.</p>
   <pre><code>static float garbage_len(float a, float b){
   return utf(ftu(
@@ -294,7 +333,12 @@ as you sailed away?</p>
 </article>
 <article id="feed" class="web">
 <time datetime="2024-24-11">February 24, 2025</time>
-<h3>RSS Feed</h3>
+<h3>RSS Feed
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height:1em;width:1em;vertical-align:bottom;">
+    <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4c6.075 0 11 4.925 11 11v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V16C17 8.82 11.18 3 4 3h-.25Z" />
+    <path d="M3 8.75A.75.75 0 0 1 3.75 8H4a8 8 0 0 1 8 8v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V16a6 6 0 0 0-6-6h-.25A.75.75 0 0 1 3 9.25v-.5ZM7 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+  </svg>
+</h3>
 <p>My blog now has an RSS feed! You can find it <a href="/feed.xml">here</a>.</p>
 <p>The script to generate the feed is my first experience trusting AI to write all the code. The recently released Claude 3.7 is pretty good so far. I found out today that GitHub Copilot allows you to use it right in your IDE.</p>
 </article>

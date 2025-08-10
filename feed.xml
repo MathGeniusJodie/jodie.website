@@ -4,15 +4,17 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 10 Aug 2025 05:01:42 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 10 Aug 2025 06:49:57 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sun, 10 Aug 2025 05:01:42 GMT</pubDate>
+        <pubDate>Sun, 10 Aug 2025 06:49:57 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[Rational Black-body]]></title>
-            <description><![CDATA[I made this dead-simple rational approximation of the [black-body](https://en.wikipedia.org/wiki/Black-body_radiation) radiation formula.
+            <description><![CDATA[RationalBlack-body
+
+I made this dead-simple rational approximation of the [black-body](https://en.wikipedia.org/wiki/Black-body_radiation) radiation formula.
 
 [black-body](https://en.wikipedia.org/wiki/Black-body_radiation)```
 vec3 blackbody(float t){
@@ -42,8 +44,10 @@ A neat feature I don't see often in such approximations is that the luma is alwa
             <pubDate>Sat, 19 Jul 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Fast Square Root]]></title>
-            <description><![CDATA[Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[Fast Square Root Fast Square Root Fast Square Root
+
+Possibly the fastest (decently) accurate square root yet. 5x less latency and 7x throughput! (on some hardware)
 
 [https://godbolt.org/z/6dnW6dKW3](https://godbolt.org/z/6dnW6dKW3)
 
@@ -223,8 +227,10 @@ as you sailed away?]]></description>
             <pubDate>Thu, 08 May 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Fast Approximate Length and Squaring]]></title>
-            <description><![CDATA[Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the length of a vector.
+            <title><![CDATA[Fast Approximate |Length| and Squaring²]]></title>
+            <description><![CDATA[||²
+
+Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the length of a vector.
 
 ```
 static float garbage_len(float a, float b){
@@ -242,7 +248,12 @@ static float garbage_len(float a, float b){
             <pubDate>Sun, 23 Mar 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[RSS Feed]]></title>
+            <title><![CDATA[RSS Feed
+  
+    
+    
+  
+]]></title>
             <description><![CDATA[My blog now has an RSS feed! You can find it [here](/feed.xml).
 
 [here](/feed.xml)
