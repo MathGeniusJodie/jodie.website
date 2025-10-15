@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 15 Oct 2025 02:11:37 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 15 Oct 2025 02:13:23 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 15 Oct 2025 02:11:37 GMT</pubDate>
+        <pubDate>Wed, 15 Oct 2025 02:13:23 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -380,7 +380,7 @@ our story ended before it got old]]></description>
         </item>
         <item>
             <title><![CDATA[Modern Color Utility Classes]]></title>
-            <description><![CDATA[.projects li img{ max-width: 100%; height: auto; } .projects ul{ padding-inline-start:0; } .projects li{ margin-bottom: 1lh; list-style: none; } .swatches{ display:flex; flex-direction:column; gap:10px; margin-top:1lh; margin-bottom: 1lh; } .swatch-group{ display:flex; gap:10px; } .swatch{ padding:10px; background:oklch(from var(--base) var(--l) c h ); } .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0} .powderblue{--base: powderblue} .crimson {--base: crimson} .goldenrod {--base: goldenrod} .indigo {--base: indigo}
+            <description><![CDATA[.swatches{ display:flex; flex-direction:column; gap:10px; margin-top:1lh; margin-bottom: 1lh; } .swatch-group{ display:flex; gap:10px; } .swatch{ padding:10px; background:oklch(from var(--base) var(--l) c h ); } .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0} .powderblue{--base: powderblue} .crimson {--base: crimson} .goldenrod {--base: goldenrod} .indigo {--base: indigo}
 
 The arrival of [relative colors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) and the oklch color space to CSS allows for a very clean way of making composable utility classes for colors. With one class for the base color and one for the lightness. You can play around with the code on this [codepen](https://codepen.io/Jodie-themathgenius/pen/VYZJrYE).
 
