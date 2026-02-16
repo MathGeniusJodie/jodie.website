@@ -4,12 +4,37 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 14 Dec 2025 15:29:47 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 16 Feb 2026 06:24:39 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sun, 14 Dec 2025 15:29:46 GMT</pubDate>
+        <pubDate>Mon, 16 Feb 2026 06:24:39 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[The Hum of the Refrigerator]]></title>
+            <description><![CDATA[#### The Farmers
+
+Meta makes about $50 per user per year. Google makes about $70. You are not paying for these products, advertisers are. And those advertisers make even MORE money off you. The goal of Big Tech isn't to make the product good for _you_ the goal is making the product good for advertisers who've gotten very, very good at exploiting your weaknesses.
+
+_you_
+
+#### The Pasture
+
+Software that was made just because someone thought it should exist, software optimized to be as delightful to use as possible so that you will gladly pay money for it, forums where you talk about a topic you chose to talk about instead of being funneled into yelling about politics or whatever leads to more engagement, blogs that simply exist because someone has something important to say, none of those are designed to _take_ from you, they are made to _provide_. That's why they're so much better.
+
+_take__provide_
+
+#### Escaping the Farm
+
+I didn't realize how much targeted advertising and algorithmically optimized engagement maximization took a toll on me until I stopped using platforms that do it. It's like noticing the hum of the refrigerator only when it stops. The biggest thing is that I feel like I decide for myself what I want to do and then I do it. If I fall into a very engaging rabbit hole, I'm not following a path designed to extract maximal engagement from me, I'm simply following my own curiosity. I feel like I'm actually _doing_ something instead of feeling like I'm just passively observing adversarial input that generates addictive chemicals in my brain. I feel a sense of achievement instead of feeling like I've wasted my time.
+
+_doing_]]></description>
+            <link>https://jodie.website#refrigerator</link>
+            <guid isPermaLink="false">refrigerator</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Mon, 16 Feb 2026 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Solstice Talk]]></title>
             <description><![CDATA[— _Read at the 2025 [Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_
