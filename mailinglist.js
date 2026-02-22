@@ -83,7 +83,7 @@ async function getAllItems(tableName) {
   const titleMatch = articleHtml.match(/<h3[^>]*>([\s\S]*?)<\/h3>/);
   const title = titleMatch ? titleMatch[1].replace(/<[^>]*>/g, '').trim() : "New Blog Post";
   
-  const baseUrl = "https://cmqwdoiqfdn2zm4jaof3y7mika0bunee.lambda-url.us-east-1.on.aws/";
+  const baseUrl = "https://mailapi.jodie.website/unsubscribe";
 
   //allData = [{EmailAddress: "mail@jodie.website", SecretCode: "testcode"}]; // For testing
   
