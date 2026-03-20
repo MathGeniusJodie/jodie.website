@@ -10,6 +10,7 @@
 }
 h1{
   line-height:26px;
+  font-feature-settings: "titl";
 }
 .projects{
   padding-inline-start:0;
@@ -24,6 +25,7 @@ html {
   text-underline-offset: 2px;
   font-synthesis: none;
   color-scheme: light dark;
+  font-variant-ligatures: discretionary-ligatures
 }
 
 html,body {
@@ -58,14 +60,16 @@ h3,.h3{
 }
 h2{
   font-size: 2em;
-}
-ul,ol{
-  padding-inline-start:2ch;
-}
-
-h2{
+  font-feature-settings: "titl";
   margin-top:1lh;
 }
+ul,ol{
+  padding-inline-start:0; /*2ch;*/
+}
+ol > li::marker {
+  font-weight: bold;
+}
+
 h3,h4{
   text-wrap-style: balance;
 }
@@ -81,6 +85,16 @@ article {
   border-bottom: 2px solid;
   margin-bottom: calc(1lh - 2px);
 }
+article::after{
+  content: "♞";
+  display:block;
+  margin-inline: auto;
+  width:2ch;
+  text-align: center;
+  margin-bottom: -.7em;
+  background: Canvas;
+}
+
 #life:checked ~ .life,
 #math:checked ~ .math,
 #poetry:checked ~ .poetry,
@@ -142,6 +156,9 @@ figure{
 figcaption {
   text-align: center;
 }
+p{
+  font-variant-numeric: oldstyle-nums;
+}
 .block {
   display: block;
 }
@@ -172,6 +189,15 @@ math.h3{
 [aria-hidden="true"] {
   user-select: none;
   opacity:0.5;
+}
+abbr {
+  font-variant: small-caps;
+  font-variant-caps: small-caps;
+  font-feature-settings: 'smcp' on;
+  /* we must be animals here because the font doesn't have small caps */
+  text-transform: uppercase;
+  font-size: .7em;
+  font-weight: 600;
 }
 </style>
 
@@ -208,22 +234,22 @@ math.h3{
   <p>Meta makes about $50 per user per year. Google makes about $70. You are not paying for these 
     products, advertisers are. And those advertisers make even MORE money off you. The goal of 
     Big Tech isn't to make the product good for <em>you</em> the goal is making the product 
-    good for advertisers who've gotten very, very good at exploiting your weaknesses.</p>
+    good for advertisers who've gotten frighteningly effective at exploiting your weaknesses.</p>
   <h4>The Pasture</h4>
   <p>Software that was made just because someone thought it should exist, software optimized 
     to be as delightful to use as possible so that you will gladly pay money for it, forums 
     where you talk about a topic you chose to talk about instead of being funneled into yelling
-     about politics or whatever leads to more engagement, blogs that simply exist because someone
+     about politics or whatever leads to more engagement, blogs that exist because someone
       has something important to say, none of those are designed to <em>take</em> from you, they
-       are made to <em>provide</em>. That's why they're so much better.</p>
+       are made to <em>provide</em>. That's why they're better.</p>
   <h4>Escaping the Farm</h4>
   <p>I didn't realize how much targeted advertising and algorithmically optimized engagement
     maximization took a toll on me until I stopped using platforms that do it. It's like
-    noticing the hum of the refrigerator only when it stops. The biggest thing is that I feel
-    like I decide for myself what I want to do and then I do it. If I fall into a very engaging
+    noticing the hum of the refrigerator only when it stops. Now I feel
+    like I decide for myself what I want to do and then I do it. If I fall into an engaging
      rabbit hole, I'm not following a path designed to extract maximal engagement from me,
-     I'm simply following my own curiosity. I feel like I'm actually <em>doing</em> something 
-     instead of feeling like I'm just passively observing adversarial input that generates 
+     I'm following my own curiosity. I'm <em>doing</em> something 
+     instead of passively observing adversarial input that generates 
      addictive chemicals in my brain. I feel a sense of achievement instead of feeling like 
      I've wasted my time.</p>
 </article>
@@ -239,7 +265,7 @@ We have no claws to defend ourselves, no fur to protect us from the cold and the
 Through predictive modelling, long term planning, and a fair bit of wishful thinking, we didn't just hope a better world was possible, we were able to execute on our plans and mould the world into the shape of our fantasies.
 </p>
 <p>
-We imagined a world where a mother didn't have to watch her child die of smallpox... and then we made that world real.
+We imagined a world where a mother didn't have to watch her child die of smallpox… and then we made that world real.
 Our ancestors looked at the sky and imagined touching it. And their grandchildren left footprints on the moon.
 </p>
 <p>
@@ -261,7 +287,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   <p>
     We are building the wrong things faster than ever. We have ten thousand apps to track our sleep because we are too overstimulated to sleep. 
     We have apps that stop you from using your other apps.
-    My washing machine has a touch screen, it talks, and it has "AI", and yet I still have to empty the lint trap by hand.
+    My washing machine has a touch screen, it talks, and it has "<abbr>ai</abbr>", and yet I still have to empty the lint trap by hand.
   </p>
   <p>That's not progress! The wheel. Writing. Soap. That's real progress.</p>
   <p>
@@ -293,7 +319,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   <time datetime="2025-10-08">October 8, 2025</time>
   <br><br>
   <blockquote>
-    “My own behavior baffles me. I find myself doing what I hate, and not doing what I really want to do!”<br>
+    <em>My own behavior baffles me. I find myself doing what I hate, and not doing what I really want to do!</em><br>
     ― Saint Paul
   </blockquote>
   <h3>The Case for Single-Purpose Devices</h3>
@@ -317,21 +343,21 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   </p>
   <h4>Smartphones Aren't the Entire Future</h4>
   <p>
-  Single-purpose devices are making a quiet comeback because they never actually lost.
+  Single-purpose devices are making a quiet comeback because they never lost.
   Every kind of tech product has continued to get better and cheaper while you weren't looking: flashlights, digital watches, e-readers, laptops, cameras, etc.
   </p>
   <h4><a href="https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_fence" target="_blank">Chesterton</a>'s Turntable</h4>
   <p>
-    There's in my opinion a more profound reason than nostalgia for why things like vinyl records and instant cameras are popular again.
-    "Better" technology was missing something important. Vinyl records encourage active listening. Instant cameras don't post to Instagram and ruin your OPSEC.
-    Sometimes newer technology is just a different trade-off, not an outright improvement.
+    There's a more profound reason than nostalgia for why vinyl records and instant cameras are popular again.
+    "Better" technology was missing something important. Vinyl records encourage active listening. Instant cameras don't post to Instagram and ruin your <abbr>opsec</abbr>.
+    Often newer technology is a different trade-off, not an outright improvement.
   </p>
   <p>
     After fully embracing the smartphone for 15 years, I've been slowly reintroducing the things I thought were obsolete.
-    I started buying and borrowing books again. Books are so nice to read compared to a screen, I love them! I started carrying a paper notepad and a pen again.
-    I love how it allows me to take notes while talking to someone, during classes, or at church without looking incredibly rude by pulling out my phone.
+    I'm buying and borrowing books again. Books are so nice to read compared to a screen, I love them! I've been carrying a paper notepad and a pen again.
+    I love how it allows me to take notes while talking to someone, during classes, or at church without looking rude by pulling out my phone.
     Paper is so freeing compared to a tiny touchscreen. I can draw little diagrams and highlight important pieces of text effortlessly.
-    Paper is simply the better tool for the job.
+    Paper is the better tool for the job.
   </p>
   <h4>Whimsy</h4>
   <p>
@@ -383,26 +409,26 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   <time datetime="2025-05-20">May 20, 2025</time>
   <h3 style="font-family: DSEG14, monospace;">Time isn't real man</h3>
   <blockquote>
-    “There is nothing more deceptive than an obvious fact.”<br>
+    <em>There is nothing more deceptive than an obvious fact.</em><br>
     ― Arthur Conan Doyle
   </blockquote>
-  <p>Anyone who's taken LSD, pulled an all-nighter, been bored, or fell into a YouTube rabbit knows that time is subjective.
+  <p>Anyone who's taken <abbr>lsd</abbr>, pulled an all-nighter, been bored, or fell into a YouTube rabbit knows that time is subjective.
     Brains aren't clocks. They cheat constantly. Compressing sequences of events, deleting traumatic events, buffering sensory delays, 
     stretching and compressing depending on how arousing whatever you're experiencing is.
   </p>
   <h4>Code Monks</h4>
   <p>Programmers enter multi-hour flow states without fatigue or hunger. Usually helped by autism headphones and chemical stimulants.</p>
   <h4>Bullet Time</h4>
-  <p>When put in life-or-death situations, many report time slowing down. It's like the brain temporarily overclocks and hyper-saturates itself with sensory perception.</p>
+  <p>When put in life-or-death situations, many report time slowing down. The brain temporarily overclocks and hyper-saturates itself with sensory perception.</p>
   <h4>Teleportation</h4>
-  <p>Notice how commuting to your job feels like a time skip? It's like mundane regular tasks simply don't exist to us.</p>
+  <p>Notice how commuting to your job feels like a time skip? Mundane regular tasks don't exist to us.</p>
   <h4>Time Travel</h4>
   <p>When you travel, a few weeks turn into a whole-ass chapter of your life. A giant exotic memory palace. At the end you often feel like you're leaving an entire life behind.</p>
   <h4>Time Merchants</h4>
   <p>Video platforms optimize for smoothness and hyperstimulus. They make you forget where videos start and end.</p>
   <h4>Chronohacking</h4>
-  <p>Time perception seems to me like a fertile ground for exploits. It's not just fun, it feels <em>necessary</em> in a world where attention is farmed and sold. 
-    There's only so much we can do to have a longer life, so why not try to make our life <em>denser</em>.</p>
+  <p>Time perception is hackable. It's not just for fun, it feels <em>necessary</em> in a world where attention is farmed and sold. 
+    There's only so much we can do to have a longer life, so why not make our life <em>denser</em>.</p>
 </article>
 <article id="information" class="math">
   <time datetime="2025-05-15">May 15, 2025</time>
@@ -413,16 +439,16 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 
   <h4>Compute Generates Data</h4>
   <p>Information theory teaches us that any data with redundancy can be compressed or skipped entirely.
-    This principle applies just as well to compute as it does to storage.</p>
+    This principle applies to compute, not just storage.</p>
 
   <h4>Less Data Also Matters</h4>
-  <p>Low-end hardware is usually bottlenecked by memory bandwidth, not compute. Phones and IGPU powered laptops also tend to have less vram!</p>
-  <p>Making things smaller also makes space for something else, like lookup tables or acceleration structures that would be unviable otherwise</p>
+  <p>Low-end hardware is usually bottlenecked by memory bandwidth, not compute. Phones and <abbr>igpu</abbr> powered laptops also tend to have less vram!</p>
+  <p>Making data smaller also makes space for something else, like lookup tables or acceleration structures that would be unviable otherwise</p>
 
   <h4>Where?</h4>
   
   <ul>
-    <li><strong>Temporal Redundancy:</strong> The current frame is often similar to the previous one. Reprojection, TAA, and impostors exploit this to reduce work.</li>
+    <li><strong>Temporal Redundancy:</strong> The current frame is often similar to the previous one. Reprojection, <abbr>taa</abbr>, and impostors exploit this to reduce work.</li>
     <li><strong>Derived Data:</strong> Don’t store what you can calculate. Like normals and positions from depth.</li>
     <li><strong>Spatial Redundancy:</strong> Adjacent pixels are often the same material and are similarly lit.</li>
     <li><strong>Impossible States:</strong> If the camera can’t possibly see it. Cull it.</li>
@@ -448,11 +474,11 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     <li>If float data is always &lt; 1, there's a free bit in the exponent.</li>
     <li>The least significant bit of a float probably doesn't matter. Yolo.</li>
     <li>Float precision issues are often skill issues. Use <a href="https://herbie.uwplse.org/">Herbie</a> and floatfloat methods before giving up and using larger types.</li>
-    <li>Decouple framerates. Shadows, GI, terrain and entities don't all need to update at the same frequency.</li>
+    <li>Decouple framerates. Shadows, <abbr>gi</abbr>, terrain and entities don't all need to update at the same frequency.</li>
     <li>Quantize vertex positions</li>
     <li>Paletting</li>
     <li>Checkerboarded chroma</li>
-    <li>Lower LODs = fewer animation frames needed</li>
+    <li>Lower <abbr>lod</abbr>s = fewer animation frames needed</li>
     <li>Velocity buffers: 2D and a low bitrate are often enough</li>
     <li>Normalized vectors can be stored in 2D</li>
     <li>Impostors only need to be loaded for what faces the camera and this makes them extremely overpowered</li>
@@ -478,7 +504,7 @@ as you sailed away?</p>
 <article id="length" class="math">
   <time datetime="2025-03-23">March 23, 2025</time>
   <h3>Fast Approximate <span aria-hidden="true">|</span>Length<span aria-hidden="true">|</span> and Squaring<span aria-hidden="true">²</span></h3>
-  <p>Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for RMS error calculation or getting the length of a vector.</p>
+  <p>Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for <abbr>rms</abbr> error calculation or getting the length of a vector.</p>
   <pre><code>static float garbage_len(float a, float b){
   return utf(ftu(
       utf(ftu(a)&lt;&lt;1u)
@@ -495,18 +521,18 @@ as you sailed away?</p>
   </svg>
 </h3>
 <p>My blog now has an RSS feed! You can find it <a href="/feed.xml">here</a>.</p>
-<p>The script to generate the feed is my first experience trusting AI to write all the code. The recently released Claude 3.7 is pretty good so far. I found out today that GitHub Copilot allows you to use it right in your IDE.</p>
+<p>The script to generate the feed is my first experience trusting <abbr>ai</abbr> to write all the code. The recently released Claude 3.7 is pretty good so far. I found out today that GitHub Copilot allows you to use it right in your <abbr>ide</abbr>.</p>
 </article>
 <article id="happiness" class="life">
 <time datetime="2024-02-16">February 16, 2025</time>
-<h3>Why Productivity and Happiness are the Same Thing</h3>
-<p>One of the categories on this blog used to be called "Productivity and Happiness" (now renamed to "life"). I wanna expand on this, because I think it's one of the foundations of what makes for a successful life. Conversely I want to hammer home that the idea of work-life balance is incredibly pernicious.</p>
+<h3>Why Productivity and Happiness are the Same</h3>
+<p>I want to hammer home that the idea of work-life balance is pernicious.</p>
 <h4>Work isn't Hard</h4>
-<p>I think it's a sad reflection of the society we live in that work is widely accepted to be difficult and unfun. We shouldn't simply accept that we're forced to do something that sucks. This framing isn't just bad for you, it makes workers as a group accept terrible working conditions. This shouldn't be considered "normal". This is a tragedy!</p>
+<p>It's tragic that we accept work is unfun. We shouldn't accept that we're forced to do something that sucks. This framing isn't just bad for you, it makes workers as a group accept terrible working conditions. This shouldn't be considered “normal”. This is a tragedy!</p>
 <h4>Fun isn't Easy</h4>
-<p>The other side of the coin isn't much better. Most people's idea of fun is spending money and engaging in vice. Fun is seen as synonymous with being counter-productive. You're expected to continuously destroy what you build in an endless cycle of consumption that never leads to your life improving.</p>
+<p>Most people's idea of fun is spending money and engaging in vice. People see fun as synonymous with being counter-productive. You're expected to continuously destroy what you build in an endless cycle of consumption that never leads to your life improving.</p>
 <h4>Work-Life Maximisation</h4>
-<p>Productivity and happiness aren't opposing forces that need to be balanced. They aren't at odds with each-other. Work can be fun, and leisure can be productive. An activity can be more fun <em>and</em> more productive. What you want isn't "balance". You want work-life <em>maximisation</em>.</p>
+<p>Productivity and happiness aren't opposing forces that need to be balanced. They aren't at odds with each other. Work can be fun, and leisure can be productive. An activity can be more fun <em>and</em> more productive. What you want isn't "balance". You want work-life <em>maximisation</em>.</p>
 </article>
 <article id="story" class="poetry">
   <time datetime="2024-02-11">February 11, 2025</time>
@@ -596,7 +622,7 @@ our story ended before it got old</p>
       <div class="swatch indigo l-100"></div>
     </div>
   </div>
-  <p>The arrival of <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors" target="_blank">relative colors</a> and the oklch color space to CSS allows for a very clean way of making composable utility classes for colors. With one class for the base color and one for the lightness. You can play around with the code on this <a href="https://codepen.io/Jodie-themathgenius/pen/VYZJrYE" target="_blank">codepen</a>.</p>
+  <p>The arrival of <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors" target="_blank">relative colors</a> and the oklch color space to <abbr>css</abbr> allows for a clean way of making composable utility classes for colors. With one class for the base color and one for the lightness. You can play around with the code on this <a href="https://codepen.io/Jodie-themathgenius/pen/VYZJrYE" target="_blank">codepen</a>.</p>
   <pre>
     <code>
 .swatch{
@@ -663,18 +689,18 @@ static float garbage_sigmoid(float x){
   <p>Humans aren't made to have long-term goals. If you have a goal, don't think about the goal. Stop caring about the goal. Failure to achieve the goal is neutral. Do not let yourself think about it. Not having reached the goal yet should never be on your mind.</p>
   <p>Learn to enjoy the process. Want to be strong? Learn to enjoy exercise. Want to lose weight? Learn to enjoy hunger. Want to be rich? Learn to enjoy saving money. Want to make friends? Learn to enjoy being interested in people. Do it without an agenda.</p>
   <p>Do the process every day, prioritise it, make it a part of your schedule. Get good at the process.</p>
-  <h4>But...</h4>
+  <h4>But…</h4>
   <p>Ask yourself if the process is still serving you. Maybe you're already past the goal.</p>
 </article>
 <article id="addicted" class="life">
   <time datetime="2024-11-27">November 27, 2024</time>
-  <h3>Do you actually enjoy this or are you addicted?</h3>
+  <h3>Do you <em>really</em> enjoy this or are you addicted?</h3>
   <p>Things that are pleasurable aren't necessarily addictive, and things that are addictive aren't necessarily pleasurable.</p>
   <p>Addiction is a cycle of craving (unpleasant), a short hit of meaningless pleasure (optional), followed by a sense of emptiness (also unpleasant).</p>
   <h4>Why it Doesn't Feel That Way</h4>
-  <p>Addiction is a trickster. It makes you rationalise your addiction, convincing you that you actually need it and that you truly enjoy it. If you didn’t need it, it would mean you were being unproductive. If you didn’t enjoy it, it would follow that you were hurting yourself. To not rationalise addiction is to feel guilty, helpless, and foolish.</p>
+  <p>Addiction is a trickster. It makes you rationalise your addiction, convincing you that you need it and that you truly enjoy it. If you didn’t need it, it would mean you were being unproductive. If you didn’t enjoy it, it would follow that you were hurting yourself. To not rationalise addiction is to feel guilty, helpless, and foolish.</p>
   <h4>Hidden Addiction</h4>
-  <p>Things you recognise as unpleasant often fly under the radar. They are frequently not identified as addictive. Pleasant things also often don't register as addiction. You just think you're doing them repeatedly because they are fun.</p>
+  <p>You rarely recognize unpleasant things as addictive. Pleasant things also often don't register as addiction. You think you're doing them repeatedly because they are fun.</p>
 </article>
 <article id="king" class="poetry">
   <figure>
@@ -694,7 +720,7 @@ static float garbage_sigmoid(float x){
 <article id="cyborg" class="life">
 	<time datetime="2024-10-31">October 31, 2024 🎃</time>
 	<h3>The Emotional Cyborg</h3>
-	<p>One limitation of therapy is that you can't have a therapist be with you 24/7 to examine your behavior. Luckily we now have ai that can monitor everything you say, and correct bad thought patterns and behaviours in real time.
+	<p>One limitation of therapy is that you can't have a therapist be with you 24/7 to examine your behavior. Luckily we now have <abbr>ai</abbr> that can monitor everything you say, and correct bad thought patterns and behaviours in real time.
 Just like smartphones turned us into information and math cyborgs with access to services such as google and wolfram alpha, now computers allow us to enhance our emotional intelligence.</p>
 </article>
 <article id="furniture" class="life">
@@ -705,16 +731,16 @@ Just like smartphones turned us into information and math cyborgs with access to
 <article id="computer" class="life">
 	<time datetime="2024-06-25">June 25, 2024</time>
 	<h3>A Programmer Without a Computer</h3>
-	<p>I've been using my phone as my main computer for a week now. I'm even coding on it, and it's... fine?</p>
-	<p>I'm writing this blog post on my phone right now in fact. Just using termux, neovim and unexpected keyboard.</p>
+	<p>I've been using my phone as my main computer for a week now. I'm even coding on it, and it's… fine?</p>
+	<p>I'm writing this blog post on my phone right now in fact, using termux, neovim and unexpected keyboard.</p>
 	<figure><img src="4-neovim.png" alt=""></figure>
-	<p>I might get a foldable phone and/or a physical keyboard in the future, but honestly I'm not in a rush.</p>
+	<p>I might get a foldable phone and/or a physical keyboard in the future, but I'm not in a rush.</p>
 </article>
 <article id="desk" class="life">
   <time datetime="2024-06-19">June 19, 2024</time>
   <h3>The Most Ergonomic Desk is No Desk At All</h3>
-  <p>About a year back, I moved into a new apartment and couldn't bring my desk. I figured I could just work at the kitchen table or on the sofa in the meantime. My plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.</p>
-  <p>Having no money for a desk at the time, I just sat on the floor in my room, and after a short adjustment period, I found that I had developped a new superpower. I could simply sit on the floor with no back support, and it was fine.</p>
+  <p>About a year back, I moved into a new apartment and couldn't bring my desk. I figured I could work at the kitchen table or on the sofa in the meantime. My plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.</p>
+  <p>Having no money for a desk at the time, I sat on the floor in my room, and after a short adjustment period, I found that I had a new superpower. I could sit on the floor with no back support, and it was fine.</p>
   <p>After a few months of this, I decided to buy a desk, and I found that I couldn't sit at it for more than a few hours without my back hurting. So I went back to sitting on the floor, and later donated the desk.</p>
   <p>I haven't bought any furniture since, and I don't plan to. People didn't have furniture for most of human history, and many people in the third world still don't. This isn't as weird as it sounds.</p>
 </article>
@@ -727,7 +753,8 @@ Just like smartphones turned us into information and math cyborgs with access to
   <p>Here's what allowed me to cut my screen time down to 1-2 hours a day:</p>
   <ol>
     <li>I started sharing my screen time with my friends every day to keep myself accountable</li>
-    <li>I removed time wasting apps from my home screen</li>
+    <li>I removed time wasting apps entirely</li>
+    <li>I even removed my browser and replaced it with Firefox Focus which doesn't keep you logged in and deletes your tabs when you open it again. No logins, no algorithmic content.</li>
     <li>I added the screen time widget to my home screen</li>
     <li>Apps like Instagram allow you to make widgets to take you directly to direct messages, or you can use an app like Beeper</li>
     <li>Silent notifications! I don't feel like checking the app, but it also doesn't distract me by buzzing</li>
@@ -748,8 +775,8 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
   <time datetime="2024-06-16">June 16, 2024</time>
   <h3>Bit Arrays for Fast Graph Search</h3>
   <p>One problem with every implementation of <a href="https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world" target="_blank">hierarchical navigable small worlds</a> I've seen is the use of ordered sets to keep track of visited neighbors. This causes a huge performance overhead.</p>
-  <p>After much experimentation, I've found that using a bit array to keep track of visited neighbors is much faster.</p>
-  <p>For a code example, see <a href="https://github.com/MathGeniusJodie/joann" target="_blank">Joann</a>, my HNSW implementation.</p>
+  <p>I've found that using a bit array to keep track of visited neighbors is much faster.</p>
+  <p>For a code example, see <a href="https://github.com/MathGeniusJodie/joann" target="_blank">Joann</a>, my <abbr>HNSW</abbr> implementation.</p>
 </article>
 </main>
 <aside>
@@ -768,7 +795,7 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
     <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822"><h4>MoreWrong</h4></a>A satirical blog about rats</li>
     <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135"><h4>Sky Renderer</h4></a>A novel method for calculating scattering and absorption in translucent media applied to atmosphere rendering</li>
     <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707"><h4>Tasktux</h4></a>An opinionated todo manager</li>
-    <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421"><h4>Tuxfetch</h4></a>A very fast system information tool for linux</li>
+    <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421"><h4>Tuxfetch</h4></a>A <em>fast</em> system information tool for linux</li>
     <li><h4><a href="https://github.com/MathGeniusJodie/tuxthread" target="_blank">Tuxthread</a></h4>Implementation of threads.h for the c standard library</li>
   </ul>
   <h2>Friends:</h2>
@@ -818,10 +845,12 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
     <li><a href="https://bewrong.substack.com/" target="_blank">Be Wrong</a></li>
     <li><a href="https://bitmath.blogspot.com/" target="_blank">Bits, Math and Performance(?)</a></li>
     <li><a href="https://bleuje.com/" target="_blank">Bleuje</a></li>
+    <li><a href="https://borretti.me/article/" target="_blank">borretti.me</a>
     <li><a href="https://branchfree.org/" target="_blank">Branch Free</a></li>
     <li><a href="https://burnyverse.com/" target="_blank">Burny</a></li>
     <li><a href="https://curiouscoding.nl/" target="_blank">CuriousCoding </a></li>
     <li><a href="https://lemire.me/blog/" target="_blank">Daniel Lemire</a></li>
+    <li><a href="https://dnhkng.github.io/" target="_blank">David Noel Ng</a>
     <li><a href="https://www.rfleury.com/" target="_blank">Digital Grove</a></li>
     <li><a href="https://dynomight.net/" target="_blank">Dynomight</a></li>
     <li><a href="https://www.henrikkarlsson.xyz/" target="_blank">Escaping Flatland</a></li>
@@ -829,6 +858,7 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
     <li><a href="https://homosabiens.substack.com/" target="_blank">Homo Sabiens</a></li>
     <li><a href="https://100r.co/" target="_blank">Hundred Rabbits</a></li>
     <li><a href="https://iter.ca/" target="_blank">iter.ca</a></li>
+    <li><a href="https://solar.lowtechmagazine.com" target="_blank">Low Tech Magazine</a></li>
     <li><a href="https://mattlakeman.org/" target="_blank">Matt Lakeman</a></li>
     <li><a href="https://metanomicon.ink/" target="_blank">metanomicon</a></li>
     <li><a href="https://mindingourway.com/" target="_blank">Minding Our Way</a></li>
