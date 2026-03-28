@@ -352,16 +352,15 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   </p>
   <h4><a href="https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_fence" target="_blank">Chesterton</a>'s Turntable</h4>
   <p>
-    There's a more profound reason than nostalgia for why vinyl records and instant cameras are popular again.
+    Vinyls and Polaroids aren't just back because of nostalgia.
     "Better" technology was missing something important. Vinyl records encourage active listening. Instant cameras don't post to Instagram and ruin your <abbr>opsec</abbr>.
     Often newer technology is a different trade-off, not an outright improvement.
   </p>
   <p>
-    After fully embracing the smartphone for 15 years, I've been slowly reintroducing the things I thought were obsolete.
+    After 15 years of going full phone. I'm gradually reintroducing the things I thought it killed.
     I'm buying and borrowing books again. Books are so nice to read compared to a screen, I love them! I've been carrying a paper notepad and a pen again.
     I love how it allows me to take notes while talking to someone, during classes, or at church without looking rude by pulling out my phone.
-    Paper is so freeing compared to a tiny touchscreen. I can draw little diagrams and highlight important pieces of text effortlessly.
-    Paper is the better tool for the job.
+    Paper is freeing. I can draw and highlight and annotate with no friction. It's the better tool for the job.
   </p>
   <h4>Whimsy</h4>
   <p>
@@ -770,15 +769,25 @@ Computers turned us into information and math cyborgs, now they allow us to enha
   <time datetime="2024-06-17">June 17, 2024</time>
   <h3>Should I Buy the Thing? A Flowchart</h3>
   <pre>
-Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
-            \  No: Will the thing make me happy?  - Yes: Buy the thing.
-                                                  \  No: Don't buy the thing
-  </pre>
+    ┌───────────────┐
+    │  Am I happy?  │
+    └┬─────────────┬┘
+    Yes           No
+     │         ┌───┴─────────────┐
+     │         │ Will the thing  │
+     │         │ make me happy?  │
+You don't need └───┬──────────┬──┘
+  the thing       Yes        No
+ to be happy.      │          │
+     │             │          │
+ Don't buy      Buy the    Don't buy
+ the thing.      thing.    the thing.</pre>
 </article>
 <article id="graph" class="math">
   <time datetime="2024-06-16">June 16, 2024</time>
   <h3>Bit Arrays for Fast Graph Search</h3>
-  <p>One problem with every implementation of <a href="https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world" target="_blank">hierarchical navigable small worlds</a> I've seen is the use of ordered sets to keep track of visited neighbors. This causes a huge performance overhead.</p>
+  <p>One common flaw in <a href="https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world" target="_blank">HNSW</a>
+    implementations is using ordered sets to track visited neighbors. This causes a huge performance overhead.</p>
   <p>Using a bit array to keep track of visited neighbors is much faster.</p>
   <p>For a code example, see <a href="https://github.com/MathGeniusJodie/joann" target="_blank">Joann</a>, my <abbr>HNSW</abbr> implementation.</p>
 </article>
@@ -797,7 +806,7 @@ Am I happy? - Yes: You don't need the thing to be happy, don't buy the thing.
   <ul class="projects">
     <li><a href="https://www.shadertoy.com/view/4dBcD1" target="_blank"><img src="https://static2.mtlws.ca/tonemap.png" width="640" height="360"><h4>Jodie Reinhard Tonemap</h4></a>Yes, I'm that Jodie, the one from the tonemap</li>
     <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822"><h4>MoreWrong</h4></a>A satirical blog about rats</li>
-    <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135"><h4>Sky Renderer</h4></a>A novel method for calculating scattering and absorption in translucent media applied to atmosphere rendering</li>
+    <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135"><h4>Sky Renderer</h4></a>New Model of Scattering and Absorption in Translucent Media</li>
     <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707"><h4>Tasktux</h4></a>An opinionated todo manager</li>
     <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421"><h4>Tuxfetch</h4></a>A <em>fast</em> system information tool for linux</li>
     <li><h4><a href="https://github.com/MathGeniusJodie/tuxthread" target="_blank">Tuxthread</a></h4>Implementation of threads.h for the c standard library</li>
