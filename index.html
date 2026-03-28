@@ -383,7 +383,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     return max(vec3(0), ((a*t+b)*t+c) / ((d*t+e)*t+1.));
 }</code></pre>
   <p>Here's a demo on <a href="https://www.shadertoy.com/view/lslBWl" target="_blank">Shadertoy</a>.</p>
-  <p>A neat feature I don't see often in such approximations is that the luma is always 1, so you can tweak the lighting color without messing with the perceived brightness.</p>
+  <p>Unlike most approximations, this one keeps luma at 1, so you can tweak lighting color without messing with the brightness.</p>
   <figure><img loading="lazy" src="https://static2.mtlws.ca/black_body_error.png" class="img-adapt-dark" alt="The function has a maximum relative error of 7e-5" width="1200" height="356"></figure>
 </article>
 <article id="sqrt" class="math">
@@ -410,19 +410,18 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 </article>
 <article id="time" class="life">
   <time datetime="2025-05-20">May 20, 2025</time>
-  <h3 style="font-family: DSEG14, monospace;">Time isn't real man</h3>
+  <h3>Time isn't real man</h3>
   <blockquote>
     <em>There is nothing more deceptive than an obvious fact.</em><br>
     ― Arthur Conan Doyle
   </blockquote>
-  <p>Anyone who's taken <abbr>lsd</abbr>, pulled an all-nighter, been bored, or fallen into a YouTube rabbit hole knows that time is subjective.
-    Brains aren't clocks. They cheat constantly. Compressing sequences of events, deleting traumatic events, buffering sensory delays, 
-    stretching and compressing depending on how arousing whatever you're experiencing is.
+  <p>Anyone who's pulled an all-nighter, been bored, or fallen into a YouTube rabbit hole knows that time is subjective.
+    Brains aren't clocks. They cheat constantly.
   </p>
   <h4>Code Monks</h4>
   <p>Programmers enter multi-hour flow states without fatigue or hunger. Usually helped by autism headphones and chemical stimulants.</p>
   <h4>Bullet Time</h4>
-  <p>When put in life-or-death situations, many report time slowing down. The brain temporarily overclocks and hyper-saturates itself with sensory perception.</p>
+  <p>People in life-or-death situations often report time slowing down. The brain temporarily overclocks and hyper-saturates itself with sensory input.</p>
   <h4>Teleportation</h4>
   <p>Notice how commuting to your job feels like a time skip? Mundane regular tasks don't exist to us.</p>
   <h4>Time Travel</h4>
@@ -438,11 +437,11 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   <h3>Graphics Optimization is Information Theory</h3>
   <p>I've been working on an image compression format lately (coming soon!). This led me down the rabbit hole of 
     <a href="https://en.wikipedia.org/wiki/Information_theory" target="_blank">information theory</a>, and it's made me see graphics programming with a fresh perspective.</p>
-  <p>Information theory is criminally underrated in the context of graphics optimization. It’s not just adjacent to what we do. It's the whole darn <a href="https://en.wikipedia.org/wiki/Map%E2%80%93territory_relation" target="_blank">map</a>!</p>
+  <p>Information theory is too often overlooked in the context of graphics optimization.
+    It’s not just adjacent to what we do. It's the whole darn <a href="https://en.wikipedia.org/wiki/Map%E2%80%93territory_relation" target="_blank">map</a>!</p>
 
   <h4>Compute Generates Data</h4>
-  <p>Information theory teaches us that any data with redundancy can be compressed or skipped entirely.
-    This principle applies to compute, not just storage.</p>
+  <p>Redundancy can be compressed. This principle applies to compute, not just storage.</p>
 
   <h4>Less Data Also Matters</h4>
   <p>Low-end hardware is usually bottlenecked by memory bandwidth, not compute. Phones and <abbr>igpu</abbr> powered laptops also tend to have less vram!</p>
@@ -625,7 +624,10 @@ our story ended before it got old</p>
       <div class="swatch indigo l-100"></div>
     </div>
   </div>
-  <p>The arrival of <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors" target="_blank">relative colors</a> and the oklch color space to <abbr>css</abbr> allows for a clean way of making composable utility classes for colors. With one class for the base color and one for the lightness. You can play around with the code on this <a href="https://codepen.io/Jodie-themathgenius/pen/VYZJrYE" target="_blank">codepen</a>.</p>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors" target="_blank">Relative colors</a>
+  and Oklch in <abbr>css</abbr> enable this clean, composable pattern.
+    With one class for the base color and one for the lightness.
+    You can play around with the code on this <a href="https://codepen.io/Jodie-themathgenius/pen/VYZJrYE" target="_blank">codepen</a>.
   <pre>
     <code>
 .swatch{
