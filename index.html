@@ -63,11 +63,23 @@ h2{
   font-feature-settings: "titl";
   margin-top:1lh;
 }
-ul,ol{
+ul,ol,summary{
   padding-inline-start:0; /*2ch;*/
 }
 ol > li::marker {
   font-weight: bold;
+}
+summary{
+  list-style: none;
+}
+summary::before{
+  content:"►";
+  display: inline-block;
+  width:1em;
+  margin-inline-start: -1em;
+}
+[open] > summary::before{
+  content:"▼";
 }
 
 h3,h4{
@@ -80,7 +92,7 @@ h3,h4{
   justify-content: center;
   max-width: 100%;
 }
-article {
+main>article {
   display: none;
   border-bottom: 2px solid;
   margin-bottom: calc(1lh - 2px);
@@ -91,8 +103,18 @@ article::after{
   margin-inline: auto;
   width:2ch;
   text-align: center;
-  margin-bottom: -.7em;
+}
+
+main>article::after{
   background: Canvas;
+  margin-bottom: -.7em;
+}
+
+details article {
+  background: light-dark(oldlace,Field);
+  padding:1em;
+  padding-bottom: calc(1em + 1lh);
+  margin-bottom: 1lh;
 }
 
 #life:checked ~ .life,
@@ -239,7 +261,25 @@ sup {
   <p>A friend of mine is going to this big fancy retreat called <a href="https://www.inkhaven.blog/" target="_blank">Inkhaven</a> where you write one blog post a day. And I was like "I can't do that, but I'll sure as hell try!".  I don't want to spam this blog, so I'll link my daily posts down here and I'll add the best ones to the main feed later after some polish.</p>
   <ul style="list-style:none">
     <li>April 1<sup>st</sup> - <a href="https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing" target="_blank">How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area</a> - MoreWrong</li>
-    <li style="color:GrayText">April 2<sup>nd</sup> - Coming Tomorrow</li>
+    <li><details>
+      <summary>April 2<sup>nd</sup> - Animal Welfare is a Culinary Problem</summary>
+      <article>
+        <h3>Animal Welfare is a Culinary Problem</h3>
+        <p>I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.</p>
+        <h4>I had chicken last week.</h4>
+        <p>Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.</p>
+        <p>Most restaurants have one vegetarian option that only exists so they can say they tried. If you're a normal person who wants to eat with friends, well fuck you, you're eating fries.</p>
+        <p>I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.</p>
+        <h4>My body hates the obvious solution</h4>
+        <p>The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.</p>
+        <p>They also make me fart.</p>
+        <p>I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.</p>
+        <h4>Next time someone tells you they could never go vegan, send them a recipe.</h4>
+        <p>The greatest impact I've had on animal welfare is telling people that MSG makes tofu taste good. The person who's influenced me the most isn't an activist,
+          it's <a href="https://www.youtube.com/@SauceStache/videos">this guy on YouTube who figured out how to make vegan bacon out of rice paper</a>.</p>
+        <p>Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.</p>
+      </article>
+    </details></li>
     <li style="color:GrayText">April 3<sup>rd</sup> - Coming Friday</li>
     <li style="color:GrayText">April 4<sup>th</sup> - Coming Saturday</li>
     <li style="color:GrayText">April 5<sup>th</sup> - Coming This Easter</li>
