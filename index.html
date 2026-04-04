@@ -212,6 +212,12 @@ math.h3{
   user-select: none;
   opacity:0.5;
 }
+
+code{
+  font-variant-numeric: lining-nums;
+  font-size: 1.1em;
+}
+
 abbr {
   /*
   font-variant: small-caps;
@@ -221,12 +227,18 @@ abbr {
   text-transform: uppercase;
   font-size: .79em;
 }
-sup {
+sup,sub {
   vertical-align: baseline;
   position: relative;
-  top: -0.4em;
+
   font-size: 0.75em;
   line-height: 0;
+}
+sup {
+  top: -0.4em;
+}
+sub {
+  top: 0.2em;
 }
 </style>
 
@@ -260,9 +272,9 @@ sup {
   <h3>We Have Inkhaven at Home</h3>
   <p>A friend of mine is going to this big fancy retreat called <a href="https://www.inkhaven.blog/" target="_blank">Inkhaven</a> where you write one blog post a day. And I was like "I can't do that, but I'll sure as hell try!".  I don't want to spam this blog, so I'll link my daily posts down here and I'll add the best ones to the main feed later after some polish.</p>
   <ul style="list-style:none">
-    <li><strong>April 1<sup>st</sup></strong> - <a href="https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing" target="_blank">How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area</a> - MoreWrong</li>
+    <li>April 1<sup>st</sup> - <strong><a href="https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing" target="_blank">How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area</a></strong> - MoreWrong</li>
     <li><details>
-      <summary><strong>April 2<sup>nd</sup></strong> - Animal Welfare is a Culinary Problem</summary>
+      <summary>April 2<sup>nd</sup> - <strong>Animal Welfare is a Culinary Problem</strong></summary>
       <article>
         <h3>Animal Welfare is a Culinary Problem</h3>
         <p>I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.</p>
@@ -281,7 +293,7 @@ sup {
       </article>
     </details></li>
     <li><details>
-      <summary><strong>April 3<sup>rd</sup></strong> - Dust</summary>
+      <summary>April 3<sup>rd</sup> - <strong>Dust</strong></summary>
       <article>
         <h3>Dust</h3>
         <p>the ground under your feet<br>
@@ -296,8 +308,63 @@ sup {
         <p>the dust will call you home<br>
         the ground under a stranger's feet</p>
       </article>
-  </details></li>
-    <li style="color:GrayText">April 4<sup>th</sup> - Coming Saturday</li>
+    </details></li>
+    <li><details>
+      <summary>April 4<sup>th</sup> - <strong>How to Make a Floating Point Math Library, Part I</strong></summary>
+      <article>
+        <h3>How to Make a Floating Point Math Library, Part I</h3>
+        <p>You might have seen <a href="https://en.wikipedia.org/wiki/Fast_inverse_square_root">the fast 
+          inverse square root</a>. The one with the magic hex constant <code>0x5F3759DF</code> and the
+          comment <em>"what the fuck?"</em> from the Quake&nbsp;III source. 
+          After reading this series, you'll understand how it works, and how to apply its arcane trickery
+          to compute any transcendental function.
+        </p>
+
+        <p>But first: what <em>is</em> a float?</p>
+
+        <p>
+          <a href="https://en.wikipedia.org/wiki/Scientific_notation">Scientific notation</a>
+          writes a number as a power of ten, multiplied by a value between 1 and 10 called the
+          <em>significand</em> (or <em>mantissa</em>). Floats do the same thing in base&nbsp;2: the
+          <em>exponent</em> stores ⌊log<sub>2</sub>(<em>x</em>)⌋, and the mantissa is between 1 and 2.
+        </p>
+<pre><code>┌sign┬─exponent──┬─mantissa─────────────────────┐
+│ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+└────┴───────────┴──────────────────────────────┘
+</code></pre>
+        <p>
+          <a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html">This calculator</a>
+          lets you flip individual bits and watch the value change. You'll get a feel for how
+          different numbers are represented.
+        </p>
+        <h4>Manipulating Floats with Integer Operations</h4>
+
+        <p>
+         The upper bits of a float are proportional to the logarithm of its value.
+         So integer math on the raw bits becomes log-domain arithmetic on the number itself. 
+        </p>
+<pre><code>log(<em>a</em> · <em>b</em>)     = log <em>a</em> + log <em>b</em>
+log(<em>a</em> / <em>b</em>)     = log <em>a</em> − log <em>b</em>
+log(<em>a</em><sup><em>b</em></sup>)        = <em>b</em> · log <em>a</em>
+log(√<em>a</em>)        = log(<em>a</em>) / 2
+log(1/<em>a</em>)       = −log(<em>a</em>)
+log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
+
+        <p>
+          Addition becomes multiplication. Subtraction becomes division. A right-shift
+          by one becomes a square root… Wait… those last two are the inverse square root!
+        </p>
+        <p>
+          The exponent of a number can be negative (for numbers smaller than&nbsp;1). 
+          Floats handle this by storing the exponent as <code>exponent + 127</code>. The "magic" constant 
+          <code>0x5F3759DF</code> is just 2<sup>127/2</sup>. The integer subtract combines the
+          reciprocal and the multiplication by 2<sup>127/2</sup>. Two birds, one <code>SUB</code>.
+        </p>
+        <p>In <strong>Part II</strong>, we'll use this knowledge to implement other transcendental functions in code!</p>
+
+
+      </article>
+    </details></li>
     <li style="color:GrayText">April 5<sup>th</sup> - Coming This Easter</li>
   </ul>
 </article>

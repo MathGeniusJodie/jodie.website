@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 03 Apr 2026 12:47:15 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 04 Apr 2026 16:53:54 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Fri, 03 Apr 2026 12:47:14 GMT</pubDate>
+        <pubDate>Sat, 04 Apr 2026 16:53:54 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -18,8 +18,8 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
 
 [Inkhaven](https://www.inkhaven.blog/)
 
-*   **April 1st** - [How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing) - MoreWrong
-*   **April 2nd** - Animal Welfare is a Culinary Problem
+*   April 1st - **[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)** - MoreWrong
+*   April 2nd - **Animal Welfare is a Culinary Problem**
     
     ### Animal Welfare is a Culinary Problem
     
@@ -47,7 +47,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
     Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.
     
-*   **April 3rd** - Dust
+*   April 3rd - **Dust**
     
     ### Dust
     
@@ -63,11 +63,48 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     the dust will call you home  
     the ground under a stranger's feet
     
-*   April 4th - Coming Saturday
+*   April 4th - **How to Make a Floating Point Math Library, Part I**
+    
+    ### How to Make a Floating Point Math Library, Part I
+    
+    You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+    
+    But first: what _is_ a float?
+    
+    [Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) writes a number as a power of ten, multiplied by a value between 1 and 10 called the _significand_ (or _mantissa_). Floats do the same thing in base 2: the _exponent_ stores ⌊log2(_x_)⌋, and the mantissa is between 1 and 2.
+    
+    ```
+    ┌sign┬─exponent──┬─mantissa─────────────────────┐
+    │ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+    └────┴───────────┴──────────────────────────────┘
+    
+    ```
+    
+    [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
+    
+    #### Manipulating Floats with Integer Operations
+    
+    The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
+    
+    ```
+    log(_a_ · _b_)     = log _a_ + log _b_
+    log(_a_ / _b_)     = log _a_ − log _b_
+    log(_a__b_)        = _b_ · log _a_
+    log(√_a_)        = log(_a_) / 2
+    log(1/_a_)       = −log(_a_)
+    log(1/√_a_)      = −log(_a_) / 2
+    ```
+    
+    Addition becomes multiplication. Subtraction becomes division. A right-shift by one becomes a square root… Wait… those last two are the inverse square root!
+    
+    The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
+    
+    In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+    
 *   April 5th - Coming This Easter
 
-*   **April 1st** - [How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing) - MoreWrong
-**April 1st**st[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)*   **April 2nd** - Animal Welfare is a Culinary Problem
+*   April 1st - **[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)** - MoreWrong
+st**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)*   April 2nd - **Animal Welfare is a Culinary Problem**
     
     ### Animal Welfare is a Culinary Problem
     
@@ -95,7 +132,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
     Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.
     
-**April 2nd** - Animal Welfare is a Culinary Problem
+April 2nd - **Animal Welfare is a Culinary Problem**
 
 ### Animal Welfare is a Culinary Problem
 
@@ -123,7 +160,7 @@ The greatest impact I've had on animal welfare is telling people that msg makes 
 
 Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.
 
-**April 2nd** - Animal Welfare is a Culinary Problem**April 2nd**nd
+April 2nd - **Animal Welfare is a Culinary Problem**nd**Animal Welfare is a Culinary Problem**
 
 ### Animal Welfare is a Culinary Problem
 
@@ -177,7 +214,7 @@ msg[this guy on YouTube who figured out how to make vegan bacon out of rice pape
 
 Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.
 
-*   **April 3rd** - Dust
+*   April 3rd - **Dust**
     
     ### Dust
     
@@ -193,7 +230,7 @@ Animal welfare organizations should take a cut of their budget and put it into f
     the dust will call you home  
     the ground under a stranger's feet
     
-**April 3rd** - Dust
+April 3rd - **Dust**
 
 ### Dust
 
@@ -209,7 +246,7 @@ what the earth will reclaim
 the dust will call you home  
 the ground under a stranger's feet
 
-**April 3rd** - Dust**April 3rd**rd
+April 3rd - **Dust**rd**Dust**
 
 ### Dust
 
@@ -244,8 +281,165 @@ the dust will call you home
 the ground under a stranger's feet
 
   
-*   April 4th - Coming Saturday
-th*   April 5th - Coming This Easter
+*   April 4th - **How to Make a Floating Point Math Library, Part I**
+    
+    ### How to Make a Floating Point Math Library, Part I
+    
+    You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+    
+    But first: what _is_ a float?
+    
+    [Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) writes a number as a power of ten, multiplied by a value between 1 and 10 called the _significand_ (or _mantissa_). Floats do the same thing in base 2: the _exponent_ stores ⌊log2(_x_)⌋, and the mantissa is between 1 and 2.
+    
+    ```
+    ┌sign┬─exponent──┬─mantissa─────────────────────┐
+    │ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+    └────┴───────────┴──────────────────────────────┘
+    
+    ```
+    
+    [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
+    
+    #### Manipulating Floats with Integer Operations
+    
+    The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
+    
+    ```
+    log(_a_ · _b_)     = log _a_ + log _b_
+    log(_a_ / _b_)     = log _a_ − log _b_
+    log(_a__b_)        = _b_ · log _a_
+    log(√_a_)        = log(_a_) / 2
+    log(1/_a_)       = −log(_a_)
+    log(1/√_a_)      = −log(_a_) / 2
+    ```
+    
+    Addition becomes multiplication. Subtraction becomes division. A right-shift by one becomes a square root… Wait… those last two are the inverse square root!
+    
+    The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
+    
+    In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+    
+April 4th - **How to Make a Floating Point Math Library, Part I**
+
+### How to Make a Floating Point Math Library, Part I
+
+You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+
+But first: what _is_ a float?
+
+[Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) writes a number as a power of ten, multiplied by a value between 1 and 10 called the _significand_ (or _mantissa_). Floats do the same thing in base 2: the _exponent_ stores ⌊log2(_x_)⌋, and the mantissa is between 1 and 2.
+
+```
+┌sign┬─exponent──┬─mantissa─────────────────────┐
+│ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+└────┴───────────┴──────────────────────────────┘
+
+```
+
+[This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
+
+#### Manipulating Floats with Integer Operations
+
+The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
+
+```
+log(_a_ · _b_)     = log _a_ + log _b_
+log(_a_ / _b_)     = log _a_ − log _b_
+log(_a__b_)        = _b_ · log _a_
+log(√_a_)        = log(_a_) / 2
+log(1/_a_)       = −log(_a_)
+log(1/√_a_)      = −log(_a_) / 2
+```
+
+Addition becomes multiplication. Subtraction becomes division. A right-shift by one becomes a square root… Wait… those last two are the inverse square root!
+
+The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
+
+In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+
+April 4th - **How to Make a Floating Point Math Library, Part I**th**How to Make a Floating Point Math Library, Part I**
+
+### How to Make a Floating Point Math Library, Part I
+
+You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+
+But first: what _is_ a float?
+
+[Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) writes a number as a power of ten, multiplied by a value between 1 and 10 called the _significand_ (or _mantissa_). Floats do the same thing in base 2: the _exponent_ stores ⌊log2(_x_)⌋, and the mantissa is between 1 and 2.
+
+```
+┌sign┬─exponent──┬─mantissa─────────────────────┐
+│ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+└────┴───────────┴──────────────────────────────┘
+
+```
+
+[This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
+
+#### Manipulating Floats with Integer Operations
+
+The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
+
+```
+log(_a_ · _b_)     = log _a_ + log _b_
+log(_a_ / _b_)     = log _a_ − log _b_
+log(_a__b_)        = _b_ · log _a_
+log(√_a_)        = log(_a_) / 2
+log(1/_a_)       = −log(_a_)
+log(1/√_a_)      = −log(_a_) / 2
+```
+
+Addition becomes multiplication. Subtraction becomes division. A right-shift by one becomes a square root… Wait… those last two are the inverse square root!
+
+The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
+
+In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+
+You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+
+[the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root)`0x5F3759DF`_"what the fuck?"_
+
+But first: what _is_ a float?
+
+_is_
+
+[Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) writes a number as a power of ten, multiplied by a value between 1 and 10 called the _significand_ (or _mantissa_). Floats do the same thing in base 2: the _exponent_ stores ⌊log2(_x_)⌋, and the mantissa is between 1 and 2.
+
+[Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation)_significand__mantissa__exponent_2_x_```
+┌sign┬─exponent──┬─mantissa─────────────────────┐
+│ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+└────┴───────────┴──────────────────────────────┘
+
+```
+`┌sign┬─exponent──┬─mantissa─────────────────────┐ │ 0 │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │ └────┴───────────┴──────────────────────────────┘`
+
+[This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
+
+[This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
+
+#### Manipulating Floats with Integer Operations
+
+The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
+
+```
+log(_a_ · _b_)     = log _a_ + log _b_
+log(_a_ / _b_)     = log _a_ − log _b_
+log(_a__b_)        = _b_ · log _a_
+log(√_a_)        = log(_a_) / 2
+log(1/_a_)       = −log(_a_)
+log(1/√_a_)      = −log(_a_) / 2
+```
+`log(_a_ · _b_) = log _a_ + log _b_ log(_a_ / _b_) = log _a_ − log _b_ log(_a__b_) = _b_ · log _a_ log(√_a_) = log(_a_) / 2 log(1/_a_) = −log(_a_) log(1/√_a_) = −log(_a_) / 2`_a__b__a__b__a__b__a__b__a__b__b__b__a__a__a__a__a__a__a_
+
+Addition becomes multiplication. Subtraction becomes division. A right-shift by one becomes a square root… Wait… those last two are the inverse square root!
+
+The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
+
+`exponent + 127``0x5F3759DF`127/2127/2`SUB`
+
+In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+
+**Part II***   April 5th - Coming This Easter
 th]]></description>
             <link>https://jodie.website#inkhaven</link>
             <guid isPermaLink="false">inkhaven</guid>
@@ -283,7 +477,7 @@ Animal welfare organizations should take a cut of their budget and put it into f
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Fri, 03 Apr 2026 12:47:14 GMT</pubDate>
+            <pubDate>Sat, 04 Apr 2026 16:53:54 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Dust]]></title>
@@ -307,7 +501,59 @@ the ground under a stranger's feet]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Fri, 03 Apr 2026 12:47:14 GMT</pubDate>
+            <pubDate>Sat, 04 Apr 2026 16:53:54 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[How to Make a Floating Point Math Library, Part I]]></title>
+            <description><![CDATA[You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+
+[the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root)`0x5F3759DF`_"what the fuck?"_
+
+But first: what _is_ a float?
+
+_is_
+
+[Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) writes a number as a power of ten, multiplied by a value between 1 and 10 called the _significand_ (or _mantissa_). Floats do the same thing in base 2: the _exponent_ stores ⌊log2(_x_)⌋, and the mantissa is between 1 and 2.
+
+[Scientific notation](https://en.wikipedia.org/wiki/Scientific_notation)_significand__mantissa__exponent_2_x_```
+┌sign┬─exponent──┬─mantissa─────────────────────┐
+│ 0  │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │
+└────┴───────────┴──────────────────────────────┘
+
+```
+`┌sign┬─exponent──┬─mantissa─────────────────────┐ │ 0 │ 0000 0000 │ 000 0000 0000 0000 0000 0000 │ └────┴───────────┴──────────────────────────────┘`
+
+[This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
+
+[This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
+
+#### Manipulating Floats with Integer Operations
+
+The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
+
+```
+log(_a_ · _b_)     = log _a_ + log _b_
+log(_a_ / _b_)     = log _a_ − log _b_
+log(_a__b_)        = _b_ · log _a_
+log(√_a_)        = log(_a_) / 2
+log(1/_a_)       = −log(_a_)
+log(1/√_a_)      = −log(_a_) / 2
+```
+`log(_a_ · _b_) = log _a_ + log _b_ log(_a_ / _b_) = log _a_ − log _b_ log(_a__b_) = _b_ · log _a_ log(√_a_) = log(_a_) / 2 log(1/_a_) = −log(_a_) log(1/√_a_) = −log(_a_) / 2`_a__b__a__b__a__b__a__b__a__b__b__b__a__a__a__a__a__a__a_
+
+Addition becomes multiplication. Subtraction becomes division. A right-shift by one becomes a square root… Wait… those last two are the inverse square root!
+
+The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
+
+`exponent + 127``0x5F3759DF`127/2127/2`SUB`
+
+In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+
+**Part II**]]></description>
+            <link>https://jodie.website#</link>
+            <guid isPermaLink="true">https://jodie.website#</guid>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Sat, 04 Apr 2026 16:53:54 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Gray]]></title>
