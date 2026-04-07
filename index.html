@@ -9,7 +9,7 @@
   height: auto;
 }
 h1{
-  line-height:26px;
+  margin-bottom: .3em;
   font-feature-settings: "titl";
 }
 .projects{
@@ -32,39 +32,39 @@ html,body {
   text-size-adjust: none;
 }
 
-time {
-  opacity: 0.666;
-}
-
 header img {
-  width: 100px;
-  height: 100px;
-  margin-right:1em;
-  border-radius:50%;
+  width: 80px;
+  height: 80px;
+  margin-right: 1em;
+  border-radius: 50%;
   background: powderblue url(sky.png);
   background-size: cover;
-  box-shadow: 0 10px 15px -3px rgba(0, 24, 55, 0.1), 0 4px 6px -4px rgb(0, 24, 55 , 0.1);
 }
-p,ol,ul,h2,h3,h4,pre,code,blockquote {
+p,ol,ul,h2,h3,pre,code,blockquote,figure {
   margin-top:0;
   margin-bottom:1lh;
 }
-h4{
-  font-size: 1.1em;
-  margin-bottom:0;
+aside h2{
+  margin-top: 1lh
 }
-h3,.h3{
-  font-size: 1.4em;
+article h2, aside a h3 {
+  margin-top: 0;
+}
+article h3{
+  margin-bottom: 0;
+}
+.h2{
   font-weight: bold;
   font-family: inherit;
 }
-h2{
-  font-size: 2em;
+h1,h2,h3,h4,blockquote {
+  text-wrap-style: balance;
+}
+h1,h2,h3,h4{
   font-feature-settings: "titl";
-  margin-top:1lh;
 }
 ul,ol,summary{
-  padding-inline-start:0; /*2ch;*/
+  padding-inline-start:0;
 }
 ol > li::marker {
   font-weight: bold;
@@ -80,10 +80,6 @@ summary::before{
 }
 [open] > summary::before{
   content:"▼";
-}
-
-h3,h4{
-  text-wrap-style: balance;
 }
 .wrapper {
   display:flex;
@@ -106,8 +102,7 @@ article::after{
 }
 
 main>article::after{
-  background: Canvas;
-  margin-bottom: -.7em;
+  margin-block: 2lh;
 }
 
 details article {
@@ -139,6 +134,9 @@ main {
 aside{
   max-width: 30ch;
 }
+aside h3{
+  margin-bottom: 0;
+}
 img{
   max-width: 100%;
   max-height: 70vh;
@@ -154,15 +152,13 @@ pre,table{
   overflow-x: auto;
   max-width: 100%;
 }
-@supports (text-wrap: pretty) {
-  p {
-    hyphens: auto;
-    text-wrap: pretty;
-  }
+
+p {
+  text-wrap: pretty;
+  font-variant-numeric: oldstyle-nums;
 }
-blockquote {
-  hanging-punctuation: first;
-  text-wrap: balance;
+code{
+  font-variant-numeric: lining-nums;
 }
 @media (prefers-color-scheme: dark){
   .img-adapt-dark {
@@ -178,20 +174,18 @@ figure{
 figcaption {
   text-align: center;
 }
-p{
-  font-variant-numeric: oldstyle-nums;
-}
 .block {
   display: block;
 }
 .mb{
   margin-bottom:1lh
 }
-.h3 mtext{
+.h2 mtext{
   margin: .2em;
   margin-bottom:0;
+  font-weight: bold;
 }
-math.h3{
+math.h2{
   height:1lh
 }
 .bright-adjust {
@@ -202,20 +196,9 @@ math.h3{
     filter: brightness(160%);
   }
 }
-@font-face {
-  font-family: DSEG14;
-  src: url(DSEG14ClassicMini-Bold.woff);
-  font-weight: bold;
-  font-display: swap;
-}
+
 [aria-hidden="true"] {
   user-select: none;
-  opacity:0.5;
-}
-
-code{
-  font-variant-numeric: lining-nums;
-  font-size: 1.1em;
 }
 
 abbr {
@@ -228,17 +211,7 @@ abbr {
   font-size: .79em;
 }
 sup,sub {
-  vertical-align: baseline;
-  position: relative;
-
-  font-size: 0.75em;
   line-height: 0;
-}
-sup {
-  top: -0.4em;
-}
-sub {
-  top: 0.2em;
 }
 </style>
 
@@ -269,24 +242,24 @@ sub {
 <div class="spacer"></div>
 <article id="inkhaven" class="life">
   <time datetime="2026-04-01">April 1<sup>st</sup>, 2026</time>
-  <h3>We Have Inkhaven at Home</h3>
+  <h2>We Have Inkhaven at Home</h2>
   <p>A friend of mine is going to this big fancy retreat called <a href="https://www.inkhaven.blog/" target="_blank">Inkhaven</a> where you write one blog post a day. And I was like "I can't do that, but I'll sure as hell try!".  I don't want to spam this blog, so I'll link my daily posts down here and I'll add the best ones to the main feed later after some polish.</p>
   <ul style="list-style:none">
     <li>April 1<sup>st</sup> - <strong><a href="https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing" target="_blank">How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area</a></strong> - MoreWrong</li>
     <li><details>
       <summary>April 2<sup>nd</sup> - <strong>Animal Welfare is a Culinary Problem</strong></summary>
       <article>
-        <h3>Animal Welfare is a Culinary Problem</h3>
+        <h2>Animal Welfare is a Culinary Problem</h2>
         <p>I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.</p>
-        <h4>I had chicken last week.</h4>
+        <h3>I had chicken last week.</h3>
         <p>Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.</p>
         <p>Most restaurants have one vegetarian option that only exists so they can say they tried. If you're a normal person who wants to eat with friends, well fuck you, you're eating fries.</p>
         <p>I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.</p>
-        <h4>My body hates the obvious solution</h4>
+        <h3>My body hates the obvious solution</h3>
         <p>The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.</p>
         <p>They also make me fart.</p>
         <p>I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.</p>
-        <h4>Next time someone tells you they could never go vegan, send them a recipe.</h4>
+        <h3>Next time someone tells you they could never go vegan, send them a recipe.</h3>
         <p>The greatest impact I've had on animal welfare is telling people that <abbr>msg</abbr> makes tofu taste good. The person who's influenced me the most isn't an activist,
           it's <a href="https://www.youtube.com/@SauceStache/videos">this guy on YouTube who figured out how to make vegan bacon out of rice paper</a>.</p>
         <p>Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.</p>
@@ -295,7 +268,7 @@ sub {
     <li><details>
       <summary>April 3<sup>rd</sup> - <strong>Dust</strong></summary>
       <article>
-        <h3>Dust</h3>
+        <h2>Dust</h2>
         <p>the ground under your feet<br>
         built from what ceased to be</p>
 
@@ -312,7 +285,7 @@ sub {
     <li><details>
       <summary>April 4<sup>th</sup> - <strong>How to Make a Floating Point Math Library, Part I</strong></summary>
       <article>
-        <h3>How to Make a Floating Point Math Library, Part I</h3>
+        <h2>How to Make a Floating Point Math Library, Part I</h2>
         <p>You might have seen <a target="_blank" href="https://en.wikipedia.org/wiki/Fast_inverse_square_root">the fast 
           inverse square root</a>. The one with the magic hex constant <code>0x5F3759DF</code> and the
           comment <em>"what the fuck?"</em> from the Quake&nbsp;III source. 
@@ -337,7 +310,7 @@ sub {
           lets you flip individual bits and watch the value change. You'll get a feel for how
           different numbers are represented.
         </p>
-        <h4>Manipulating Floats with Integer Operations</h4>
+        <h3>Manipulating Floats with Integer Operations</h3>
 
         <p>
          The upper bits of a float are proportional to the logarithm of its value.
@@ -368,7 +341,7 @@ log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
     <li><details>
       <summary>April 5<sup>th</sup> - <strong>Use Your Phone Less by Making It <em>More</em> Fun</strong></summary>
       <article>
-        <h3>Use Your Phone Less by Making It <em>More</em> Fun</h3>
+        <h2>Use Your Phone Less by Making It <em>More</em> Fun</h2>
         <p>Digital minimalism advice is usually about making your phone worse. Add friction.
           Greyscale the screen. Buy a flip phone. 
         </p>
@@ -377,7 +350,7 @@ log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
           You can read books on your phone, text your friends, write, navigate somewhere new. 
           None of that is the problem. When your phone only has those there's no void to fill by scrolling.
         </p>
-        <h4>Remove Your Browser</h4>
+        <h3>Remove Your Browser</h3>
         <p>
           Most things you'd use a mobile browser for have an app. Single purpose, no distractions.
           To look something up, AI chatbots and Wikipedia search are usually better tools.
@@ -390,7 +363,7 @@ log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
           Every addictive platform requires a login. No login, no slop.
         </p> 
 
-        <h4>And it Works?</h4>
+        <h3>And it Works?</h3>
 
         <p>Now when I pick up my phone reflexively to fill time, there's nothing to scroll.
           I put it down. Or I text a friend, read a book, write a blog post.
@@ -401,7 +374,7 @@ log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
     <li><details>
       <summary>April 6<sup>th</sup> - <strong>How to Make a Floating Point Math Library, Part II</strong></summary>
       <article>
-        <h3>How to Make a Floating Point Math Library, Part II</h3> 
+        <h2>How to Make a Floating Point Math Library, Part II</h2> 
         <p>With only what we've learned in part I, you could figure out reciprocals,
         cube roots, and square roots on your own. So I'll leave those for the end and 
         start with the less obvious exp2 and log2.
@@ -488,7 +461,7 @@ fn rsqrt_approx(x: f32) -> f32 {
 </article>
 <article id="refrigerator" class="poetry">
   <time datetime="2026-03-27">March 27<sup>th</sup>, 2026</time>
-<h3>Gray</h3>
+<h2>Gray</h2>
 <p>we're different types of gray</p>
 
 <p>mine is jagged concrete<br>
@@ -501,20 +474,20 @@ when they're all blended together</p>
 </article>
 <article id="refrigerator" class="life">
   <time datetime="2026-02-16">February 16<sup>th</sup>, 2026</time>
-  <h3>The Hum of the Refrigerator</h3>
-  <h4>The Farmers</h4>
+  <h2>The Hum of the Refrigerator</h2>
+  <h3>The Farmers</h3>
   <p>Meta makes about $50 per user per year. Google makes about $70. You are not paying for these 
     products, advertisers are. And those advertisers make even MORE money.
     Big Tech doesn't make the product good for <em>you</em>. They make it good for advertisers,
     advertisers who've gotten frighteningly good at exploiting your weaknesses.</p>
-  <h4>The Pasture</h4>
+  <h3>The Pasture</h3>
   <p>
     Some software exists because someone thought it should. Some is optimized to be so delightful
     you gladly pay for it. Some forums let you talk about what you chose to talk about, not
     whatever leads to more "engagement". None of these are designed to <em>take</em> from you.
     They're made to <em>provide</em>.
   </p>
-  <h4>Escaping the Farm</h4>
+  <h3>Escaping the Farm</h3>
   <p>I didn't realize how much targeted advertising and algorithmically optimized engagement
     maximization wore me down until I stopped using platforms that do it. It's like
     noticing the hum of the refrigerator only when it stops.
@@ -529,7 +502,7 @@ when they're all blended together</p>
 </article>
 <article id="solstice25" class="life">
   <time datetime="2025-12-21">December 14<sup>th</sup>, 2025</time>
-  <h3>Solstice Talk</h3>
+  <h2>Solstice Talk</h2>
   <p>— <em>Read at the 2025 <a href="https://en.wikipedia.org/wiki/Secular_Solstice" target="_blank">Secular Solstice</a> celebration</em></p>
 <p>
 At first glance humans aren't very equipped for survival.
@@ -553,13 +526,13 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 </article>
 <article id="acceleration" class="life">
   <time datetime="2025-11-08">November 8<sup>th</sup>, 2025</time>
-  <h3>The Accelerationist Luddite</h3>
-  <h4>Why Be an <a href="https://en.wikipedia.org/wiki/Accelerationism" target="_blank">Accelerationist</a>?</h4>
+  <h2>The Accelerationist Luddite</h2>
+  <h3>Why Be an <a href="https://en.wikipedia.org/wiki/Accelerationism" target="_blank">Accelerationist</a>?</h3>
   <p>I don't know the exact risk from artificial superintelligence, and neither does anyone else.
     But  I do know the risk of doing nothing: disease, poverty, war, pollution, worms that burrow into people's eyeballs.
     Technology is for fixing things. Faster. Cheaper. For more people. I want new drugs discovered in weeks, not years, because the patient doesn’t have years.</p>
   <p>You think acceleration is reckless? I think it’s responsible. Responsibility is seeing pain and moving toward it with urgency.</p>
-  <h4>Why Be a <a href="https://en.wikipedia.org/wiki/Luddite" target="_blank">Luddite</a>?</h4>
+  <h3>Why Be a <a href="https://en.wikipedia.org/wiki/Luddite" target="_blank">Luddite</a>?</h3>
   <p>
     We are building the wrong things faster than ever. We have ten thousand apps to track our sleep because we are too overstimulated to sleep. 
     We have apps that stop you from using your other apps.
@@ -573,7 +546,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   </p>
   <p>The point of saving time is to have time. The point of productivity is to produce <em>something that matters</em>.
     We don't have time, we have screen time. We don't produce things, we produce value for the shareholders.</p>
-  <h4>Por que no los dos?</h4>
+  <h3>Por que no los dos?</h3>
   <figure>
     <img src="https://static2.mtlws.ca/whynot.jpg" alt="Why not both?" width="359" height="264">
   </figure>
@@ -598,10 +571,10 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     <em>My own behavior baffles me. I find myself doing what I hate, and not doing what I really want to do!</em><br>
     ― Saint Paul
   </blockquote>
-  <h3>The Case for Single-Purpose Devices</h3>
+  <h2>The Case for Single-Purpose Devices</h2>
   <p>
     The smartphone isn't the ultimate tool. It isn't even <em>a</em> tool. It's <em>all</em> the tools.</p>
-  <h4>You Aren't the Main Character</h4>
+  <h3>You Aren't the Main Character</h3>
   <p>
     If you have a book, you read. If you have a camera, you take pictures. If you have a Game Boy, you play a game.
     If you have all of those crammed into a phone, you don’t do any of that. You scroll TikTok.
@@ -610,7 +583,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     When you pick up a book, you’ve already decided to read. When you pick up your phone, you’ve decided nothing.
     The phone decides for you.
   </p>
-  <h4>Swiss Army Knives</h4>
+  <h3>Swiss Army Knives</h3>
   <p>
     Smartphones didn’t improve on what came before. They’re worse books, worse game consoles, worse computers,
     worse music players. Their only advantage is fitting all this mediocrity in your pocket.
@@ -619,12 +592,12 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     Almost everyone owns a kitchen knife, tweezers, a screwdriver. 
     Nobody thinks a Swiss Army knife is an adequate replacement, so why do we all torture ourselves with smartphones?
   </p>
-  <h4>Smartphones Aren't the Entire Future</h4>
+  <h3>Smartphones Aren't the Entire Future</h3>
   <p>
   Single-purpose devices are making a quiet comeback because they never lost.
   Every tech product got better and cheaper while you weren't looking: flashlights, digital watches, e-readers, laptops, cameras.
   </p>
-  <h4><a href="https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_fence" target="_blank">Chesterton</a>'s Turntable</h4>
+  <h3><a href="https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_fence" target="_blank">Chesterton</a>'s Turntable</h3>
   <p>
     Vinyls and Polaroids aren't just back because of nostalgia.
     "Better" technology was missing something important. Vinyl records encourage active listening. Instant cameras don't post to Instagram and ruin your <abbr>opsec</abbr>.
@@ -636,7 +609,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     I love how it allows me to take notes while talking to someone, during classes, or at church without looking rude by pulling out my phone.
     Paper is freeing. I can draw and highlight and annotate with no friction. It's the better tool for the job.
   </p>
-  <h4>Whimsy</h4>
+  <h3>Whimsy</h3>
   <p>
     Looking at your phone is like living in a beige drywall box. It's efficient, it's "modern", but wouldn't you rather live in a picturesque 100-year-old cottage?
     Isn't reading a book under a tree more romantic than scrolling Twitter while you're sitting on the toilet?
@@ -645,7 +618,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 </article>
 <article id="blackbody" class="math">
   <time datetime="2025-07-19">July 19<sup>th</sup>, 2025</time>
-  <h3 class="bright-adjust"><span style="color:rgb(254, 57, 0)">Ra</span><span style="color:rgb(214, 103, 0)">ti</span><span style="color:rgb(182, 121, 63)">on</span><span style="color:rgb(161, 128, 96)">al</span> <span style="color:rgb(149, 131, 116)">Bl</span><span style="color:rgb(141, 133, 130)">ac</span><span style="color:rgb(135, 134, 140)">k-</span><span style="color:rgb(130, 134, 148)">bo</span><span style="color:rgb(127, 134, 153)">dy</span></h3>
+  <h2 class="bright-adjust"><span style="color:rgb(254, 57, 0)">Ra</span><span style="color:rgb(214, 103, 0)">ti</span><span style="color:rgb(182, 121, 63)">on</span><span style="color:rgb(161, 128, 96)">al</span> <span style="color:rgb(149, 131, 116)">Bl</span><span style="color:rgb(141, 133, 130)">ac</span><span style="color:rgb(135, 134, 140)">k-</span><span style="color:rgb(130, 134, 148)">bo</span><span style="color:rgb(127, 134, 153)">dy</span></h2>
   <iframe loading="lazy" src="blackbody.html" style="width: 100%; height: 186px; margin: -18px; border: none; margin-bottom: 1lh;"></iframe>
   <p>I made this dead-simple rational approximation of the <a href="https://en.wikipedia.org/wiki/Black-body_radiation" target="_blank">black-body</a> radiation formula.</p>
 <pre><code>vec3 blackbody(float t){
@@ -662,7 +635,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 </article>
 <article id="sqrt" class="math">
   <time datetime="2025-07-09">July 9<sup>th</sup>, 2025</time>
-  <math class="block mb h3">
+  <math class="block mb h2">
     <msqrt>
       <mtext>
         Fast Square Root
@@ -684,7 +657,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 </article>
 <article id="time" class="life">
   <time datetime="2025-05-20">May 20<sup>th</sup>, 2025</time>
-  <h3>Time isn't real man</h3>
+  <h2>Time isn't real man</h2>
   <blockquote>
     <em>There is nothing more deceptive than an obvious fact.</em><br>
     ― Arthur Conan Doyle
@@ -692,36 +665,36 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   <p>Anyone who's pulled an all-nighter, been bored, or fallen into a YouTube rabbit hole knows that time is subjective.
     Brains aren't clocks. They cheat constantly.
   </p>
-  <h4>Code Monks</h4>
+  <h3>Code Monks</h3>
   <p>Programmers enter multi-hour flow states without fatigue or hunger. Usually helped by autism headphones and chemical stimulants.</p>
-  <h4>Bullet Time</h4>
+  <h3>Bullet Time</h3>
   <p>People in life-or-death situations often report time slowing down. The brain temporarily overclocks and hyper-saturates itself with sensory input.</p>
-  <h4>Teleportation</h4>
+  <h3>Teleportation</h3>
   <p>Notice how commuting to your job feels like a time skip? Mundane regular tasks don't exist to us.</p>
-  <h4>Time Travel</h4>
+  <h3>Time Travel</h3>
   <p>When you travel, a few weeks turn into a whole-ass chapter of your life. A giant exotic memory palace. At the end you often feel like you're leaving an entire life behind.</p>
-  <h4>Time Merchants</h4>
+  <h3>Time Merchants</h3>
   <p>Video platforms optimize for smoothness and hyperstimulus. They make you forget where videos start and end.</p>
-  <h4>Chronohacking</h4>
+  <h3>Chronohacking</h3>
   <p>Time perception is hackable. It's not just for fun, it feels <em>necessary</em> in a world where attention is farmed and sold. 
     There's only so much we can do to have a longer life, so why not make our life <em>denser</em>.</p>
 </article>
 <article id="information" class="math">
   <time datetime="2025-05-15">May 15<sup>th</sup>, 2025</time>
-  <h3>Graphics Optimization is Information Theory</h3>
+  <h2>Graphics Optimization is Information Theory</h2>
   <p>I've been working on an image compression format lately (coming soon!). This led me down the rabbit hole of 
     <a href="https://en.wikipedia.org/wiki/Information_theory" target="_blank">information theory</a>, and it's made me see graphics programming with a fresh perspective.</p>
   <p>Information theory is too often overlooked in the context of graphics optimization.
     It’s not just adjacent to what we do. It's the whole darn <a href="https://en.wikipedia.org/wiki/Map%E2%80%93territory_relation" target="_blank">map</a>!</p>
 
-  <h4>Compute Generates Data</h4>
+  <h3>Compute Generates Data</h3>
   <p>Redundancy can be compressed. This principle applies to compute, not just storage.</p>
 
-  <h4>Less Data Also Matters</h4>
+  <h3>Less Data Also Matters</h3>
   <p>Low-end hardware is usually bottlenecked by memory bandwidth, not compute. Phones and <abbr>igpu</abbr> powered laptops also tend to have less vram!</p>
   <p>Making data smaller also makes space for something else, like lookup tables or acceleration structures that would be unviable otherwise</p>
 
-  <h4>Where?</h4>
+  <h3>Where?</h3>
   
   <ul>
     <li><strong>Temporal Redundancy:</strong> The current frame is often similar to the previous one. Reprojection, <abbr>taa</abbr>, and impostors exploit this to reduce work.</li>
@@ -730,7 +703,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     <li><strong>Impossible States:</strong> If the camera can’t possibly see it. Cull it.</li>
   </ul>
 
-  <h4>Human Perception has a Limited Bitrate</h4>
+  <h3>Human Perception has a Limited Bitrate</h3>
 
   <p>If there's more of one type of information, you can perceive less of another.</p>
 
@@ -742,7 +715,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     <li><strong>Blur:</strong> Rough reflections and depth of field need more rays or more texture samples, but you can use a lower resolution for raytracing and texture lookups.</li>
   </ul>
 
-  <h4>Some Quick Tips</h4>
+  <h3>Some Quick Tips</h3>
   
   <ul>
     <li>One texture + different vertex colors = many looks.</li>
@@ -766,7 +739,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   <figure>
     <img loading="lazy" src="https://static2.mtlws.ca/wake.png" alt="" class="img-adapt-dark" width="670" height="415">
   </figure>
-  <h3>Wake</h3>
+  <h2>Wake</h2>
   <p>Your words linger in the silence.<br>
 Eyes wet, throat dry,<br>
 I felt the cold wind blow,<br>
@@ -779,7 +752,7 @@ as you sailed away?</p>
 </article>
 <article id="length" class="math">
   <time datetime="2025-03-23">March 23<sup>rd</sup>, 2025</time>
-  <h3>Fast Approximate <span aria-hidden="true">|</span>Length<span aria-hidden="true">|</span> and Squaring<span aria-hidden="true">²</span></h3>
+  <h2>Fast Approximate <span aria-hidden="true">|</span>Length<span aria-hidden="true">|</span> and Squaring<span aria-hidden="true">²</span></h2>
   <p>Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for <abbr>rms</abbr> error calculation or getting the length of a vector.</p>
   <pre><code>static float garbage_len(float a, float b){
   return utf(ftu(
@@ -790,24 +763,24 @@ as you sailed away?</p>
 </article>
 <article id="feed" class="web">
 <time datetime="2024-24-11">February 24<sup>th</sup>, 2025</time>
-<h3>RSS Feed
+<h2>RSS Feed
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height:1em;width:1em;vertical-align:bottom;">
     <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4c6.075 0 11 4.925 11 11v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V16C17 8.82 11.18 3 4 3h-.25Z" />
     <path d="M3 8.75A.75.75 0 0 1 3.75 8H4a8 8 0 0 1 8 8v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V16a6 6 0 0 0-6-6h-.25A.75.75 0 0 1 3 9.25v-.5ZM7 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
   </svg>
-</h3>
+</h2>
 <p>My blog now has an RSS feed! You can find it <a href="/feed.xml">here</a>.</p>
 <p>The script to generate the feed is my first experience trusting <abbr>ai</abbr> to write all the code. The recently released Claude 3.7 is pretty good so far. I found out today that GitHub Copilot allows you to use it right in your <abbr>ide</abbr>.</p>
 </article>
 <article id="happiness" class="life">
 <time datetime="2024-02-16">February 16<sup>th</sup>, 2025</time>
-<h3>Productivity and Happiness are the Same</h3>
+<h2>Productivity and Happiness are the Same</h2>
 <p>The idea of work-life balance is harmful.</p>
-<h4>Work isn't Hard</h4>
+<h3>Work isn't Hard</h3>
 <p>It's tragic that we accept work is unfun. We shouldn't accept that we're forced to do something that sucks. This framing isn't just bad for you, it makes workers as a group accept terrible working conditions. This shouldn't be considered “normal”.</p>
-<h4>Fun isn't Easy</h4>
+<h3>Fun isn't Easy</h3>
 <p>Most people's idea of fun is spending money and engaging in vice. People see fun as synonymous with being counter-productive. You're expected to continuously destroy what you build in an endless cycle of consumption that never leads to your life improving.</p>
-<h4>Work-Life Maximisation</h4>
+<h3>Work-Life Maximisation</h3>
 <p>Productivity and happiness aren't opposing forces that need to be balanced. They aren't at odds with each other. Work can be fun, and leisure can be productive. An activity can be more fun <em>and</em> more productive. What you want isn't "balance". You want work-life <em>maximisation</em>.</p>
 </article>
 <article id="story" class="poetry">
@@ -815,7 +788,7 @@ as you sailed away?</p>
   <figure>
     <img loading="lazy" src="https://static2.mtlws.ca/story.jpg" alt="" width="695" height="667">
   </figure>
-  <h3>Story</h3>
+  <h2>Story</h2>
 <p>there's a voicemail full of excuses<br>
 you haven't listened to yet</p>
 
@@ -833,12 +806,12 @@ our story ended before it got old</p>
 </article>
 <article id="vices" class="life">
   <time datetime="2024-02-10">February 10<sup>th</sup>, 2025</time>
-  <h3>Don't Quit Your Vices</h3>
+  <h2>Don't Quit Your Vices</h2>
   <p>Replace unhealthy sugary treats with fancy salads. Replace social media by hanging out with your friends or texting them. Replace gambling with starting a business. Vices usually fill a void, find out a healthy way of filling it.</p>
 </article>
 <article id="colors" class="web">
   <time datetime="2024-02-08">February 7, 2025</time>
-  <h3>Modern Color Utility Classes</h3>
+  <h2>Modern Color Utility Classes</h2>
   <style>
     .swatches{
       display:flex;
@@ -923,7 +896,7 @@ our story ended before it got old</p>
 </article>
 <article id="sigmoid" class="math">
   <time datetime="2024-12-07">December 7<sup>th</sup>, 2024</time>
-  <h3>Fast Sigmoid (Updated)</h3>
+  <h2>Fast Sigmoid (Updated)</h2>
   <p><a href="https://godbolt.org/z/djTqa5x7K">https://godbolt.org/z/djTqa5x7K</a></p>
   <pre>
     <code>
@@ -940,7 +913,7 @@ static float garbage_sigmoid(float x){
 </article>
 <article id="still" class="poetry">
   <time datetime="2024-12-06">December 6<sup>th</sup>, 2024</time>
-  <h3>Still</h3>
+  <h2>Still</h2>
   <p>
   time moves like honey<br>
   sweet and slow
@@ -964,16 +937,16 @@ static float garbage_sigmoid(float x){
 </article>
 <article id="goals" class="life">
   <time datetime="2024-11-28">November 28<sup>th</sup>, 2024</time>
-  <h3>Stop Having Goals</h3>
+  <h2>Stop Having Goals</h2>
   <p>Humans aren't made to have long-term goals. If you have a goal, don't think about the goal. Stop caring about the goal. Failure to achieve the goal is neutral. Do not let yourself think about it. Not having reached the goal yet should never be on your mind.</p>
   <p>Learn to enjoy the process. Want to be strong? Learn to enjoy exercise. Want to lose weight? Learn to enjoy hunger. Want to be rich? Learn to enjoy saving money. Want to make friends? Learn to enjoy being interested in people. Do it without an agenda.</p>
   <p>Do the process every day, prioritise it, make it a part of your schedule. Get good at the process.</p>
-  <h4>But…</h4>
+  <h3>But…</h3>
   <p>Ask yourself if the process is still serving you. Maybe you're already past the goal.</p>
 </article>
 <article id="addicted" class="life">
   <time datetime="2024-11-27">November 27<sup>th</sup>, 2024</time>
-  <h3>Do you <em>really</em> enjoy this or are you addicted?</h3>
+  <h2>Do you <em>really</em> enjoy this or are you addicted?</h2>
   <p>
     Things that are pleasurable aren't necessarily addictive, and things that
     are addictive aren't necessarily pleasurable.</p>
@@ -992,7 +965,7 @@ static float garbage_sigmoid(float x){
     <img loading="lazy" src="https://static2.mtlws.ca/hill.jpg" alt="" width="668" height="495">
   </figure>
   <time datetime="2024-11-23">November 23<sup>rd</sup>, 2024</time>
-  <h3>King of the Hill</h3>
+  <h2>King of the Hill</h2>
   <p>shimmering dewdrops<br>
   jewels in the grass</p>
 
@@ -1004,18 +977,18 @@ static float garbage_sigmoid(float x){
 </article>
 <article id="cyborg" class="life">
 	<time datetime="2024-10-31">October 31<sup>st</sup>, 2024 🎃</time>
-	<h3>The Emotional Cyborg</h3>
+	<h2>The Emotional Cyborg</h2>
 	<p>One limitation of therapy is that you can't have a therapist be with you 24/7 to examine your behavior. Luckily we now have <abbr>ai</abbr> that can monitor everything you say, and correct bad thought patterns and behaviours in real time.
 Computers turned us into information and math cyborgs, now they allow us to enhance our emotional intelligence.</p>
 </article>
 <article id="furniture" class="life">
 	<time datetime="2024-08-22">August 22<sup>nd</sup>, 2024</time>
-	<h3>Furniture Free</h3>
+	<h2>Furniture Free</h2>
 	<p>I recently got interviewed by Charlotte Collins of Architectural Digest about furniture-free living. Read the article <a href="https://www.architecturaldigest.com/story/extreme-minimalism-people-who-pared-all-the-way-down-talk-living-nearly-furniture-free">here</a>.</p>
 </article>
 <article id="computer" class="life">
 	<time datetime="2024-06-25">June 25<sup>th</sup>, 2024</time>
-	<h3>A Programmer Without a Computer</h3>
+	<h2>A Programmer Without a Computer</h2>
 	<p>I've been using my phone as my main computer for a week now. I'm even coding on it, and it's… fine?</p>
 	<p>I'm writing this blog post on my phone right now in fact, using termux, neovim and unexpected keyboard.</p>
 	<figure><img src="4-neovim.png" alt=""></figure>
@@ -1023,7 +996,7 @@ Computers turned us into information and math cyborgs, now they allow us to enha
 </article>
 <article id="desk" class="life">
   <time datetime="2024-06-19">June 19<sup>th</sup>, 2024</time>
-  <h3>The Most Ergonomic Desk is No Desk At All</h3>
+  <h2>The Most Ergonomic Desk is No Desk At All</h2>
   <p>About a year back, I moved into a new apartment and couldn't bring my desk. I could work at the kitchen table or on the sofa in the meantime. My plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.</p>
   <p>Having no money for a desk at the time, I sat on the floor in my room, and after a short adjustment period, I found that I had a new superpower. I could sit on the floor with no back support, and it was fine.</p>
   <p>After a few months of this, I decided to buy a desk, and I found that I couldn't sit at it for more than a few hours without my back hurting. So I went back to sitting on the floor, and later donated the desk.</p>
@@ -1031,10 +1004,10 @@ Computers turned us into information and math cyborgs, now they allow us to enha
 </article>
 <article id="phone" class="life">
   <time datetime="2024-06-18">June 18<sup>th</sup>, 2024</time>
-  <h3>Get Off Your Phone</h3>
+  <h2>Get Off Your Phone</h2>
   <p>Do you feel like you have no time? No energy? Check your screen time in your phone settings. Mine was <em>eight</em>! If you had asked
     me to estimate, I would have said 2! I had no idea! That's a full-time job!</p>
-  <h4>How I Regained Control</h4>
+  <h3>How I Regained Control</h3>
   <p>Here's what allowed me to cut my screen time down to 1-2 hours a day:</p>
   <ol>
     <li>I started sharing my screen time with my friends every day to keep myself accountable</li>
@@ -1049,7 +1022,7 @@ Computers turned us into information and math cyborgs, now they allow us to enha
 </article>
 <article id="thing" class="life">
   <time datetime="2024-06-17">June 17<sup>th</sup>, 2024</time>
-  <h3>Should I Buy the Thing? A Flowchart</h3>
+  <h2>Should I Buy the Thing? A Flowchart</h2>
   <pre>
     ┌───────────────┐
     │  Am I happy?  │
@@ -1067,7 +1040,7 @@ You don't need └───┬──────────┬──┘
 </article>
 <article id="graph" class="math">
   <time datetime="2024-06-16">June 16<sup>th</sup>, 2024</time>
-  <h3>Bit Arrays for Fast Graph Search</h3>
+  <h2>Bit Arrays for Fast Graph Search</h2>
   <p>One common flaw in <a href="https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world" target="_blank">HNSW</a>
     implementations is using ordered sets to track visited neighbors. This causes a huge performance overhead.</p>
   <p>Using a bit array to keep track of visited neighbors is much faster.</p>
@@ -1086,12 +1059,12 @@ You don't need └───┬──────────┬──┘
   </form>
   <h2>My Projects:</h2>
   <ul class="projects">
-    <li><a href="https://www.shadertoy.com/view/4dBcD1" target="_blank"><img src="https://static2.mtlws.ca/tonemap.png" width="640" height="360"><h4>Jodie Reinhard Tonemap</h4></a>Yes, I'm that Jodie, the one from the tonemap</li>
-    <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822"><h4>MoreWrong</h4></a>A satirical blog about rats</li>
-    <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135"><h4>Sky Renderer</h4></a>New Model of Scattering and Absorption in Translucent Media</li>
-    <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707"><h4>Tasktux</h4></a>An opinionated todo manager</li>
-    <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421"><h4>Tuxfetch</h4></a>A <em>fast</em> system information tool for linux</li>
-    <li><h4><a href="https://github.com/MathGeniusJodie/tuxthread" target="_blank">Tuxthread</a></h4>Implementation of threads.h for the c standard library</li>
+    <li><a href="https://www.shadertoy.com/view/4dBcD1" target="_blank"><img src="https://static2.mtlws.ca/tonemap.png" width="640" height="360"><h3>Jodie Reinhard Tonemap</h3></a>Yes, I'm that Jodie, the one from the tonemap</li>
+    <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822"><h3>MoreWrong</h3></a>A satirical blog about rats</li>
+    <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135"><h3>Sky Renderer</h3></a>New Model of Scattering and Absorption in Translucent Media</li>
+    <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707"><h3>Tasktux</h3></a>An opinionated todo manager</li>
+    <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421"><h3>Tuxfetch</h3></a>A <em>fast</em> system information tool for linux</li>
+    <li><h3><a href="https://github.com/MathGeniusJodie/tuxthread" target="_blank">Tuxthread</a></h3>Implementation of threads.h for the c standard library</li>
   </ul>
   <h2>Friends:</h2>
   <ul>
