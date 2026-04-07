@@ -18,6 +18,7 @@ h1{
 .projects li{
   margin-bottom: 1lh;
   list-style: none;
+  text-wrap-style: balance;
 }
 html {
   font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
@@ -159,6 +160,7 @@ p {
 }
 code{
   font-variant-numeric: lining-nums;
+  font-size: 1.2em;
 }
 @media (prefers-color-scheme: dark){
   .img-adapt-dark {
@@ -212,6 +214,15 @@ abbr {
 }
 sup,sub {
   line-height: 0;
+}
+.⁂{
+  text-align: center;
+  margin-block: 1lh;
+}
+.⁂::after{
+  content: "⁂";
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>
 
@@ -455,6 +466,91 @@ fn rsqrt_approx(x: f32) -> f32 {
           <img loading="lazy" src="https://static2.mtlws.ca/rsqrt_approx.png" class="img-adapt-dark" alt="" width="480" height="480">
         </figure>
         <p>In <strong>Part III</strong>, we're learning how to make these crude approximations usably accurate!</p>
+      </article>
+    </details></li>
+    <li><details>
+      <summary>April 7<sup>th</sup> - <strong>What I Always Put in my CSS</strong></summary>
+      <article>
+        <h2>What I Always Put in my CSS</h2> 
+        <p>I like when websites look like websites. Blue links that turn purple after you've clicked them, 
+          serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a 
+          <em>barbarian</em>. Even I have a few beefs with the default browser styles.</p>
+        <h3>Absolute Unit Line Height</h3>
+        <p>No matter the font size you use for different elements, the line height stays consistent.
+          You don't break the baseline grid unless you explicitly decide to.
+        </p>
+<pre><code>html {
+  line-height: 23px;
+}
+</code></pre>
+        <h3>Default Border Color</h3>
+        <p>I don't have to manually set the border color on each individual element.
+          I can just set the border width and it gets a default color.
+        </p>
+<pre><code>* {
+  border: solid 0;
+  border-color: inherit;
+}</code></pre>
+        <h3>Disabled Dingbats</h3>
+        <p>If I use text as decoration, like decorative bullets or separators.
+          I make sure that selecting and copying the text doesn't include the decorations.
+        </p>
+<pre><code>[aria-hidden="true"] {
+  user-select: none;
+}</code></pre>
+        <h3>Never Abandon the Orphans</h3>
+<pre><code>h1, h2, h3, h4, h5, h6 {
+  text-wrap-style: balance;
+}
+p {
+  text-wrap-style: pretty;
+}</code></pre>
+        <h3>Good Helvetica</h3>
+        <p>I prefer serif fonts for copy, and I use <code>system-ui</code> for web apps,
+          as one should. But if I want to use a sans-serif font, I <em>never</em> use
+          <code>sans-serif</code>. <code>sans-serif</code> exposes your visitors to the
+           horrors of Helvetica and Arial.
+        </p>
+        <p>Luckily, most platforms have a font designed specifically to be a good version of Helvetica.
+          Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto.
+          Windows has... well, it has Segoe UI, which you get via <code>system-ui</code>.</p>
+<pre><code>font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif</code></pre>
+
+        <h3>Make Wide Elements Scrollable</h3>
+        <p>To prevent them being cut-off on smaller screens</p>
+<pre><code>pre, table {
+  overflow-x: auto;
+  max-width: 100%;
+}</code></pre>
+        <div role="separator" class="⁂"></div>
+        <p>Support dark and light mode with a single line of code. No need to make custom styles!</p>
+<pre><code>html {
+  color-scheme: light dark;
+}</code></pre>
+        <p>Make margins match the line height.</p>
+<pre><code>p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+  margin-block: 1lh;
+}</code></pre>
+        <p>Prevent <code>&lt;sub&gt;</code> and <code>&lt;sup&gt;</code> from messing with the line height.</p>
+<pre><code>sub, sup {
+  line-height: 0;
+}</code></pre>
+
+        <p>Automatically keep aspect ratio when you change the width.</p>
+<pre><code>img, video {
+  height: unset
+}</code></pre>
+        <p>Flexbox items have <code>min-width: auto</code> by default, which means items
+          refuse to shrink below their content size. <code>0</code> is a much better default.</p>
+<pre><code>* {
+  min-width: 0;
+  min-height: 0;
+}</code></pre>
+
+
+
+
+
       </article>
     </details></li>
   </ul>
