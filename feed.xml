@@ -4,15 +4,17 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 05 Apr 2026 14:03:55 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Apr 2026 04:02:18 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sun, 05 Apr 2026 14:03:55 GMT</pubDate>
+        <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
         <item>
-            <title><![CDATA[We Have Inkhaven at Home]]></title>
+            <title><![CDATA[I had chicken last week.]]></title>
             <description><![CDATA[st
+
+## We Have Inkhaven at Home
 
 A friend of mine is going to this big fancy retreat called [Inkhaven](https://www.inkhaven.blog/) where you write one blog post a day. And I was like "I can't do that, but I'll sure as hell try!". I don't want to spam this blog, so I'll link my daily posts down here and I'll add the best ones to the main feed later after some polish.
 
@@ -21,11 +23,11 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
 *   April 1st - **[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)** - MoreWrong
 *   April 2nd - **Animal Welfare is a Culinary Problem**
     
-    ### Animal Welfare is a Culinary Problem
+    ## Animal Welfare is a Culinary Problem
     
     I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
     
-    #### I had chicken last week.
+    ### I had chicken last week.
     
     Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.
     
@@ -33,7 +35,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
     I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
     
-    #### My body hates the obvious solution
+    ### My body hates the obvious solution
     
     The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
     
@@ -41,7 +43,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
     I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
     
-    #### Next time someone tells you they could never go vegan, send them a recipe.
+    ### Next time someone tells you they could never go vegan, send them a recipe.
     
     The greatest impact I've had on animal welfare is telling people that msg makes tofu taste good. The person who's influenced me the most isn't an activist, it's [this guy on YouTube who figured out how to make vegan bacon out of rice paper](https://www.youtube.com/@SauceStache/videos).
     
@@ -49,7 +51,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
 *   April 3rd - **Dust**
     
-    ### Dust
+    ## Dust
     
     the ground under your feet  
     built from what ceased to be
@@ -65,7 +67,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
 *   April 4th - **How to Make a Floating Point Math Library, Part I**
     
-    ### How to Make a Floating Point Math Library, Part I
+    ## How to Make a Floating Point Math Library, Part I
     
     You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
     
@@ -82,7 +84,7 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
     [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
     
-    #### Manipulating Floats with Integer Operations
+    ### Manipulating Floats with Integer Operations
     
     The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
     
@@ -103,31 +105,223 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     
 *   April 5th - **Use Your Phone Less by Making It _More_ Fun**
     
-    ### Use Your Phone Less by Making It _More_ Fun
+    ## Use Your Phone Less by Making It _More_ Fun
     
     Digital minimalism advice is usually about making your phone worse. Add friction. Greyscale the screen. Buy a flip phone.
     
     You don't have to make your phone miserable to use. The terminal goal isn't "use your phone less." The goal is doing the things you actually want to do. You can read books on your phone, text your friends, write, navigate somewhere new. None of that is the problem. When your phone only has those there's no void to fill by scrolling.
     
-    #### Remove Your Browser
+    ### Remove Your Browser
     
     Most things you'd use a mobile browser for have an app. Single purpose, no distractions. To look something up, AI chatbots and Wikipedia search are usually better tools.
     
     For the rare case you _need_ a browser, there's [Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/). When you close it, it wipes everything. No start page, no autocomplete, no history. You can only go on websites intentionally. It doesn't keep you logged in either. Every addictive platform requires a login. No login, no slop.
     
-    #### And it Works?
+    ### And it Works?
     
     Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.
+    
+*   April 6th - **How to Make a Floating Point Math Library, Part II**
+    
+    ## How to Make a Floating Point Math Library, Part II
+    
+    With only what we've learned in part I, you could figure out reciprocals, cube roots, and square roots on your own. So I'll leave those for the end and start with the less obvious exp2 and log2.
+    
+    If we could get the mantissa bits into the exponent, we'd get exp2 for free. But how would we actually do that? We want the number 1 to map to the number 2, 2 -> 4, and so on. Let's look at the bit representation.
+    
+    ```
+    ┌value┬─exponent──┬exp val┐
+    │  1  │ 0111 1111 │  127  │
+    │  2  │ 1000 0000 │  128  │
+    │  4  │ 1000 0001 │  129  │
+    │  8  │ 1000 0010 │  130  │
+    │ 16  │ 1000 0011 │  131  │
+    └─────┴───────────┴───────┘
+    
+    ```
+    
+    So we want the first 8 bits of the mantissa to be the input number + 127. For this we need to be at the order of magnitude where changing the 8th mantissa bit moves the value of the float by 1. That order of magnitude is 256. Then we need to add 127, which gets us 383.
+    
+    Let's try adding 383 to our input and shifting left by 8 bits, making sure to negate the number because we just shifted a bit into the sign of our float.
+    
+    ```
+    fn exp2_approx(x: f32) -> f32 {
+      -f32::from_bits((x + 383.).to_bits() << 8)
+    }
+    ```
+    ![](https://static2.mtlws.ca/exp2_approx.png)
+    
+    It works!
+    
+    To do log2 we just do the reverse: shift the exponent into the mantissa, set the order of magnitude to 256 and then subtract 383.
+    
+    ```
+    fn log2_approx(x: f32) -> f32 {
+    	f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383.
+    }
+    ```
+    ![](https://static2.mtlws.ca/log2_approx.png)
+    
+    Boom! Easy as that.
+    
+    For completeness here's the remaining functions we've talked about:
+    
+    ```
+    fn cbrt_approx(x: f32) -> f32 {
+    	f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3))
+    }
+    
+    fn sqrt_approx(x: f32) -> f32 {
+    	f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1))
+    }
+    
+    fn rcp_approx(x: f32) -> f32 {
+    	f32::from_bits(0x7EEF370B - x.to_bits())
+    }
+    
+    fn rsqrt_approx(x: f32) -> f32 {
+    	f32::from_bits(0x5F33E79F - (x.to_bits() >> 1))
+    }
+    ```
+    
+    Approximate Cube Root
+    
+    ![](https://static2.mtlws.ca/cbrt_approx.png)
+    
+    Approximate Square Root
+    
+    ![](https://static2.mtlws.ca/sqrt_approx.png)
+    
+    Approximate Reciprocal
+    
+    ![](https://static2.mtlws.ca/rcp_approx.png)
+    
+    Approximate Reciprocal Square Root
+    
+    ![](https://static2.mtlws.ca/rsqrt_approx.png)
+    
+    In **Part III**, we're learning how to make these crude approximations usably accurate!
+    
+*   April 7th - **What I Always Put in my CSS**
+    
+    ## What I Always Put in my CSS
+    
+    I like when websites look like websites. Blue links that turn purple after you've clicked them, serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a _barbarian_. Even I have a few beefs with the default browser styles.
+    
+    ### Absolute Unit Line Height
+    
+    No matter the font size you use for different elements, the line height stays consistent. You don't break the baseline grid unless you explicitly decide to.
+    
+    ```
+    html {
+      line-height: 23px;
+    }
+    
+    ```
+    
+    ### Default Border Color
+    
+    I don't have to manually set the border color on each individual element. I can just set the border width and it gets a default color.
+    
+    ```
+    * {
+      border: solid 0;
+      border-color: inherit;
+    }
+    ```
+    
+    ### Disabled Dingbats
+    
+    If I use text as decoration, like decorative bullets or separators. I make sure that selecting and copying the text doesn't include the decorations.
+    
+    ```
+    [aria-hidden="true"] {
+      user-select: none;
+    }
+    ```
+    
+    ### Never Abandon the Orphans
+    
+    ```
+    h1, h2, h3, h4, h5, h6 {
+      text-wrap-style: balance;
+    }
+    p {
+      text-wrap-style: pretty;
+    }
+    ```
+    
+    ### Good Helvetica
+    
+    I prefer serif fonts for copy, and I use `system-ui` for web apps, as one should. But if I want to use a sans-serif font, I _never_ use `sans-serif`. `sans-serif` exposes your visitors to the horrors of Helvetica and Arial.
+    
+    Luckily, most platforms have a font designed specifically to be a good version of Helvetica. Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto. Windows has... well, it has Segoe UI, which you get via `system-ui`.
+    
+    ```
+    font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif
+    ```
+    
+    ### Make Wide Elements Scrollable
+    
+    To prevent them being cut-off on smaller screens
+    
+    ```
+    pre, table {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    ```
+    
+    Support dark and light mode with a single line of code. No need to make custom styles!
+    
+    ```
+    html {
+      color-scheme: light dark;
+    }
+    ```
+    
+    Make margins match the line height.
+    
+    ```
+    p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+      margin-block: 1lh;
+    }
+    ```
+    
+    Prevent `<sub>` and `<sup>` from messing with the line height.
+    
+    ```
+    sub, sup {
+      line-height: 0;
+    }
+    ```
+    
+    Automatically keep aspect ratio when you change the width.
+    
+    ```
+    img, video {
+      height: unset
+    }
+    ```
+    
+    Flexbox items have `min-width:auto`, which means items refuse to shrink below their content size. `0` is a much better default.
+    
+    ```
+    * {
+      min-width: 0;
+      min-height: 0;
+    }
+    ```
     
 
 *   April 1st - **[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)** - MoreWrong
 st**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)*   April 2nd - **Animal Welfare is a Culinary Problem**
     
-    ### Animal Welfare is a Culinary Problem
+    ## Animal Welfare is a Culinary Problem
     
     I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
     
-    #### I had chicken last week.
+    ### I had chicken last week.
     
     Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.
     
@@ -135,7 +329,7 @@ st**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](
     
     I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
     
-    #### My body hates the obvious solution
+    ### My body hates the obvious solution
     
     The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
     
@@ -143,7 +337,7 @@ st**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](
     
     I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
     
-    #### Next time someone tells you they could never go vegan, send them a recipe.
+    ### Next time someone tells you they could never go vegan, send them a recipe.
     
     The greatest impact I've had on animal welfare is telling people that msg makes tofu taste good. The person who's influenced me the most isn't an activist, it's [this guy on YouTube who figured out how to make vegan bacon out of rice paper](https://www.youtube.com/@SauceStache/videos).
     
@@ -151,11 +345,11 @@ st**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](
     
 April 2nd - **Animal Welfare is a Culinary Problem**
 
-### Animal Welfare is a Culinary Problem
+## Animal Welfare is a Culinary Problem
 
 I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
 
-#### I had chicken last week.
+### I had chicken last week.
 
 Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.
 
@@ -163,7 +357,7 @@ Most restaurants have one vegetarian option that only exists so they can say the
 
 I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
 
-#### My body hates the obvious solution
+### My body hates the obvious solution
 
 The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
 
@@ -171,7 +365,7 @@ They also make me fart.
 
 I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
 
-#### Next time someone tells you they could never go vegan, send them a recipe.
+### Next time someone tells you they could never go vegan, send them a recipe.
 
 The greatest impact I've had on animal welfare is telling people that msg makes tofu taste good. The person who's influenced me the most isn't an activist, it's [this guy on YouTube who figured out how to make vegan bacon out of rice paper](https://www.youtube.com/@SauceStache/videos).
 
@@ -179,11 +373,11 @@ Animal welfare organizations should take a cut of their budget and put it into f
 
 April 2nd - **Animal Welfare is a Culinary Problem**nd**Animal Welfare is a Culinary Problem**
 
-### Animal Welfare is a Culinary Problem
+## Animal Welfare is a Culinary Problem
 
 I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
 
-#### I had chicken last week.
+### I had chicken last week.
 
 Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.
 
@@ -191,7 +385,7 @@ Most restaurants have one vegetarian option that only exists so they can say the
 
 I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
 
-#### My body hates the obvious solution
+### My body hates the obvious solution
 
 The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
 
@@ -199,15 +393,15 @@ They also make me fart.
 
 I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
 
-#### Next time someone tells you they could never go vegan, send them a recipe.
+### Next time someone tells you they could never go vegan, send them a recipe.
 
 The greatest impact I've had on animal welfare is telling people that msg makes tofu taste good. The person who's influenced me the most isn't an activist, it's [this guy on YouTube who figured out how to make vegan bacon out of rice paper](https://www.youtube.com/@SauceStache/videos).
 
 Animal welfare organizations should take a cut of their budget and put it into food science. Vegan food needs to compete with "regular" food, not be a niche specialty product. Fix the food and you get the ethics for free.
 
-I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
+## Animal Welfare is a Culinary Problem
 
-#### I had chicken last week.
+I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
 
 Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.
 
@@ -215,15 +409,11 @@ Most restaurants have one vegetarian option that only exists so they can say the
 
 I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
 
-#### My body hates the obvious solution
-
 The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
 
 They also make me fart.
 
 I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
-
-#### Next time someone tells you they could never go vegan, send them a recipe.
 
 The greatest impact I've had on animal welfare is telling people that msg makes tofu taste good. The person who's influenced me the most isn't an activist, it's [this guy on YouTube who figured out how to make vegan bacon out of rice paper](https://www.youtube.com/@SauceStache/videos).
 
@@ -233,7 +423,7 @@ Animal welfare organizations should take a cut of their budget and put it into f
 
 *   April 3rd - **Dust**
     
-    ### Dust
+    ## Dust
     
     the ground under your feet  
     built from what ceased to be
@@ -249,7 +439,7 @@ Animal welfare organizations should take a cut of their budget and put it into f
     
 April 3rd - **Dust**
 
-### Dust
+## Dust
 
 the ground under your feet  
 built from what ceased to be
@@ -265,7 +455,7 @@ the ground under a stranger's feet
 
 April 3rd - **Dust**rd**Dust**
 
-### Dust
+## Dust
 
 the ground under your feet  
 built from what ceased to be
@@ -278,6 +468,8 @@ what the earth will reclaim
 
 the dust will call you home  
 the ground under a stranger's feet
+
+## Dust
 
 the ground under your feet  
 built from what ceased to be
@@ -300,7 +492,7 @@ the ground under a stranger's feet
   
 *   April 4th - **How to Make a Floating Point Math Library, Part I**
     
-    ### How to Make a Floating Point Math Library, Part I
+    ## How to Make a Floating Point Math Library, Part I
     
     You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
     
@@ -317,7 +509,7 @@ the ground under a stranger's feet
     
     [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
     
-    #### Manipulating Floats with Integer Operations
+    ### Manipulating Floats with Integer Operations
     
     The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
     
@@ -338,7 +530,7 @@ the ground under a stranger's feet
     
 April 4th - **How to Make a Floating Point Math Library, Part I**
 
-### How to Make a Floating Point Math Library, Part I
+## How to Make a Floating Point Math Library, Part I
 
 You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
 
@@ -355,7 +547,7 @@ But first: what _is_ a float?
 
 [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
 
-#### Manipulating Floats with Integer Operations
+### Manipulating Floats with Integer Operations
 
 The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
 
@@ -376,7 +568,7 @@ In **Part II**, we'll use this knowledge to implement other transcendental funct
 
 April 4th - **How to Make a Floating Point Math Library, Part I**th**How to Make a Floating Point Math Library, Part I**
 
-### How to Make a Floating Point Math Library, Part I
+## How to Make a Floating Point Math Library, Part I
 
 You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
 
@@ -393,7 +585,7 @@ But first: what _is_ a float?
 
 [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
 
-#### Manipulating Floats with Integer Operations
+### Manipulating Floats with Integer Operations
 
 The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
 
@@ -411,6 +603,8 @@ Addition becomes multiplication. Subtraction becomes division. A right-shift by 
 The exponent of a number can be negative (for numbers smaller than 1). Floats handle this by storing the exponent as `exponent + 127`. The "magic" constant `0x5F3759DF` is just 2127/2. The integer subtract combines the reciprocal and the multiplication by 2127/2. Two birds, one `SUB`.
 
 In **Part II**, we'll use this knowledge to implement other transcendental functions in code!
+
+## How to Make a Floating Point Math Library, Part I
 
 You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
 
@@ -433,8 +627,6 @@ _is_
 [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
 
 [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
-
-#### Manipulating Floats with Integer Operations
 
 The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
 
@@ -458,57 +650,59 @@ In **Part II**, we'll use this knowledge to implement other transcendental funct
 
 **Part II***   April 5th - **Use Your Phone Less by Making It _More_ Fun**
     
-    ### Use Your Phone Less by Making It _More_ Fun
+    ## Use Your Phone Less by Making It _More_ Fun
     
     Digital minimalism advice is usually about making your phone worse. Add friction. Greyscale the screen. Buy a flip phone.
     
     You don't have to make your phone miserable to use. The terminal goal isn't "use your phone less." The goal is doing the things you actually want to do. You can read books on your phone, text your friends, write, navigate somewhere new. None of that is the problem. When your phone only has those there's no void to fill by scrolling.
     
-    #### Remove Your Browser
+    ### Remove Your Browser
     
     Most things you'd use a mobile browser for have an app. Single purpose, no distractions. To look something up, AI chatbots and Wikipedia search are usually better tools.
     
     For the rare case you _need_ a browser, there's [Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/). When you close it, it wipes everything. No start page, no autocomplete, no history. You can only go on websites intentionally. It doesn't keep you logged in either. Every addictive platform requires a login. No login, no slop.
     
-    #### And it Works?
+    ### And it Works?
     
     Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.
     
 April 5th - **Use Your Phone Less by Making It _More_ Fun**
 
-### Use Your Phone Less by Making It _More_ Fun
+## Use Your Phone Less by Making It _More_ Fun
 
 Digital minimalism advice is usually about making your phone worse. Add friction. Greyscale the screen. Buy a flip phone.
 
 You don't have to make your phone miserable to use. The terminal goal isn't "use your phone less." The goal is doing the things you actually want to do. You can read books on your phone, text your friends, write, navigate somewhere new. None of that is the problem. When your phone only has those there's no void to fill by scrolling.
 
-#### Remove Your Browser
+### Remove Your Browser
 
 Most things you'd use a mobile browser for have an app. Single purpose, no distractions. To look something up, AI chatbots and Wikipedia search are usually better tools.
 
 For the rare case you _need_ a browser, there's [Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/). When you close it, it wipes everything. No start page, no autocomplete, no history. You can only go on websites intentionally. It doesn't keep you logged in either. Every addictive platform requires a login. No login, no slop.
 
-#### And it Works?
+### And it Works?
 
 Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.
 
 April 5th - **Use Your Phone Less by Making It _More_ Fun**th**Use Your Phone Less by Making It _More_ Fun**_More_
 
-### Use Your Phone Less by Making It _More_ Fun
+## Use Your Phone Less by Making It _More_ Fun
 
 Digital minimalism advice is usually about making your phone worse. Add friction. Greyscale the screen. Buy a flip phone.
 
 You don't have to make your phone miserable to use. The terminal goal isn't "use your phone less." The goal is doing the things you actually want to do. You can read books on your phone, text your friends, write, navigate somewhere new. None of that is the problem. When your phone only has those there's no void to fill by scrolling.
 
-#### Remove Your Browser
+### Remove Your Browser
 
 Most things you'd use a mobile browser for have an app. Single purpose, no distractions. To look something up, AI chatbots and Wikipedia search are usually better tools.
 
 For the rare case you _need_ a browser, there's [Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/). When you close it, it wipes everything. No start page, no autocomplete, no history. You can only go on websites intentionally. It doesn't keep you logged in either. Every addictive platform requires a login. No login, no slop.
 
-#### And it Works?
+### And it Works?
 
 Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.
+
+## Use Your Phone Less by Making It _More_ Fun
 
 _More_
 
@@ -516,17 +710,794 @@ Digital minimalism advice is usually about making your phone worse. Add friction
 
 You don't have to make your phone miserable to use. The terminal goal isn't "use your phone less." The goal is doing the things you actually want to do. You can read books on your phone, text your friends, write, navigate somewhere new. None of that is the problem. When your phone only has those there's no void to fill by scrolling.
 
-#### Remove Your Browser
-
 Most things you'd use a mobile browser for have an app. Single purpose, no distractions. To look something up, AI chatbots and Wikipedia search are usually better tools.
 
 For the rare case you _need_ a browser, there's [Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/). When you close it, it wipes everything. No start page, no autocomplete, no history. You can only go on websites intentionally. It doesn't keep you logged in either. Every addictive platform requires a login. No login, no slop.
 
 _need_[Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/)
 
-#### And it Works?
+Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.
 
-Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.]]></description>
+*   April 6th - **How to Make a Floating Point Math Library, Part II**
+    
+    ## How to Make a Floating Point Math Library, Part II
+    
+    With only what we've learned in part I, you could figure out reciprocals, cube roots, and square roots on your own. So I'll leave those for the end and start with the less obvious exp2 and log2.
+    
+    If we could get the mantissa bits into the exponent, we'd get exp2 for free. But how would we actually do that? We want the number 1 to map to the number 2, 2 -> 4, and so on. Let's look at the bit representation.
+    
+    ```
+    ┌value┬─exponent──┬exp val┐
+    │  1  │ 0111 1111 │  127  │
+    │  2  │ 1000 0000 │  128  │
+    │  4  │ 1000 0001 │  129  │
+    │  8  │ 1000 0010 │  130  │
+    │ 16  │ 1000 0011 │  131  │
+    └─────┴───────────┴───────┘
+    
+    ```
+    
+    So we want the first 8 bits of the mantissa to be the input number + 127. For this we need to be at the order of magnitude where changing the 8th mantissa bit moves the value of the float by 1. That order of magnitude is 256. Then we need to add 127, which gets us 383.
+    
+    Let's try adding 383 to our input and shifting left by 8 bits, making sure to negate the number because we just shifted a bit into the sign of our float.
+    
+    ```
+    fn exp2_approx(x: f32) -> f32 {
+      -f32::from_bits((x + 383.).to_bits() << 8)
+    }
+    ```
+    ![](https://static2.mtlws.ca/exp2_approx.png)
+    
+    It works!
+    
+    To do log2 we just do the reverse: shift the exponent into the mantissa, set the order of magnitude to 256 and then subtract 383.
+    
+    ```
+    fn log2_approx(x: f32) -> f32 {
+    	f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383.
+    }
+    ```
+    ![](https://static2.mtlws.ca/log2_approx.png)
+    
+    Boom! Easy as that.
+    
+    For completeness here's the remaining functions we've talked about:
+    
+    ```
+    fn cbrt_approx(x: f32) -> f32 {
+    	f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3))
+    }
+    
+    fn sqrt_approx(x: f32) -> f32 {
+    	f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1))
+    }
+    
+    fn rcp_approx(x: f32) -> f32 {
+    	f32::from_bits(0x7EEF370B - x.to_bits())
+    }
+    
+    fn rsqrt_approx(x: f32) -> f32 {
+    	f32::from_bits(0x5F33E79F - (x.to_bits() >> 1))
+    }
+    ```
+    
+    Approximate Cube Root
+    
+    ![](https://static2.mtlws.ca/cbrt_approx.png)
+    
+    Approximate Square Root
+    
+    ![](https://static2.mtlws.ca/sqrt_approx.png)
+    
+    Approximate Reciprocal
+    
+    ![](https://static2.mtlws.ca/rcp_approx.png)
+    
+    Approximate Reciprocal Square Root
+    
+    ![](https://static2.mtlws.ca/rsqrt_approx.png)
+    
+    In **Part III**, we're learning how to make these crude approximations usably accurate!
+    
+April 6th - **How to Make a Floating Point Math Library, Part II**
+
+## How to Make a Floating Point Math Library, Part II
+
+With only what we've learned in part I, you could figure out reciprocals, cube roots, and square roots on your own. So I'll leave those for the end and start with the less obvious exp2 and log2.
+
+If we could get the mantissa bits into the exponent, we'd get exp2 for free. But how would we actually do that? We want the number 1 to map to the number 2, 2 -> 4, and so on. Let's look at the bit representation.
+
+```
+┌value┬─exponent──┬exp val┐
+│  1  │ 0111 1111 │  127  │
+│  2  │ 1000 0000 │  128  │
+│  4  │ 1000 0001 │  129  │
+│  8  │ 1000 0010 │  130  │
+│ 16  │ 1000 0011 │  131  │
+└─────┴───────────┴───────┘
+
+```
+
+So we want the first 8 bits of the mantissa to be the input number + 127. For this we need to be at the order of magnitude where changing the 8th mantissa bit moves the value of the float by 1. That order of magnitude is 256. Then we need to add 127, which gets us 383.
+
+Let's try adding 383 to our input and shifting left by 8 bits, making sure to negate the number because we just shifted a bit into the sign of our float.
+
+```
+fn exp2_approx(x: f32) -> f32 {
+  -f32::from_bits((x + 383.).to_bits() << 8)
+}
+```
+![](https://static2.mtlws.ca/exp2_approx.png)
+
+It works!
+
+To do log2 we just do the reverse: shift the exponent into the mantissa, set the order of magnitude to 256 and then subtract 383.
+
+```
+fn log2_approx(x: f32) -> f32 {
+	f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383.
+}
+```
+![](https://static2.mtlws.ca/log2_approx.png)
+
+Boom! Easy as that.
+
+For completeness here's the remaining functions we've talked about:
+
+```
+fn cbrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3))
+}
+
+fn sqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1))
+}
+
+fn rcp_approx(x: f32) -> f32 {
+	f32::from_bits(0x7EEF370B - x.to_bits())
+}
+
+fn rsqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x5F33E79F - (x.to_bits() >> 1))
+}
+```
+
+Approximate Cube Root
+
+![](https://static2.mtlws.ca/cbrt_approx.png)
+
+Approximate Square Root
+
+![](https://static2.mtlws.ca/sqrt_approx.png)
+
+Approximate Reciprocal
+
+![](https://static2.mtlws.ca/rcp_approx.png)
+
+Approximate Reciprocal Square Root
+
+![](https://static2.mtlws.ca/rsqrt_approx.png)
+
+In **Part III**, we're learning how to make these crude approximations usably accurate!
+
+April 6th - **How to Make a Floating Point Math Library, Part II**th**How to Make a Floating Point Math Library, Part II**
+
+## How to Make a Floating Point Math Library, Part II
+
+With only what we've learned in part I, you could figure out reciprocals, cube roots, and square roots on your own. So I'll leave those for the end and start with the less obvious exp2 and log2.
+
+If we could get the mantissa bits into the exponent, we'd get exp2 for free. But how would we actually do that? We want the number 1 to map to the number 2, 2 -> 4, and so on. Let's look at the bit representation.
+
+```
+┌value┬─exponent──┬exp val┐
+│  1  │ 0111 1111 │  127  │
+│  2  │ 1000 0000 │  128  │
+│  4  │ 1000 0001 │  129  │
+│  8  │ 1000 0010 │  130  │
+│ 16  │ 1000 0011 │  131  │
+└─────┴───────────┴───────┘
+
+```
+
+So we want the first 8 bits of the mantissa to be the input number + 127. For this we need to be at the order of magnitude where changing the 8th mantissa bit moves the value of the float by 1. That order of magnitude is 256. Then we need to add 127, which gets us 383.
+
+Let's try adding 383 to our input and shifting left by 8 bits, making sure to negate the number because we just shifted a bit into the sign of our float.
+
+```
+fn exp2_approx(x: f32) -> f32 {
+  -f32::from_bits((x + 383.).to_bits() << 8)
+}
+```
+![](https://static2.mtlws.ca/exp2_approx.png)
+
+It works!
+
+To do log2 we just do the reverse: shift the exponent into the mantissa, set the order of magnitude to 256 and then subtract 383.
+
+```
+fn log2_approx(x: f32) -> f32 {
+	f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383.
+}
+```
+![](https://static2.mtlws.ca/log2_approx.png)
+
+Boom! Easy as that.
+
+For completeness here's the remaining functions we've talked about:
+
+```
+fn cbrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3))
+}
+
+fn sqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1))
+}
+
+fn rcp_approx(x: f32) -> f32 {
+	f32::from_bits(0x7EEF370B - x.to_bits())
+}
+
+fn rsqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x5F33E79F - (x.to_bits() >> 1))
+}
+```
+
+Approximate Cube Root
+
+![](https://static2.mtlws.ca/cbrt_approx.png)
+
+Approximate Square Root
+
+![](https://static2.mtlws.ca/sqrt_approx.png)
+
+Approximate Reciprocal
+
+![](https://static2.mtlws.ca/rcp_approx.png)
+
+Approximate Reciprocal Square Root
+
+![](https://static2.mtlws.ca/rsqrt_approx.png)
+
+In **Part III**, we're learning how to make these crude approximations usably accurate!
+
+## How to Make a Floating Point Math Library, Part II
+
+With only what we've learned in part I, you could figure out reciprocals, cube roots, and square roots on your own. So I'll leave those for the end and start with the less obvious exp2 and log2.
+
+If we could get the mantissa bits into the exponent, we'd get exp2 for free. But how would we actually do that? We want the number 1 to map to the number 2, 2 -> 4, and so on. Let's look at the bit representation.
+
+```
+┌value┬─exponent──┬exp val┐
+│  1  │ 0111 1111 │  127  │
+│  2  │ 1000 0000 │  128  │
+│  4  │ 1000 0001 │  129  │
+│  8  │ 1000 0010 │  130  │
+│ 16  │ 1000 0011 │  131  │
+└─────┴───────────┴───────┘
+
+```
+`┌value┬─exponent──┬exp val┐ │ 1 │ 0111 1111 │ 127 │ │ 2 │ 1000 0000 │ 128 │ │ 4 │ 1000 0001 │ 129 │ │ 8 │ 1000 0010 │ 130 │ │ 16 │ 1000 0011 │ 131 │ └─────┴───────────┴───────┘`
+
+So we want the first 8 bits of the mantissa to be the input number + 127. For this we need to be at the order of magnitude where changing the 8th mantissa bit moves the value of the float by 1. That order of magnitude is 256. Then we need to add 127, which gets us 383.
+
+Let's try adding 383 to our input and shifting left by 8 bits, making sure to negate the number because we just shifted a bit into the sign of our float.
+
+```
+fn exp2_approx(x: f32) -> f32 {
+  -f32::from_bits((x + 383.).to_bits() << 8)
+}
+```
+`fn exp2_approx(x: f32) -> f32 { -f32::from_bits((x + 383.).to_bits() << 8) }`![](https://static2.mtlws.ca/exp2_approx.png)
+
+It works!
+
+To do log2 we just do the reverse: shift the exponent into the mantissa, set the order of magnitude to 256 and then subtract 383.
+
+```
+fn log2_approx(x: f32) -> f32 {
+	f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383.
+}
+```
+`fn log2_approx(x: f32) -> f32 { f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383. }`![](https://static2.mtlws.ca/log2_approx.png)
+
+Boom! Easy as that.
+
+```
+fn cbrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3))
+}
+
+fn sqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1))
+}
+
+fn rcp_approx(x: f32) -> f32 {
+	f32::from_bits(0x7EEF370B - x.to_bits())
+}
+
+fn rsqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x5F33E79F - (x.to_bits() >> 1))
+}
+```
+`fn cbrt_approx(x: f32) -> f32 { f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3)) } fn sqrt_approx(x: f32) -> f32 { f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1)) } fn rcp_approx(x: f32) -> f32 { f32::from_bits(0x7EEF370B - x.to_bits()) } fn rsqrt_approx(x: f32) -> f32 { f32::from_bits(0x5F33E79F - (x.to_bits() >> 1)) }`
+
+Approximate Cube Root
+
+![](https://static2.mtlws.ca/cbrt_approx.png)
+
+Approximate Cube Root
+
+![](https://static2.mtlws.ca/cbrt_approx.png)
+
+Approximate Square Root
+
+![](https://static2.mtlws.ca/sqrt_approx.png)
+
+Approximate Square Root
+
+![](https://static2.mtlws.ca/sqrt_approx.png)
+
+Approximate Reciprocal
+
+![](https://static2.mtlws.ca/rcp_approx.png)
+
+Approximate Reciprocal
+
+![](https://static2.mtlws.ca/rcp_approx.png)
+
+Approximate Reciprocal Square Root
+
+![](https://static2.mtlws.ca/rsqrt_approx.png)
+
+Approximate Reciprocal Square Root
+
+![](https://static2.mtlws.ca/rsqrt_approx.png)
+
+In **Part III**, we're learning how to make these crude approximations usably accurate!
+
+**Part III***   April 7th - **What I Always Put in my CSS**
+    
+    ## What I Always Put in my CSS
+    
+    I like when websites look like websites. Blue links that turn purple after you've clicked them, serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a _barbarian_. Even I have a few beefs with the default browser styles.
+    
+    ### Absolute Unit Line Height
+    
+    No matter the font size you use for different elements, the line height stays consistent. You don't break the baseline grid unless you explicitly decide to.
+    
+    ```
+    html {
+      line-height: 23px;
+    }
+    
+    ```
+    
+    ### Default Border Color
+    
+    I don't have to manually set the border color on each individual element. I can just set the border width and it gets a default color.
+    
+    ```
+    * {
+      border: solid 0;
+      border-color: inherit;
+    }
+    ```
+    
+    ### Disabled Dingbats
+    
+    If I use text as decoration, like decorative bullets or separators. I make sure that selecting and copying the text doesn't include the decorations.
+    
+    ```
+    [aria-hidden="true"] {
+      user-select: none;
+    }
+    ```
+    
+    ### Never Abandon the Orphans
+    
+    ```
+    h1, h2, h3, h4, h5, h6 {
+      text-wrap-style: balance;
+    }
+    p {
+      text-wrap-style: pretty;
+    }
+    ```
+    
+    ### Good Helvetica
+    
+    I prefer serif fonts for copy, and I use `system-ui` for web apps, as one should. But if I want to use a sans-serif font, I _never_ use `sans-serif`. `sans-serif` exposes your visitors to the horrors of Helvetica and Arial.
+    
+    Luckily, most platforms have a font designed specifically to be a good version of Helvetica. Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto. Windows has... well, it has Segoe UI, which you get via `system-ui`.
+    
+    ```
+    font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif
+    ```
+    
+    ### Make Wide Elements Scrollable
+    
+    To prevent them being cut-off on smaller screens
+    
+    ```
+    pre, table {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    ```
+    
+    Support dark and light mode with a single line of code. No need to make custom styles!
+    
+    ```
+    html {
+      color-scheme: light dark;
+    }
+    ```
+    
+    Make margins match the line height.
+    
+    ```
+    p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+      margin-block: 1lh;
+    }
+    ```
+    
+    Prevent `<sub>` and `<sup>` from messing with the line height.
+    
+    ```
+    sub, sup {
+      line-height: 0;
+    }
+    ```
+    
+    Automatically keep aspect ratio when you change the width.
+    
+    ```
+    img, video {
+      height: unset
+    }
+    ```
+    
+    Flexbox items have `min-width:auto`, which means items refuse to shrink below their content size. `0` is a much better default.
+    
+    ```
+    * {
+      min-width: 0;
+      min-height: 0;
+    }
+    ```
+    
+April 7th - **What I Always Put in my CSS**
+
+## What I Always Put in my CSS
+
+I like when websites look like websites. Blue links that turn purple after you've clicked them, serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a _barbarian_. Even I have a few beefs with the default browser styles.
+
+### Absolute Unit Line Height
+
+No matter the font size you use for different elements, the line height stays consistent. You don't break the baseline grid unless you explicitly decide to.
+
+```
+html {
+  line-height: 23px;
+}
+
+```
+
+### Default Border Color
+
+I don't have to manually set the border color on each individual element. I can just set the border width and it gets a default color.
+
+```
+* {
+  border: solid 0;
+  border-color: inherit;
+}
+```
+
+### Disabled Dingbats
+
+If I use text as decoration, like decorative bullets or separators. I make sure that selecting and copying the text doesn't include the decorations.
+
+```
+[aria-hidden="true"] {
+  user-select: none;
+}
+```
+
+### Never Abandon the Orphans
+
+```
+h1, h2, h3, h4, h5, h6 {
+  text-wrap-style: balance;
+}
+p {
+  text-wrap-style: pretty;
+}
+```
+
+### Good Helvetica
+
+I prefer serif fonts for copy, and I use `system-ui` for web apps, as one should. But if I want to use a sans-serif font, I _never_ use `sans-serif`. `sans-serif` exposes your visitors to the horrors of Helvetica and Arial.
+
+Luckily, most platforms have a font designed specifically to be a good version of Helvetica. Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto. Windows has... well, it has Segoe UI, which you get via `system-ui`.
+
+```
+font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif
+```
+
+### Make Wide Elements Scrollable
+
+To prevent them being cut-off on smaller screens
+
+```
+pre, table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+
+Support dark and light mode with a single line of code. No need to make custom styles!
+
+```
+html {
+  color-scheme: light dark;
+}
+```
+
+Make margins match the line height.
+
+```
+p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+  margin-block: 1lh;
+}
+```
+
+Prevent `<sub>` and `<sup>` from messing with the line height.
+
+```
+sub, sup {
+  line-height: 0;
+}
+```
+
+Automatically keep aspect ratio when you change the width.
+
+```
+img, video {
+  height: unset
+}
+```
+
+Flexbox items have `min-width:auto`, which means items refuse to shrink below their content size. `0` is a much better default.
+
+```
+* {
+  min-width: 0;
+  min-height: 0;
+}
+```
+
+April 7th - **What I Always Put in my CSS**th**What I Always Put in my CSS**
+
+## What I Always Put in my CSS
+
+I like when websites look like websites. Blue links that turn purple after you've clicked them, serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a _barbarian_. Even I have a few beefs with the default browser styles.
+
+### Absolute Unit Line Height
+
+No matter the font size you use for different elements, the line height stays consistent. You don't break the baseline grid unless you explicitly decide to.
+
+```
+html {
+  line-height: 23px;
+}
+
+```
+
+### Default Border Color
+
+I don't have to manually set the border color on each individual element. I can just set the border width and it gets a default color.
+
+```
+* {
+  border: solid 0;
+  border-color: inherit;
+}
+```
+
+### Disabled Dingbats
+
+If I use text as decoration, like decorative bullets or separators. I make sure that selecting and copying the text doesn't include the decorations.
+
+```
+[aria-hidden="true"] {
+  user-select: none;
+}
+```
+
+### Never Abandon the Orphans
+
+```
+h1, h2, h3, h4, h5, h6 {
+  text-wrap-style: balance;
+}
+p {
+  text-wrap-style: pretty;
+}
+```
+
+### Good Helvetica
+
+I prefer serif fonts for copy, and I use `system-ui` for web apps, as one should. But if I want to use a sans-serif font, I _never_ use `sans-serif`. `sans-serif` exposes your visitors to the horrors of Helvetica and Arial.
+
+Luckily, most platforms have a font designed specifically to be a good version of Helvetica. Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto. Windows has... well, it has Segoe UI, which you get via `system-ui`.
+
+```
+font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif
+```
+
+### Make Wide Elements Scrollable
+
+To prevent them being cut-off on smaller screens
+
+```
+pre, table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+
+Support dark and light mode with a single line of code. No need to make custom styles!
+
+```
+html {
+  color-scheme: light dark;
+}
+```
+
+Make margins match the line height.
+
+```
+p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+  margin-block: 1lh;
+}
+```
+
+Prevent `<sub>` and `<sup>` from messing with the line height.
+
+```
+sub, sup {
+  line-height: 0;
+}
+```
+
+Automatically keep aspect ratio when you change the width.
+
+```
+img, video {
+  height: unset
+}
+```
+
+Flexbox items have `min-width:auto`, which means items refuse to shrink below their content size. `0` is a much better default.
+
+```
+* {
+  min-width: 0;
+  min-height: 0;
+}
+```
+
+## What I Always Put in my CSS
+
+I like when websites look like websites. Blue links that turn purple after you've clicked them, serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a _barbarian_. Even I have a few beefs with the default browser styles.
+
+_barbarian_
+
+No matter the font size you use for different elements, the line height stays consistent. You don't break the baseline grid unless you explicitly decide to.
+
+```
+html {
+  line-height: 23px;
+}
+
+```
+`html { line-height: 23px; }`
+
+I don't have to manually set the border color on each individual element. I can just set the border width and it gets a default color.
+
+```
+* {
+  border: solid 0;
+  border-color: inherit;
+}
+```
+`* { border: solid 0; border-color: inherit; }`
+
+If I use text as decoration, like decorative bullets or separators. I make sure that selecting and copying the text doesn't include the decorations.
+
+```
+[aria-hidden="true"] {
+  user-select: none;
+}
+```
+`[aria-hidden="true"] { user-select: none; }````
+h1, h2, h3, h4, h5, h6 {
+  text-wrap-style: balance;
+}
+p {
+  text-wrap-style: pretty;
+}
+```
+`h1, h2, h3, h4, h5, h6 { text-wrap-style: balance; } p { text-wrap-style: pretty; }`
+
+I prefer serif fonts for copy, and I use `system-ui` for web apps, as one should. But if I want to use a sans-serif font, I _never_ use `sans-serif`. `sans-serif` exposes your visitors to the horrors of Helvetica and Arial.
+
+`system-ui`_never_`sans-serif``sans-serif`
+
+Luckily, most platforms have a font designed specifically to be a good version of Helvetica. Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto. Windows has... well, it has Segoe UI, which you get via `system-ui`.
+
+`system-ui````
+font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif
+```
+`font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif`
+
+To prevent them being cut-off on smaller screens
+
+```
+pre, table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+`pre, table { overflow-x: auto; max-width: 100%; }`
+
+Support dark and light mode with a single line of code. No need to make custom styles!
+
+```
+html {
+  color-scheme: light dark;
+}
+```
+`html { color-scheme: light dark; }`
+
+Make margins match the line height.
+
+```
+p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+  margin-block: 1lh;
+}
+```
+`p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote { margin-block: 1lh; }`
+
+Prevent `<sub>` and `<sup>` from messing with the line height.
+
+`<sub>``<sup>````
+sub, sup {
+  line-height: 0;
+}
+```
+`sub, sup { line-height: 0; }`
+
+Automatically keep aspect ratio when you change the width.
+
+```
+img, video {
+  height: unset
+}
+```
+`img, video { height: unset }`
+
+Flexbox items have `min-width:auto`, which means items refuse to shrink below their content size. `0` is a much better default.
+
+`min-width:auto``0````
+* {
+  min-width: 0;
+  min-height: 0;
+}
+```
+`* { min-width: 0; min-height: 0; }`]]></description>
             <link>https://jodie.website#inkhaven</link>
             <guid isPermaLink="false">inkhaven</guid>
             <category><![CDATA[life]]></category>
@@ -534,10 +1505,10 @@ Now when I pick up my phone reflexively to fill time, there's nothing to scroll.
             <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Animal Welfare is a Culinary Problem]]></title>
-            <description><![CDATA[I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
+            <title><![CDATA[I had chicken last week.]]></title>
+            <description><![CDATA[## Animal Welfare is a Culinary Problem
 
-#### I had chicken last week.
+I agree with the vegans. Factory farming is horrific. I don't need another documentary. I'm convinced.
 
 Not because I watched it get its beak cut off and felt nothing, but because I was sick with the man flu and I wanted a comforting microwave meal, and butter chicken was all I could find.
 
@@ -545,15 +1516,11 @@ Most restaurants have one vegetarian option that only exists so they can say the
 
 I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
 
-#### My body hates the obvious solution
-
 The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
 
 They also make me fart.
 
 I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
-
-#### Next time someone tells you they could never go vegan, send them a recipe.
 
 The greatest impact I've had on animal welfare is telling people that msg makes tofu taste good. The person who's influenced me the most isn't an activist, it's [this guy on YouTube who figured out how to make vegan bacon out of rice paper](https://www.youtube.com/@SauceStache/videos).
 
@@ -563,11 +1530,13 @@ Animal welfare organizations should take a cut of their budget and put it into f
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Sun, 05 Apr 2026 14:03:55 GMT</pubDate>
+            <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Dust]]></title>
-            <description><![CDATA[the ground under your feet  
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[## Dust
+
+the ground under your feet  
 built from what ceased to be
 
   
@@ -587,11 +1556,13 @@ the ground under a stranger's feet]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Sun, 05 Apr 2026 14:03:55 GMT</pubDate>
+            <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[How to Make a Floating Point Math Library, Part I]]></title>
-            <description><![CDATA[You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
+            <title><![CDATA[Manipulating Floats with Integer Operations]]></title>
+            <description><![CDATA[## How to Make a Floating Point Math Library, Part I
+
+You might have seen [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root). The one with the magic hex constant `0x5F3759DF` and the comment _"what the fuck?"_ from the Quake III source. After reading this series, you'll understand how it works, and how to apply its arcane trickery to compute any transcendental function.
 
 [the fast inverse square root](https://en.wikipedia.org/wiki/Fast_inverse_square_root)`0x5F3759DF`_"what the fuck?"_
 
@@ -612,8 +1583,6 @@ _is_
 [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html) lets you flip individual bits and watch the value change. You'll get a feel for how different numbers are represented.
 
 [This calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
-
-#### Manipulating Floats with Integer Operations
 
 The upper bits of a float are proportional to the logarithm of its value. So integer math on the raw bits becomes log-domain arithmetic on the number itself.
 
@@ -639,17 +1608,17 @@ In **Part II**, we'll use this knowledge to implement other transcendental funct
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Sun, 05 Apr 2026 14:03:55 GMT</pubDate>
+            <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Use Your Phone Less by Making It More Fun]]></title>
-            <description><![CDATA[_More_
+            <title><![CDATA[Remove Your Browser]]></title>
+            <description><![CDATA[## Use Your Phone Less by Making It _More_ Fun
+
+_More_
 
 Digital minimalism advice is usually about making your phone worse. Add friction. Greyscale the screen. Buy a flip phone.
 
 You don't have to make your phone miserable to use. The terminal goal isn't "use your phone less." The goal is doing the things you actually want to do. You can read books on your phone, text your friends, write, navigate somewhere new. None of that is the problem. When your phone only has those there's no void to fill by scrolling.
-
-#### Remove Your Browser
 
 Most things you'd use a mobile browser for have an app. Single purpose, no distractions. To look something up, AI chatbots and Wikipedia search are usually better tools.
 
@@ -657,17 +1626,236 @@ For the rare case you _need_ a browser, there's [Firefox Focus](https://www.mozi
 
 _need_[Firefox Focus](https://www.mozilla.org/en-CA/firefox/browsers/mobile/focus/)
 
-#### And it Works?
-
 Now when I pick up my phone reflexively to fill time, there's nothing to scroll. I put it down. Or I text a friend, read a book, write a blog post. No willpower. No discomfort. I never regret being on my phone.]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Sun, 05 Apr 2026 14:03:55 GMT</pubDate>
+            <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Gray]]></title>
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[## How to Make a Floating Point Math Library, Part II
+
+With only what we've learned in part I, you could figure out reciprocals, cube roots, and square roots on your own. So I'll leave those for the end and start with the less obvious exp2 and log2.
+
+If we could get the mantissa bits into the exponent, we'd get exp2 for free. But how would we actually do that? We want the number 1 to map to the number 2, 2 -> 4, and so on. Let's look at the bit representation.
+
+```
+┌value┬─exponent──┬exp val┐
+│  1  │ 0111 1111 │  127  │
+│  2  │ 1000 0000 │  128  │
+│  4  │ 1000 0001 │  129  │
+│  8  │ 1000 0010 │  130  │
+│ 16  │ 1000 0011 │  131  │
+└─────┴───────────┴───────┘
+
+```
+`┌value┬─exponent──┬exp val┐ │ 1 │ 0111 1111 │ 127 │ │ 2 │ 1000 0000 │ 128 │ │ 4 │ 1000 0001 │ 129 │ │ 8 │ 1000 0010 │ 130 │ │ 16 │ 1000 0011 │ 131 │ └─────┴───────────┴───────┘`
+
+So we want the first 8 bits of the mantissa to be the input number + 127. For this we need to be at the order of magnitude where changing the 8th mantissa bit moves the value of the float by 1. That order of magnitude is 256. Then we need to add 127, which gets us 383.
+
+Let's try adding 383 to our input and shifting left by 8 bits, making sure to negate the number because we just shifted a bit into the sign of our float.
+
+```
+fn exp2_approx(x: f32) -> f32 {
+  -f32::from_bits((x + 383.).to_bits() << 8)
+}
+```
+`fn exp2_approx(x: f32) -> f32 { -f32::from_bits((x + 383.).to_bits() << 8) }`![](https://static2.mtlws.ca/exp2_approx.png)
+
+It works!
+
+To do log2 we just do the reverse: shift the exponent into the mantissa, set the order of magnitude to 256 and then subtract 383.
+
+```
+fn log2_approx(x: f32) -> f32 {
+	f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383.
+}
+```
+`fn log2_approx(x: f32) -> f32 { f32::from_bits((x).to_bits() >> 8 | 256_f32.to_bits()) - 383. }`![](https://static2.mtlws.ca/log2_approx.png)
+
+Boom! Easy as that.
+
+```
+fn cbrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3))
+}
+
+fn sqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1))
+}
+
+fn rcp_approx(x: f32) -> f32 {
+	f32::from_bits(0x7EEF370B - x.to_bits())
+}
+
+fn rsqrt_approx(x: f32) -> f32 {
+	f32::from_bits(0x5F33E79F - (x.to_bits() >> 1))
+}
+```
+`fn cbrt_approx(x: f32) -> f32 { f32::from_bits(0x2a4ddef1 + (x.to_bits() / 3)) } fn sqrt_approx(x: f32) -> f32 { f32::from_bits(0x1FBD22DF + (x.to_bits() >> 1)) } fn rcp_approx(x: f32) -> f32 { f32::from_bits(0x7EEF370B - x.to_bits()) } fn rsqrt_approx(x: f32) -> f32 { f32::from_bits(0x5F33E79F - (x.to_bits() >> 1)) }`
+
+Approximate Cube Root
+
+![](https://static2.mtlws.ca/cbrt_approx.png)
+
+Approximate Cube Root
+
+![](https://static2.mtlws.ca/cbrt_approx.png)
+
+Approximate Square Root
+
+![](https://static2.mtlws.ca/sqrt_approx.png)
+
+Approximate Square Root
+
+![](https://static2.mtlws.ca/sqrt_approx.png)
+
+Approximate Reciprocal
+
+![](https://static2.mtlws.ca/rcp_approx.png)
+
+Approximate Reciprocal
+
+![](https://static2.mtlws.ca/rcp_approx.png)
+
+Approximate Reciprocal Square Root
+
+![](https://static2.mtlws.ca/rsqrt_approx.png)
+
+Approximate Reciprocal Square Root
+
+![](https://static2.mtlws.ca/rsqrt_approx.png)
+
+In **Part III**, we're learning how to make these crude approximations usably accurate!
+
+**Part III**]]></description>
+            <link>https://jodie.website#</link>
+            <guid isPermaLink="true">https://jodie.website#</guid>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Absolute Unit Line Height]]></title>
+            <description><![CDATA[## What I Always Put in my CSS
+
+I like when websites look like websites. Blue links that turn purple after you've clicked them, serif fonts for body text, text that doesn't have a seizure as the page is loading. But I'm not a _barbarian_. Even I have a few beefs with the default browser styles.
+
+_barbarian_
+
+No matter the font size you use for different elements, the line height stays consistent. You don't break the baseline grid unless you explicitly decide to.
+
+```
+html {
+  line-height: 23px;
+}
+
+```
+`html { line-height: 23px; }`
+
+I don't have to manually set the border color on each individual element. I can just set the border width and it gets a default color.
+
+```
+* {
+  border: solid 0;
+  border-color: inherit;
+}
+```
+`* { border: solid 0; border-color: inherit; }`
+
+If I use text as decoration, like decorative bullets or separators. I make sure that selecting and copying the text doesn't include the decorations.
+
+```
+[aria-hidden="true"] {
+  user-select: none;
+}
+```
+`[aria-hidden="true"] { user-select: none; }````
+h1, h2, h3, h4, h5, h6 {
+  text-wrap-style: balance;
+}
+p {
+  text-wrap-style: pretty;
+}
+```
+`h1, h2, h3, h4, h5, h6 { text-wrap-style: balance; } p { text-wrap-style: pretty; }`
+
+I prefer serif fonts for copy, and I use `system-ui` for web apps, as one should. But if I want to use a sans-serif font, I _never_ use `sans-serif`. `sans-serif` exposes your visitors to the horrors of Helvetica and Arial.
+
+`system-ui`_never_`sans-serif``sans-serif`
+
+Luckily, most platforms have a font designed specifically to be a good version of Helvetica. Apple devices have Helvetica Neue, Google devices have Roboto, desktop Linux has Noto. Windows has... well, it has Segoe UI, which you get via `system-ui`.
+
+`system-ui````
+font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif
+```
+`font-family: 'Helvetica Neue', Roboto, 'Noto Sans', system-ui, sans-serif`
+
+To prevent them being cut-off on smaller screens
+
+```
+pre, table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+`pre, table { overflow-x: auto; max-width: 100%; }`
+
+Support dark and light mode with a single line of code. No need to make custom styles!
+
+```
+html {
+  color-scheme: light dark;
+}
+```
+`html { color-scheme: light dark; }`
+
+Make margins match the line height.
+
+```
+p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote {
+  margin-block: 1lh;
+}
+```
+`p, ol, ul, h1, h2, h3, h4, h5, h6, blockquote { margin-block: 1lh; }`
+
+Prevent `<sub>` and `<sup>` from messing with the line height.
+
+`<sub>``<sup>````
+sub, sup {
+  line-height: 0;
+}
+```
+`sub, sup { line-height: 0; }`
+
+Automatically keep aspect ratio when you change the width.
+
+```
+img, video {
+  height: unset
+}
+```
+`img, video { height: unset }`
+
+Flexbox items have `min-width:auto`, which means items refuse to shrink below their content size. `0` is a much better default.
+
+`min-width:auto``0````
+* {
+  min-width: 0;
+  min-height: 0;
+}
+```
+`* { min-width: 0; min-height: 0; }`]]></description>
+            <link>https://jodie.website#</link>
+            <guid isPermaLink="true">https://jodie.website#</guid>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Tue, 07 Apr 2026 04:02:18 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## Gray
 
 we're different types of gray
 
@@ -687,22 +1875,18 @@ when they're all blended together]]></description>
             <pubDate>Fri, 27 Mar 2026 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[The Hum of the Refrigerator]]></title>
+            <title><![CDATA[The Farmers]]></title>
             <description><![CDATA[th
 
-#### The Farmers
+## The Hum of the Refrigerator
 
 Meta makes about $50 per user per year. Google makes about $70. You are not paying for these products, advertisers are. And those advertisers make even MORE money. Big Tech doesn't make the product good for _you_. They make it good for advertisers, advertisers who've gotten frighteningly good at exploiting your weaknesses.
 
 _you_
 
-#### The Pasture
-
 Some software exists because someone thought it should. Some is optimized to be so delightful you gladly pay for it. Some forums let you talk about what you chose to talk about, not whatever leads to more "engagement". None of these are designed to _take_ from you. They're made to _provide_.
 
 _take__provide_
-
-#### Escaping the Farm
 
 I didn't realize how much targeted advertising and algorithmically optimized engagement maximization wore me down until I stopped using platforms that do it. It's like noticing the hum of the refrigerator only when it stops.
 
@@ -716,8 +1900,10 @@ _doing_]]></description>
             <pubDate>Mon, 16 Feb 2026 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Solstice Talk]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## Solstice Talk
 
 — _Read at the 2025 [Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_
 
@@ -739,18 +1925,16 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
             <pubDate>Sun, 21 Dec 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[The Accelerationist Luddite]]></title>
+            <title><![CDATA[Why Be an Accelerationist?]]></title>
             <description><![CDATA[th
 
-#### Why Be an [Accelerationist](https://en.wikipedia.org/wiki/Accelerationism)?
+## The Accelerationist Luddite
 
 [Accelerationist](https://en.wikipedia.org/wiki/Accelerationism)
 
 I don't know the exact risk from artificial superintelligence, and neither does anyone else. But I do know the risk of doing nothing: disease, poverty, war, pollution, worms that burrow into people's eyeballs. Technology is for fixing things. Faster. Cheaper. For more people. I want new drugs discovered in weeks, not years, because the patient doesn’t have years.
 
 You think acceleration is reckless? I think it’s responsible. Responsibility is seeing pain and moving toward it with urgency.
-
-#### Why Be a [Luddite](https://en.wikipedia.org/wiki/Luddite)?
 
 [Luddite](https://en.wikipedia.org/wiki/Luddite)
 
@@ -767,8 +1951,6 @@ Silicon Valley convinced us that the price of convenience is living in their pan
 The point of saving time is to have time. The point of productivity is to produce _something that matters_. We don't have time, we have screen time. We don't produce things, we produce value for the shareholders.
 
 _something that matters_
-
-#### Por que no los dos?
 
 ![Why not both?](https://static2.mtlws.ca/whynot.jpg)
 
@@ -792,7 +1974,7 @@ The real divide isn't between technophiles and technophobes; it's between techno
             <pubDate>Sat, 08 Nov 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[The Case for Single-Purpose Devices]]></title>
+            <title><![CDATA[You Aren't the Main Character]]></title>
             <description><![CDATA[th  
   
 
@@ -801,27 +1983,21 @@ The real divide isn't between technophiles and technophobes; it's between techno
 
 _My own behavior baffles me. I find myself doing what I hate, and not doing what I really want to do!_  
 
+## The Case for Single-Purpose Devices
+
 The smartphone isn't the ultimate tool. It isn't even _a_ tool. It's _all_ the tools.
 
 _a__all_
-
-#### You Aren't the Main Character
 
 If you have a book, you read. If you have a camera, you take pictures. If you have a Game Boy, you play a game. If you have all of those crammed into a phone, you don’t do any of that. You scroll TikTok.
 
 When you pick up a book, you’ve already decided to read. When you pick up your phone, you’ve decided nothing. The phone decides for you.
 
-#### Swiss Army Knives
-
 Smartphones didn’t improve on what came before. They’re worse books, worse game consoles, worse computers, worse music players. Their only advantage is fitting all this mediocrity in your pocket.
 
 Almost everyone owns a kitchen knife, tweezers, a screwdriver. Nobody thinks a Swiss Army knife is an adequate replacement, so why do we all torture ourselves with smartphones?
 
-#### Smartphones Aren't the Entire Future
-
 Single-purpose devices are making a quiet comeback because they never lost. Every tech product got better and cheaper while you weren't looking: flashlights, digital watches, e-readers, laptops, cameras.
-
-#### [Chesterton](https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_fence)'s Turntable
 
 [Chesterton](https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_fence)
 
@@ -831,8 +2007,6 @@ opsec
 
 After 15 years of going full phone. I'm gradually reintroducing the things I thought it killed. I'm buying and borrowing books again. Books are so nice to read compared to a screen, I love them! I've been carrying a paper notepad and a pen again. I love how it allows me to take notes while talking to someone, during classes, or at church without looking rude by pulling out my phone. Paper is freeing. I can draw and highlight and annotate with no friction. It's the better tool for the job.
 
-#### Whimsy
-
 Looking at your phone is like living in a beige drywall box. It's efficient, it's "modern", but wouldn't you rather live in a picturesque 100-year-old cottage? Isn't reading a book under a tree more romantic than scrolling Twitter while you're sitting on the toilet? Respect yourself! Don't wear the grey jumpsuit! Don't eat the protein cube!]]></description>
             <link>https://jodie.website#dumb</link>
             <guid isPermaLink="false">dumb</guid>
@@ -841,8 +2015,12 @@ Looking at your phone is like living in a beige drywall box. It's efficient, it'
             <pubDate>Wed, 08 Oct 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Rational Black-body]]></title>
-            <description><![CDATA[thRationalBlack-body
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[th
+
+## Rational Black-body
+
+RationalBlack-body
 
 I made this dead-simple rational approximation of the [black-body](https://en.wikipedia.org/wiki/Black-body_radiation) radiation formula.
 
@@ -905,8 +2083,10 @@ Relative Error Plot]]></description>
             <pubDate>Wed, 09 Jul 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Time isn't real man]]></title>
+            <title><![CDATA[Code Monks]]></title>
             <description><![CDATA[th
+
+## Time isn't real man
 
 > _There is nothing more deceptive than an obvious fact._  
 > ― Arthur Conan Doyle
@@ -915,27 +2095,15 @@ _There is nothing more deceptive than an obvious fact._
 
 Anyone who's pulled an all-nighter, been bored, or fallen into a YouTube rabbit hole knows that time is subjective. Brains aren't clocks. They cheat constantly.
 
-#### Code Monks
-
 Programmers enter multi-hour flow states without fatigue or hunger. Usually helped by autism headphones and chemical stimulants.
-
-#### Bullet Time
 
 People in life-or-death situations often report time slowing down. The brain temporarily overclocks and hyper-saturates itself with sensory input.
 
-#### Teleportation
-
 Notice how commuting to your job feels like a time skip? Mundane regular tasks don't exist to us.
-
-#### Time Travel
 
 When you travel, a few weeks turn into a whole-ass chapter of your life. A giant exotic memory palace. At the end you often feel like you're leaving an entire life behind.
 
-#### Time Merchants
-
 Video platforms optimize for smoothness and hyperstimulus. They make you forget where videos start and end.
-
-#### Chronohacking
 
 Time perception is hackable. It's not just for fun, it feels _necessary_ in a world where attention is farmed and sold. There's only so much we can do to have a longer life, so why not make our life _denser_.
 
@@ -947,8 +2115,10 @@ _necessary__denser_]]></description>
             <pubDate>Tue, 20 May 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Graphics Optimization is Information Theory]]></title>
+            <title><![CDATA[Compute Generates Data]]></title>
             <description><![CDATA[th
+
+## Graphics Optimization is Information Theory
 
 I've been working on an image compression format lately (coming soon!). This led me down the rabbit hole of [information theory](https://en.wikipedia.org/wiki/Information_theory), and it's made me see graphics programming with a fresh perspective.
 
@@ -958,19 +2128,13 @@ Information theory is too often overlooked in the context of graphics optimizati
 
 [map](https://en.wikipedia.org/wiki/Map%E2%80%93territory_relation)
 
-#### Compute Generates Data
-
 Redundancy can be compressed. This principle applies to compute, not just storage.
-
-#### Less Data Also Matters
 
 Low-end hardware is usually bottlenecked by memory bandwidth, not compute. Phones and igpu powered laptops also tend to have less vram!
 
 igpu
 
 Making data smaller also makes space for something else, like lookup tables or acceleration structures that would be unviable otherwise
-
-#### Where?
 
 *   **Temporal Redundancy:** The current frame is often similar to the previous one. Reprojection, taa, and impostors exploit this to reduce work.
 *   **Derived Data:** Don’t store what you can calculate. Like normals and positions from depth.
@@ -982,8 +2146,6 @@ Making data smaller also makes space for something else, like lookup tables or a
 **Derived Data:***   **Spatial Redundancy:** Adjacent pixels are often the same material and are similarly lit.
 **Spatial Redundancy:***   **Impossible States:** If the camera can’t possibly see it. Cull it.
 **Impossible States:**
-
-#### Human Perception has a Limited Bitrate
 
 If there's more of one type of information, you can perceive less of another.
 
@@ -999,8 +2161,6 @@ If there's more of one type of information, you can perceive less of another.
 **Low Motion:***   **More Pixels and More Frames:** Temporal tricks and dithering shine at high framerate and resolution.
 **More Pixels and More Frames:***   **Blur:** Rough reflections and depth of field need more rays or more texture samples, but you can use a lower resolution for raytracing and texture lookups.
 **Blur:**
-
-#### Some Quick Tips
 
 *   One texture + different vertex colors = many looks.
 *   If your floating point data is only positive, put data in the sign bit.
@@ -1038,12 +2198,14 @@ lod*   Velocity buffers: 2D and a low bitrate are often enough
             <pubDate>Thu, 15 May 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Wake]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
 
 ![](https://static2.mtlws.ca/wake.png)
 
 ![](https://static2.mtlws.ca/wake.png)
+
+## Wake
 
 Your words linger in the silence.  
 Eyes wet, throat dry,  
@@ -1065,8 +2227,12 @@ as you sailed away?]]></description>
             <pubDate>Thu, 08 May 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Fast Approximate |Length| and Squaring²]]></title>
-            <description><![CDATA[rd||²
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[rd
+
+## Fast Approximate |Length| and Squaring²
+
+||²
 
 Shifting a float by 1 approximately squares or square-roots it very quickly. This is probably useful for rms error calculation or getting the length of a vector.
 
@@ -1086,13 +2252,10 @@ static float garbage_len(float a, float b){
             <pubDate>Sun, 23 Mar 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[RSS Feed
-  
-    
-    
-  
-]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## RSS Feed
 
 My blog now has an RSS feed! You can find it [here](/feed.xml).
 
@@ -1108,20 +2271,16 @@ aiide]]></description>
             <pubDate>Invalid Date</pubDate>
         </item>
         <item>
-            <title><![CDATA[Productivity and Happiness are the Same]]></title>
+            <title><![CDATA[Work isn't Hard]]></title>
             <description><![CDATA[th
+
+## Productivity and Happiness are the Same
 
 The idea of work-life balance is harmful.
 
-#### Work isn't Hard
-
 It's tragic that we accept work is unfun. We shouldn't accept that we're forced to do something that sucks. This framing isn't just bad for you, it makes workers as a group accept terrible working conditions. This shouldn't be considered “normal”.
 
-#### Fun isn't Easy
-
 Most people's idea of fun is spending money and engaging in vice. People see fun as synonymous with being counter-productive. You're expected to continuously destroy what you build in an endless cycle of consumption that never leads to your life improving.
-
-#### Work-Life Maximisation
 
 Productivity and happiness aren't opposing forces that need to be balanced. They aren't at odds with each other. Work can be fun, and leisure can be productive. An activity can be more fun _and_ more productive. What you want isn't "balance". You want work-life _maximisation_.
 
@@ -1133,12 +2292,14 @@ _and__maximisation_]]></description>
             <pubDate>Fri, 16 Feb 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Story]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
 
 ![](https://static2.mtlws.ca/story.jpg)
 
 ![](https://static2.mtlws.ca/story.jpg)
+
+## Story
 
 there's a voicemail full of excuses  
 you haven't listened to yet
@@ -1169,8 +2330,10 @@ our story ended before it got old]]></description>
             <pubDate>Sun, 11 Feb 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Don't Quit Your Vices]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## Don't Quit Your Vices
 
 Replace unhealthy sugary treats with fancy salads. Replace social media by hanging out with your friends or texting them. Replace gambling with starting a business. Vices usually fill a void, find out a healthy way of filling it.]]></description>
             <link>https://jodie.website#vices</link>
@@ -1180,8 +2343,10 @@ Replace unhealthy sugary treats with fancy salads. Replace social media by hangi
             <pubDate>Sat, 10 Feb 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Modern Color Utility Classes]]></title>
-            <description><![CDATA[.swatches{ display:flex; flex-direction:column; gap:10px; margin-top:1lh; margin-bottom: 1lh; } .swatch-group{ display:flex; gap:10px; } .swatch{ padding:10px; background:oklch(from var(--base) var(--l) c h ); } .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0} .powderblue{--base: powderblue} .crimson {--base: crimson} .goldenrod {--base: goldenrod} .indigo {--base: indigo}
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[## Modern Color Utility Classes
+
+.swatches{ display:flex; flex-direction:column; gap:10px; margin-top:1lh; margin-bottom: 1lh; } .swatch-group{ display:flex; gap:10px; } .swatch{ padding:10px; background:oklch(from var(--base) var(--l) c h ); } .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0} .powderblue{--base: powderblue} .crimson {--base: crimson} .goldenrod {--base: goldenrod} .indigo {--base: indigo}
 
 [Relative colors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors)css[codepen](https://codepen.io/Jodie-themathgenius/pen/VYZJrYE)```
     `.swatch{   background: oklch(from var(--base) var(--l) c h ); }  .l-20{--l:0.2} .l-40{--l:0.4} .l-60{--l:0.6} .l-80{--l:0.8} .l-100{--l:1.0}  .aquamarine{--base: aquamarine} .crimson   {--base: crimson} .goldenrod {--base: goldenrod} .indigo    {--base: indigo}`
@@ -1196,8 +2361,10 @@ Replace unhealthy sugary treats with fancy salads. Replace social media by hangi
             <pubDate>Thu, 08 Feb 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Fast Sigmoid (Updated)]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## Fast Sigmoid (Updated)
 
 [https://godbolt.org/z/djTqa5x7K](https://godbolt.org/z/djTqa5x7K)
 
@@ -1214,8 +2381,10 @@ Replace unhealthy sugary treats with fancy salads. Replace social media by hangi
             <pubDate>Sat, 07 Dec 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Still]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## Still
 
 time moves like honey  
 sweet and slow
@@ -1246,16 +2415,16 @@ I can stop doing, and simply be]]></description>
             <pubDate>Fri, 06 Dec 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Stop Having Goals]]></title>
+            <title><![CDATA[But…]]></title>
             <description><![CDATA[th
+
+## Stop Having Goals
 
 Humans aren't made to have long-term goals. If you have a goal, don't think about the goal. Stop caring about the goal. Failure to achieve the goal is neutral. Do not let yourself think about it. Not having reached the goal yet should never be on your mind.
 
 Learn to enjoy the process. Want to be strong? Learn to enjoy exercise. Want to lose weight? Learn to enjoy hunger. Want to be rich? Learn to enjoy saving money. Want to make friends? Learn to enjoy being interested in people. Do it without an agenda.
 
 Do the process every day, prioritise it, make it a part of your schedule. Get good at the process.
-
-#### But…
 
 Ask yourself if the process is still serving you. Maybe you're already past the goal.]]></description>
             <link>https://jodie.website#goals</link>
@@ -1265,8 +2434,12 @@ Ask yourself if the process is still serving you. Maybe you're already past the 
             <pubDate>Thu, 28 Nov 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Do you really enjoy this or are you addicted?]]></title>
-            <description><![CDATA[th_really_
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[th
+
+## Do you _really_ enjoy this or are you addicted?
+
+_really_
 
 Things that are pleasurable aren't necessarily addictive, and things that are addictive aren't necessarily pleasurable.
 
@@ -1280,10 +2453,12 @@ Many fun things aren't addictive at all. Nobody gets addicted to taking a walk o
             <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[King of the Hill]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[![](https://static2.mtlws.ca/hill.jpg)
 
 ![](https://static2.mtlws.ca/hill.jpg)rd
+
+## King of the Hill
 
 shimmering dewdrops  
 jewels in the grass
@@ -1304,8 +2479,10 @@ where I am king]]></description>
             <pubDate>Sat, 23 Nov 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[The Emotional Cyborg]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[st
+
+## The Emotional Cyborg
 
 One limitation of therapy is that you can't have a therapist be with you 24/7 to examine your behavior. Luckily we now have ai that can monitor everything you say, and correct bad thought patterns and behaviours in real time. Computers turned us into information and math cyborgs, now they allow us to enhance our emotional intelligence.
 
@@ -1317,8 +2494,10 @@ ai]]></description>
             <pubDate>Thu, 31 Oct 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Furniture Free]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[nd
+
+## Furniture Free
 
 I recently got interviewed by Charlotte Collins of Architectural Digest about furniture-free living. Read the article [here](https://www.architecturaldigest.com/story/extreme-minimalism-people-who-pared-all-the-way-down-talk-living-nearly-furniture-free).
 
@@ -1330,8 +2509,10 @@ I recently got interviewed by Charlotte Collins of Architectural Digest about fu
             <pubDate>Thu, 22 Aug 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[A Programmer Without a Computer]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## A Programmer Without a Computer
 
 I've been using my phone as my main computer for a week now. I'm even coding on it, and it's… fine?
 
@@ -1349,8 +2530,10 @@ I might get a foldable phone and/or a physical keyboard in the future, but I'm n
             <pubDate>Tue, 25 Jun 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[The Most Ergonomic Desk is No Desk At All]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## The Most Ergonomic Desk is No Desk At All
 
 About a year back, I moved into a new apartment and couldn't bring my desk. I could work at the kitchen table or on the sofa in the meantime. My plan was quickly thwarted by my new roommate's cat, who I would come to learn, was the most annoying cat in the world.
 
@@ -1366,14 +2549,14 @@ I haven't bought any furniture since, and I don't plan to. People didn't have fu
             <pubDate>Wed, 19 Jun 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Get Off Your Phone]]></title>
+            <title><![CDATA[How I Regained Control]]></title>
             <description><![CDATA[th
+
+## Get Off Your Phone
 
 Do you feel like you have no time? No energy? Check your screen time in your phone settings. Mine was _eight_! If you had asked me to estimate, I would have said 2! I had no idea! That's a full-time job!
 
 _eight_
-
-#### How I Regained Control
 
 Here's what allowed me to cut my screen time down to 1-2 hours a day:
 
@@ -1401,8 +2584,12 @@ Here's what allowed me to cut my screen time down to 1-2 hours a day:
             <pubDate>Tue, 18 Jun 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Should I Buy the Thing? A Flowchart]]></title>
-            <description><![CDATA[th```
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[th
+
+## Should I Buy the Thing? A Flowchart
+
+```
     ┌───────────────┐
     │  Am I happy?  │
     └┬─────────────┬┘
@@ -1424,8 +2611,10 @@ You don't need └───┬──────────┬──┘
             <pubDate>Mon, 17 Jun 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[Bit Arrays for Fast Graph Search]]></title>
+            <title><![CDATA[Untitled]]></title>
             <description><![CDATA[th
+
+## Bit Arrays for Fast Graph Search
 
 One common flaw in [HNSW](https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world) implementations is using ordered sets to track visited neighbors. This causes a huge performance overhead.
 
