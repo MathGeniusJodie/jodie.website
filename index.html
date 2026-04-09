@@ -171,6 +171,7 @@ figure{
   background: Canvas;
   margin-right:0;
   margin-left:0;
+  width: fit-content;
 }
 figcaption {
   text-align: center;
@@ -222,6 +223,15 @@ sup,sub {
   content: "⁂";
   font-size: 18px;
   font-weight: bold;
+}
+[role="doc-noteref"], [role="doc-footnote"] {
+  text-decoration: none;
+}
+[role="doc-endnotes"] {
+  list-style: none;
+  border-top: 1px solid;
+  font-size: .85em;
+  width: fit-content
 }
 </style>
 
@@ -634,6 +644,128 @@ p {
         </p>
       </article>
     </details></li>
+    <li><details>
+      <summary>April 9<sup>th</sup> - <strong>The Laziest Strength Program that Works</strong></summary>
+      <article>
+        <h2>The Laziest Strength Program that Works</h2>
+        <p>Most people who don't do strength training think that they don't have the time or energy. Well good news! Being incredibly lazy gets you 80% of the benefits of spending hours in the gym, being sore, and using willpower. With this method, there is no sacrifice, you just get stronger with no downside.</p>
+        <h3>No Friction</h3>
+        <p>Find exercises that require 0 equipment. Not even a clean floor. You want something you can do literally anywhere, including at work. There has to be no excuse not to do them. Everyone has a few seconds of downtime every day.</p>
+        <p>You want exercises that you can do as someone completely untrained and keep doing as you get very strong with minor changes. The ultimate hack is unilateral exercises. You can assist yourself with the other side of your body and give yourself any level of resistance you need.</p>
+        <h3>Leg & Hip Extension</h3>
+        <p>Pistol squats. Assist yourself with your other leg to make them as easy as you want when you're starting out. </p>
+        <h3>Pushing</h3>
+        <p>One arm wall pushup. Better than regular pushups because you can do them in public places without putting your hands on the dirty floor. You can progress slowly by helping yourself with the other hand.</p>
+        <h3>Pulling</h3>
+        <p>This one doesn't have a name so I'm calling it the "one-arm wall lat press". Progress by standing further from the wall.</p>
+        <figure>
+          <img src="https://static2.mtlws.ca/latpress.png" style="width:200px" loading="lazy" alt="" width="415" height="480">
+        </figure>
+        <p>Self-resisted curl: grab your thigh above your knee and curl it. You can control the resistance by flexing your hamstring/glute.</p>
+        <h3>Hamstrings</h3>
+        <p>While sitting, press the backs of your calves into the legs of the chair as hard as you can. That's it. You can do this during a meeting and nobody will ever know. Unless you make weird faces.</p>
+        <h3>Abs</h3>
+        <p>Lie on your back with your legs pointed straight at the ceiling. Raise your hips off the ground by contracting your abs, pushing your feet toward the ceiling. You can do this in bed before sleeping or after waking up. You don't even have to get up. What's lazier than that?</p>
+        <h3>The Program</h3>
+        <p>Do half the exercises one day and half the other day. Just do one set, you'll make progress anyway.</p>
+        <p>But here's what'll actually happen: you'll want to do more, because you've removed every reason not to. No gym. No time. No willpower. Just get a little stronger every day, for free.
+        </p>
+      </article>
+    </details></li>
+    <li hidden><details>
+      <summary>April 10<sup>th</sup> - <strong>Ordered Dithering is Useful and Good</strong></summary>
+      <article>
+        <h2><a href="https://en.wikipedia.org/wiki/Ordered_dithering" target="_blank">Ordered Dithering</a> is Useful and Good</h2>
+        <p>Dithering is the old trick of using patterns to fake more colors than you actually have.
+          If you've ever noticed the crosshatch pattern in old video games, that's ordered dithering.
+          It uses a repeating grid called a Bayer Matrix. It's carefully constructed so that adjacent
+          values are as far apart as possible, which maximally spreads error. Modern game
+          developers, in their infinite wisdom, have decided that this mathematical perfection is
+          a problem to be fixed. The regular pattern is too noticeable, they say. Instead they make
+          a fancy precomputed texture that has the same properties but with no regular pattern: Blue Noise.</p>
+        <p>Sure, blue noise looks great. But somewhere along the way we forgot why we're dithering in the
+          first place: to save memory. If you need a texture lookup to do dithering, you're spending
+          bandwidth to save bandwidth, it makes no sense. Ordered dithering is just 18 instructions
+          to compute from scratch.</p>
+<pre><code>float dither256x256(uvec2 fragCoord){
+  uint x = fragCoord.x ^ fragCoord.y;
+  uint y = fragCoord.y;
+  uint z = x << 16 | y;
+  z |= z << 12;
+  z &= 0xF0F0F0F0u;
+  z |= z >> 6;
+  z &= 0x33333333u;
+  z |= z << 3;
+  z &= 0xaaaaaaaau;
+  z  = z >> 9 | z << 6;
+  z &= 0x7fffffu;
+  return uintBitsToFloat(
+    floatBitsToUint(1.) | z
+  ) - 1.5; // or -1.0 if you want 0..1
+           // instead of -0.5..0.5
+}</code></pre>
+        <p>
+          I came up with this independently around 2016<a role="doc-noteref" href="#dither-notes">*</a>. I found recently that the general idea of
+          interleaving and reversing bits was first described
+          <a href="https://bisqwit.iki.fi/story/howto/dither/jy/" target="_blank">here</a><a id="#dither-noteref" role="doc-noteref" href="#dither-notes">*</a>. But I'm
+          the first person to make this optimized implementation<a role="doc-noteref" href="#dither-notes">*</a>. Which is probably why it hasn't caught on yet.
+        </p>
+        <p>When you're doing graphics programming, fast dithering should always be in your metaphorical
+          tool belt. You should <em>never</em> reach for higher bit depth without having first tried
+          dithering. Here's an example of how even rgb8 is overkill. This is a comparison between
+          rgb8 and rgb453. Can you tell which one is which?</p>
+        <style>
+          #img-bitdepth-1:not(#bitdepth-1:checked ~ #img-bitdepth-1),
+          #img-bitdepth-2:not(#bitdepth-2:checked ~ #img-bitdepth-2){
+            display: none;
+          }
+        </style>
+        <figure>
+          <label for="bitdepth-1">Bit Depth 1</label>
+          <input type="radio" checked name="quantization" id="bitdepth-1">
+          <label for="bitdepth-2">Bit Depth 2</label>
+          <input type="radio" name="quantization" id="bitdepth-2">
+          <img loading="lazy" src="https://static2.mtlws.ca/rgb453.png" alt="" id="img-bitdepth-1" width="640" height="360">
+          <img loading="lazy" src="https://static2.mtlws.ca/original.png" alt="" id="img-bitdepth-2" width="640" height="360">
+        </figure>
+        <p>Now here's without the dithering:</p>
+        <figure>
+          <img loading="lazy" src="https://static2.mtlws.ca/rgb453nodither.png" alt="" width="640" height="360">
+        </figure>
+        <p>This is how huge the difference is!
+          You're throwing away half your ram by not dithering all your buffers.</p>
+        <h3>Not Just for Quantization</h3>
+        <p>You can (and should) use Bayer Matrices everywhere you would use random sampling,
+          like for picking ray directions for lighting.</p>
+        <figure>
+          <img loading="lazy" src="https://static2.mtlws.ca/ibl-1s.png" alt="" width="640" height="360">
+          <figcaption>One sample per pixel<br>Noise on the left, Bayer Matrix on the right</figcaption>
+        </figure>
+        <p>At only one sample per pixel, you can see how the Bayer Matrix grain could 
+          easily be smoothed with a light blur. The noise grain has no chance.</p>
+        <figure>
+          <img loading="lazy" src="https://static2.mtlws.ca/ibl-8s.png" alt="" width="640" height="360">
+          <figcaption>8 samples per pixel<br>Noise on the left, Bayer Matrix on the right</figcaption>
+        </figure>
+        <p>At eight samples per pixel, the Bayer Matrix sampling looks smooth already
+          while the noise sampling still looks rough.</p>
+        <p>Blurring white noise just gets you a splotchy mess, which you have to fix
+          by doing more samples, or a wider blur. Choosing to use white noise is the
+          dead raccoon in the river that makes everything downstream shit itself.</p>
+        <p>For temporal effects, you can also use the 1D equivalent of a bayer matrix:
+          reversing the bits for the index of the current frame, which gives this pattern:</p>
+        <figure>
+          <img loading="lazy" src="https://static2.mtlws.ca/1d.png" alt="" width="640" height="360">
+        </figure>
+        <div role="separator" class="⁂"></div>
+        <p>With technological progress, as pixel densities get higher and higher,
+          dither patterns become harder and harder to see and vram gets more and more
+          strained. Ordered dithering isn't just the past, it's the future as well!</p>
+        <li role="doc-endnotes" id="#dither-notes">
+          <ul><a role="doc-footnote" href="#dither-noteref">* As far as I know.<a></ul>
+        </li>
+      </article>
+    </details></li>
   </ul>
 </article>
 <article id="refrigerator" class="poetry">
@@ -725,7 +857,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
     We don't have time, we have screen time. We don't produce things, we produce value for the shareholders.</p>
   <h3>Por que no los dos?</h3>
   <figure>
-    <img src="https://static2.mtlws.ca/whynot.jpg" alt="Why not both?" width="359" height="264">
+    <img loading="lazy" src="https://static2.mtlws.ca/whynot.jpg" alt="Why not both?" width="359" height="264">
   </figure>
   <p>I don’t hate technology. I hate technology that hates me back.</p>
 
