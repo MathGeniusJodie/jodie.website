@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="alternate" type="application/rss+xml" title="Jodie's Blog RSS Feed" href="/feed.xml" />
 <link rel="alternate" type="application/atom+xml" title="Jodie's Blog Atom Feed" href="/feed.xml" />
+<title>Jodie's Website</title>
 <style>
 .projects li img{
   width: 100%;
@@ -71,6 +72,9 @@ ol > li::marker {
   font-weight: bold;
 }
 summary{
+  list-style: none;
+}
+.linklist{
   list-style: none;
 }
 summary::before{
@@ -264,7 +268,7 @@ sup,sub {
   <time datetime="2026-04-01">April 1<sup>st</sup>, 2026</time>
   <h2>We Have Inkhaven at Home</h2>
   <p>A friend of mine is going to this big fancy retreat called <a href="https://www.inkhaven.blog/" target="_blank">Inkhaven</a> where you write one blog post a day. And I was like "I can't do that, but I'll sure as hell try!".  I don't want to spam this blog, so I'll link my daily posts down here and I'll add the best ones to the main feed later after some polish.</p>
-  <ul style="list-style:none">
+  <ul class="linklist">
     <li>April 1<sup>st</sup> - <strong><a href="https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing" target="_blank">How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area</a></strong> - MoreWrong</li>
     <li><details>
       <summary>April 2<sup>nd</sup> - <strong>Animal Welfare is a Culinary Problem</strong></summary>
@@ -761,11 +765,12 @@ p {
         <p>With technological progress, as pixel densities get higher and higher,
           dither patterns become harder and harder to see and vram gets more and more
           strained. Ordered dithering isn't just the past, it's the future as well!</p>
-        <li role="doc-endnotes" id="#dither-notes">
-          <ul><a role="doc-footnote" href="#dither-noteref">* As far as I know.<a></ul>
-        </li>
+        <ul role="doc-endnotes" id="#dither-notes">
+          <li><a role="doc-footnote" href="#dither-noteref">* As far as I know.<a></li>
+        </ul>
       </article>
-    </details></li>
+    </details></li>      
+    <li>April 10<sup>th</sup> - <strong><a href="https://graphics-programming.org/blog/ordered-dithering-is-useful-and-good" target="_blank">Ordered Dithering is Useful and Good</a></strong> - graphics-programming.org</li>
   </ul>
 </article>
 <article id="refrigerator" class="poetry">
@@ -1358,7 +1363,7 @@ You don't need └───┬──────────┬──┘
 </main>
 <aside>
   <h2>Support Me:</h2>
-  <a href='https://ko-fi.com/M4M71OS4OY' target='_blank'><img height='36' style='border:0px;height:36px' src='https://storage.ko-fi.com/cdn/kofi3.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+  <a href='https://ko-fi.com/M4M71OS4OY' target='_blank'><img width="580" height='146' style='border:0px;height:36px;width:auto' src='https://storage.ko-fi.com/cdn/kofi3.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
   <h2>Newsletter:</h2>
   <form id="newsletter-form">
     <label>Email:<br>
@@ -1368,11 +1373,11 @@ You don't need └───┬──────────┬──┘
   </form>
   <h2>My Projects:</h2>
   <ul class="projects">
-    <li><a href="https://www.shadertoy.com/view/4dBcD1" target="_blank"><img src="https://static2.mtlws.ca/tonemap.png" width="640" height="360"><h3>Jodie Reinhard Tonemap</h3></a>Yes, I'm that Jodie, the one from the tonemap</li>
-    <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822"><h3>MoreWrong</h3></a>A satirical blog about rats</li>
-    <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135"><h3>Sky Renderer</h3></a>New Model of Scattering and Absorption in Translucent Media</li>
-    <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707"><h3>Tasktux</h3></a>An opinionated todo manager</li>
-    <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421"><h3>Tuxfetch</h3></a>A <em>fast</em> system information tool for linux</li>
+    <li><a href="https://www.shadertoy.com/view/4dBcD1" target="_blank"><img src="https://static2.mtlws.ca/tonemap.png" width="640" height="360" alt=""><h3>Jodie Reinhard Tonemap</h3></a>Yes, I'm that Jodie, the one from the tonemap</li>
+    <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822" alt=""><h3>MoreWrong</h3></a>A satirical blog about rats</li>
+    <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135" alt=""><h3>Sky Renderer</h3></a>New Model of Scattering and Absorption in Translucent Media</li>
+    <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707" alt=""><h3>Tasktux</h3></a>An opinionated todo manager</li>
+    <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421" alt=""><h3>Tuxfetch</h3></a>A <em>fast</em> system information tool for linux</li>
     <li><h3><a href="https://github.com/MathGeniusJodie/tuxthread" target="_blank">Tuxthread</a></h3>Implementation of threads.h for the c standard library</li>
   </ul>
   <h2>Friends:</h2>

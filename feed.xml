@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 09 Apr 2026 12:37:50 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 10 Apr 2026 04:01:00 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 09 Apr 2026 12:37:49 GMT</pubDate>
+        <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -464,8 +464,8 @@ A friend of mine is going to this big fancy retreat called [Inkhaven](https://ww
     With technological progress, as pixel densities get higher and higher, dither patterns become harder and harder to see and vram gets more and more strained. Ordered dithering isn't just the past, it's the future as well!
     
     *   [\* As far as I know.](#dither-noteref)
-        
     
+*   April 10th - **[Ordered Dithering is Useful and Good](https://graphics-programming.org/blog/ordered-dithering-is-useful-and-good)** - graphics-programming.org
 
 *   April 1st - **[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)** - MoreWrong
 st**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)**[How to Leverage Effective Altruists to Fix Housing Prices in the Bay Area](https://morewrong.jodie.website/#how-to-leverage-effective-altruists-to-fix-housing)*   April 2nd - **Animal Welfare is a Culinary Problem**
@@ -2023,7 +2023,6 @@ But here's what'll actually happen: you'll want to do more, because you've remov
     With technological progress, as pixel densities get higher and higher, dither patterns become harder and harder to see and vram gets more and more strained. Ordered dithering isn't just the past, it's the future as well!
     
     *   [\* As far as I know.](#dither-noteref)
-        
     
 April 10th - **Ordered Dithering is Useful and Good**
 
@@ -2094,7 +2093,6 @@ For temporal effects, you can also use the 1D equivalent of a bayer matrix: reve
 With technological progress, as pixel densities get higher and higher, dither patterns become harder and harder to see and vram gets more and more strained. Ordered dithering isn't just the past, it's the future as well!
 
 *   [\* As far as I know.](#dither-noteref)
-    
 
 April 10th - **Ordered Dithering is Useful and Good**th**Ordered Dithering is Useful and Good**
 
@@ -2165,7 +2163,6 @@ For temporal effects, you can also use the 1D equivalent of a bayer matrix: reve
 With technological progress, as pixel densities get higher and higher, dither patterns become harder and harder to see and vram gets more and more strained. Ordered dithering isn't just the past, it's the future as well!
 
 *   [\* As far as I know.](#dither-noteref)
-    
 
 ## [Ordered Dithering](https://en.wikipedia.org/wiki/Ordered_dithering) is Useful and Good
 
@@ -2257,11 +2254,10 @@ For temporal effects, you can also use the 1D equivalent of a bayer matrix: reve
 With technological progress, as pixel densities get higher and higher, dither patterns become harder and harder to see and vram gets more and more strained. Ordered dithering isn't just the past, it's the future as well!
 
 *   [\* As far as I know.](#dither-noteref)
-    
 
-[\* As far as I know.](#dither-noteref)
-
-[\* As far as I know.](#dither-noteref)]]></description>
+*   [\* As far as I know.](#dither-noteref)
+[\* As far as I know.](#dither-noteref)*   April 10th - **[Ordered Dithering is Useful and Good](https://graphics-programming.org/blog/ordered-dithering-is-useful-and-good)** - graphics-programming.org
+April 10th - th**[Ordered Dithering is Useful and Good](https://graphics-programming.org/blog/ordered-dithering-is-useful-and-good)**[Ordered Dithering is Useful and Good](https://graphics-programming.org/blog/ordered-dithering-is-useful-and-good)]]></description>
             <link>https://jodie.website#inkhaven</link>
             <guid isPermaLink="false">inkhaven</guid>
             <category><![CDATA[life]]></category>
@@ -2294,7 +2290,7 @@ Animal welfare organizations should take a cut of their budget and put it into f
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -2320,7 +2316,7 @@ the ground under a stranger's feet]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Manipulating Floats with Integer Operations]]></title>
@@ -2372,7 +2368,7 @@ In **Part II**, we'll use this knowledge to implement other transcendental funct
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Remove Your Browser]]></title>
@@ -2394,7 +2390,7 @@ Now when I pick up my phone reflexively to fill time, there's nothing to scroll.
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -2497,7 +2493,7 @@ In **Part III**, we're learning how to make these crude approximations usably ac
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Absolute Unit Line Height]]></title>
@@ -2613,7 +2609,7 @@ Flexbox items have `min-width:auto`, which means items refuse to shrink below th
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[The Obvious]]></title>
@@ -2649,7 +2645,7 @@ I fixed my sleep by sleeping less, on the floor, after drinking more water in or
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[No Friction]]></title>
@@ -2683,7 +2679,7 @@ But here's what'll actually happen: you'll want to do more, because you've remov
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Not Just for Quantization]]></title>
@@ -2777,15 +2773,13 @@ For temporal effects, you can also use the 1D equivalent of a bayer matrix: reve
 With technological progress, as pixel densities get higher and higher, dither patterns become harder and harder to see and vram gets more and more strained. Ordered dithering isn't just the past, it's the future as well!
 
 *   [\* As far as I know.](#dither-noteref)
-    
 
-[\* As far as I know.](#dither-noteref)
-
+*   [\* As far as I know.](#dither-noteref)
 [\* As far as I know.](#dither-noteref)]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 09 Apr 2026 12:37:50 GMT</pubDate>
+            <pubDate>Fri, 10 Apr 2026 04:01:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -2837,17 +2831,13 @@ _doing_]]></description>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
-            <description><![CDATA[December 14th, 2025
+            <description><![CDATA[th
 
 ## Solstice Talk
 
-th
+— _Read at the 2025 [Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_
 
-## Solstice Talk
-
-— _Read at the 2025_ _[Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_
-
-— _Read at the 2025_ _Read at the 2025_ _[Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_[Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice)
+_Read at the 2025 [Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_[Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice)
 
 At first glance humans aren't very equipped for survival. We have no claws to defend ourselves, no fur to protect us from the cold and the sun. But what we have is one unique trait that allowed us to thrive: imagining the future.
 
