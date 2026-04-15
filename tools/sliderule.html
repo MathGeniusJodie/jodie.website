@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printable Vertical Slide Rule</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: #fff; color: #000; padding: 20px; }
+  .controls {
+    max-width: 900px; margin: 0 auto 30px; padding: 24px;
+    background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .controls h1 { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.5px; }
+  .controls .subtitle { font-size: 13px; color: #777; margin-bottom: 20px; }
+  .control-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 16px; }
+  .control-group label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 4px; }
+  .control-group input { width: 100%; padding: 6px 10px; border: 1px solid #ddd; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 13px; background: #fafafa; }
+  .scale-toggles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .scale-toggle {
+    display: flex; align-items: center; gap: 6px; padding: 5px 12px;
+    border: 1px solid #ddd; border-radius: 4px; font-size: 12px;
+    font-family: 'JetBrains Mono', monospace; cursor: pointer; user-select: none; background: #fff;
+  }
+  .scale-toggle.active { border-color: #000; background: #eee; }
+  .scale-toggle .scale-name { font-weight: 600; }
+  .scale-toggle .scale-desc { font-weight: 300; color: #999; font-size: 10px; }
+  .scale-toggle.active .scale-desc { color: #000; opacity: 0.7; }
+  .btn-row { display: flex; gap: 10px; margin-top: 10px; }
+  button { padding: 8px 20px; border: none; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .btn-primary { background: #000; color: #fff; }
+  .btn-primary:hover { background: #333; }
+  .btn-secondary { background: #eee; color: #000; }
+  .btn-secondary:hover { background: #ddd; }
+  #rule-container { max-width: 900px; margin: 0 auto; overflow-x: auto; }
+  #rule-container svg { display: block; margin: 0 auto; }
+  @media print {
+    .controls { display: none !important; }
+    body { padding: 0; }
+    #rule-container { max-width: none; overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<div class="controls">
+  <h1>Vertical Slide Rule Generator</h1>
+  <p class="subtitle">Configure, preview, and print. Everything is vector — prints crisp at any resolution.</p>
+  <div class="control-grid">
+    <div class="control-group"><label>Rule Height (mm)</label><input type="number" id="ruleHeight" value="250" min="100" max="500" step="10"></div>
+    <div class="control-group"><label>Scale Width (mm)</label><input type="number" id="scaleWidth" value="18" min="10" max="40" step="1"></div>
+    <div class="control-group"><label>Min Tick Spacing (mm)</label><input type="number" id="minTickSpacing" value="1.0" min="0.3" max="3" step="0.1"></div>
+    <div class="control-group"><label>Min Sub-tick Spacing (mm)</label><input type="number" id="minSubTickSpacing" value="0.8" min="0.2" max="3" step="0.1"></div>
+    <div class="control-group"><label>Major Font Size (pt)</label><input type="number" id="fontSize" value="8" min="4" max="12" step="0.5"></div>
+    <div class="control-group"><label>Sub-label Size (pt)</label><input type="number" id="subFontSize" value="6" min="3" max="10" step="0.5"></div>
+  </div>
+  <div style="margin-bottom:16px">
+    <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:8px;display:block;">Tick Lengths (% of scale width)</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono';font-size:11px;min-width:70px">Major</span><input type="range" id="tickL" min="20" max="95" value="70" style="flex:1;accent-color:#000"><span id="tickLVal" style="font-family:'JetBrains Mono';font-size:11px;min-width:28px">70%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono';font-size:11px;min-width:70px">Mid-10th</span><input type="range" id="tickM" min="10" max="80" value="45" style="flex:1;accent-color:#000"><span id="tickMVal" style="font-family:'JetBrains Mono';font-size:11px;min-width:28px">45%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono';font-size:11px;min-width:70px">10th</span><input type="range" id="tickS" min="5" max="70" value="28" style="flex:1;accent-color:#000"><span id="tickSVal" style="font-family:'JetBrains Mono';font-size:11px;min-width:28px">28%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono';font-size:11px;min-width:70px">Sub-10th</span><input type="range" id="tickT" min="3" max="50" value="16" style="flex:1;accent-color:#000"><span id="tickTVal" style="font-family:'JetBrains Mono';font-size:11px;min-width:28px">16%</span></div>
+    </div>
+  </div>
+  <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:6px;display:block;">Scales</label>
+  <div class="scale-toggles" id="scaleToggles"></div>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="window.print()">Print</button>
+  </div>
+</div>
+<div id="rule-container"></div>
+
+<script>
+const PI = Math.PI;
+const NS = 'http://www.w3.org/2000/svg';
+const SCALE_DEFS = [
+  { id:'D', name:'D', desc:'x',          side:'stator', default:true,  fn:x=>Math.log10(x), range:[1,10], useX:true },
+  { id:'C', name:'C', desc:'x (slide)',  side:'slide',  default:true,  fn:x=>Math.log10(x), range:[1,10], useX:true },
+  { id:'CI',name:'CI',desc:'1/x',        side:'stator', default:true,  fn:x=>Math.log10(x), range:[1,10], useX:true, inverted:true },
+  { id:'A', name:'A', desc:'x²',         side:'stator', default:true,  fn:x=>Math.log10(x)/2, range:[1,100] },
+  { id:'B', name:'B', desc:'x² (slide)', side:'slide',  default:false, fn:x=>Math.log10(x)/2, range:[1,100] },
+  { id:'L', name:'L', desc:'log₁₀',      side:'stator', default:true,  fn:x=>x, range:[0,1], linear:true },
+];
+
+let activeScales = new Set(SCALE_DEFS.filter(s=>s.default).map(s=>s.id));
+const togglesEl = document.getElementById('scaleToggles');
+SCALE_DEFS.forEach(sd => {
+  const div = document.createElement('div');
+  div.className = 'scale-toggle' + (activeScales.has(sd.id) ? ' active' : '');
+  div.innerHTML = `<span class="scale-name">${sd.name}</span><span class="scale-desc">${sd.desc}</span>`;
+  div.addEventListener('click', () => {
+    if (activeScales.has(sd.id)) { activeScales.delete(sd.id); div.classList.remove('active'); }
+    else { activeScales.add(sd.id); div.classList.add('active'); }
+    generate();
+  });
+  togglesEl.appendChild(div);
+});
+
+// pt to mm: 1pt = 0.3528mm
+const ptToMM = 0.3528;
+
+// Auto-regenerate on any input change
+document.querySelectorAll('.controls input').forEach(el => {
+  el.addEventListener('input', () => {
+    // Update tick slider readouts
+    ['tickL','tickM','tickS','tickT'].forEach(id => {
+      document.getElementById(id + 'Val').textContent = document.getElementById(id).value + '%';
+    });
+    generate();
+  });
+});
+
+function generate() {
+  const ruleH    = +document.getElementById('ruleHeight').value;
+  const scaleW   = +document.getElementById('scaleWidth').value;
+  const minTick  = +document.getElementById('minTickSpacing').value;
+  const minSub   = +document.getElementById('minSubTickSpacing').value;
+  const fontMM   = +document.getElementById('fontSize').value * ptToMM;
+  const subFMM   = +document.getElementById('subFontSize').value * ptToMM;
+
+  const tL_ratio = +document.getElementById('tickL').value / 100;
+  const tM_ratio = +document.getElementById('tickM').value / 100;
+  const tS_ratio = +document.getElementById('tickS').value / 100;
+  const tT_ratio = +document.getElementById('tickT').value / 100;
+
+  const scales = SCALE_DEFS.filter(s => activeScales.has(s.id));
+  if (!scales.length) return;
+
+  const statorScales = scales.filter(s => s.side === 'stator');
+  const slideScales  = scales.filter(s => s.side === 'slide');
+
+  const padTop = 10;  // mm
+  const padBot = 5;   // mm
+  const trackH = ruleH - padTop - padBot;
+  const cutGap = 1.5; // mm
+  const labelMargin = scaleW * 0.5;
+  const scaleSlot = scaleW + labelMargin;
+
+  const slideW  = slideScales.length * scaleSlot;
+  const statorW = statorScales.length * scaleSlot;
+  const marginX = 1.5;
+  const totalW  = marginX + slideW + cutGap + statorW + marginX;
+
+  const slideX  = marginX;
+  const statorX = slideX + slideW + cutGap;
+  const cutX    = slideX + slideW + cutGap / 2;
+
+  // Build SVG
+  const container = document.getElementById('rule-container');
+  container.innerHTML = '';
+
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('xmlns', NS);
+  svg.setAttribute('width', totalW + 'mm');
+  svg.setAttribute('height', ruleH + 'mm');
+  svg.setAttribute('viewBox', `0 0 ${totalW} ${ruleH}`);
+  svg.style.fontFamily = "'JetBrains Mono', monospace";
+  svg.style.background = '#fff';
+  container.appendChild(svg);
+
+  // Collect all SVG content as string for performance, then set innerHTML
+  let out = '';
+
+  function r(n) { return Math.round(n * 1000) / 1000; }
+
+  function line(x1, y1, x2, y2, w, dash) {
+    out += `<line x1="${r(x1)}" y1="${r(y1)}" x2="${r(x2)}" y2="${r(y2)}" stroke="#000" stroke-width="${r(w)}"`;
+    if (dash) out += ` stroke-dasharray="${dash}"`;
+    out += `/>\n`;
+  }
+
+  function text(str, x, y, fs, weight, anchor) {
+    anchor = anchor || 'start';
+    out += `<text x="${r(x)}" y="${r(y)}" font-size="${r(fs)}" font-weight="${weight||500}" text-anchor="${anchor}" dominant-baseline="central" fill="#000">${str}</text>\n`;
+  }
+
+  // Position helper: value → y in mm. inv flips the scale.
+  const pos = (fv, fMin, fMax, inv) => {
+    let t = (fv - fMin) / (fMax - fMin);
+    if (inv) t = 1 - t;
+    return padTop + trackH - t * trackH;
+  };
+  const fits = (y1, y2, fs) => Math.abs(y1 - y2) > fs * 1.4;
+
+  // Cut line
+  line(cutX, 0, cutX, ruleH, 0.2, '0.8 0.8');
+
+  // ── Log scale ──
+  function drawLogScale(sd, xB, dir) {
+    const { fn, range, useX, inverted } = sd;
+    const inv = !!inverted;
+    const [rMin, rMax] = range;
+    const fMin = fn(rMin), fMax = fn(rMax);
+    const tL = scaleW*tL_ratio, tM = scaleW*tM_ratio, tS = scaleW*tS_ratio, tT = scaleW*tT_ratio;
+
+    let majors = [];
+    if (rMax <= 10) { for(let d=1;d<=10;d++) majors.push(d); }
+    else if (rMax <= 100) { for(let d=1;d<=9;d++) majors.push(d); for(let d=10;d<=100;d+=10) majors.push(d); }
+    else { for(let d=1;d<=9;d++) majors.push(d); for(let d=10;d<=90;d+=10) majors.push(d); for(let d=100;d<=1000;d+=100) majors.push(d); }
+
+    // Baseline
+    line(xB, padTop, xB, padTop + trackH, 0.15);
+
+    // Major ticks + labels
+    majors.forEach(v => {
+      if (v < rMin || v > rMax) return;
+      const y = pos(fn(v), fMin, fMax, inv);
+      line(xB, y, xB + tL * dir, y, 0.2);
+      let s = String(v); if (v === 10 && useX) s = 'X';
+      const anchor = dir > 0 ? 'start' : 'end';
+      const lx = dir > 0 ? xB + tL + 0.5 : xB - tL - 0.5;
+      text(s, lx, y, fontMM, 500, anchor);
+    });
+
+    // Subdivide
+    for (let i = 0; i < majors.length - 1; i++) {
+      const a = majors[i], b = majors[i+1];
+      if (a < rMin || b > rMax) continue;
+      const yA = pos(fn(a), fMin, fMax, inv), yB = pos(fn(b), fMin, fMax, inv);
+      const span = Math.abs(yA - yB), sub = span / 10;
+      if (sub < minTick) continue;
+
+      const step = (b - a) / 10;
+      for (let j = 1; j < 10; j++) {
+        const v = a + j * step, y = pos(fn(v), fMin, fMax, inv), mid = j === 5;
+        line(xB, y, xB + (mid ? tM : tS) * dir, y, mid ? 0.15 : 0.1);
+
+        // Sub-labels
+        const yP = pos(fn(a + (j-1)*step), fMin, fMax, inv);
+        const yN = j < 9 ? pos(fn(a + (j+1)*step), fMin, fMax, inv) : pos(fn(b), fMin, fMax, inv);
+        if (fits(y, yP, subFMM) && fits(y, yN, subFMM)) {
+          let sl = step < 1 ? '.' + v.toFixed(1).split('.')[1] : String(Math.round(v));
+          const anchor = dir > 0 ? 'start' : 'end';
+          const lx = dir > 0 ? xB + tM + 0.4 : xB - tM - 0.4;
+          text(sl, lx, y, subFMM, 400, anchor);
+        }
+      }
+
+      // Sub-sub
+      const ss = sub / 10;
+      if (ss >= minSub) {
+        for (let j = 0; j < 10; j++) {
+          const va = a + j*step, vb = a + (j+1)*step;
+          for (let k = 1; k < 10; k++) {
+            const vv = va + (vb - va) * k / 10;
+            const yy = pos(fn(vv), fMin, fMax, inv);
+            const m2 = k === 5;
+            line(xB, yy, xB + (m2 ? tS : tT) * dir, yy, m2 ? 0.1 : 0.07);
+          }
+        }
+      } else if (sub / 2 >= minSub) {
+        for (let j = 0; j < 10; j++) {
+          const vm = a + (j + 0.5) * step;
+          const yvm = pos(fn(vm), fMin, fMax, inv);
+          line(xB, yvm, xB + tT * dir, yvm, 0.07);
+        }
+      }
+    }
+  }
+
+  // ── Linear scale (L) ──
+  function drawLinearScale(sd, xB, dir) {
+    const fMin = 0, fMax = 1;
+    const tL = scaleW*tL_ratio, tM = scaleW*tM_ratio, tS = scaleW*tS_ratio, tT = scaleW*tT_ratio;
+
+    line(xB, padTop, xB, padTop + trackH, 0.15);
+
+    for (let i = 0; i <= 10; i++) {
+      const v = i / 10, y = pos(v, fMin, fMax);
+      line(xB, y, xB + tL * dir, y, 0.2);
+      let s; if (i === 0) s = '.0'; else if (i === 10) s = '1.'; else s = '.' + i;
+      const anchor = dir > 0 ? 'start' : 'end';
+      text(s, dir > 0 ? xB + tL + 0.5 : xB - tL - 0.5, y, fontMM, 500, anchor);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const a = i/10, b = (i+1)/10;
+      const yA = pos(a, fMin, fMax), yB = pos(b, fMin, fMax);
+      const span = Math.abs(yA - yB), sub = span / 10;
+      if (sub < minTick) continue;
+
+      const step = (b - a) / 10;
+      for (let j = 1; j < 10; j++) {
+        const v = a + j * step, y = pos(v, fMin, fMax), mid = j === 5;
+        line(xB, y, xB + (mid ? tM : tS) * dir, y, mid ? 0.15 : 0.1);
+
+        const yP = pos(a + (j-1)*step, fMin, fMax);
+        const yN = j < 9 ? pos(a + (j+1)*step, fMin, fMax) : pos(b, fMin, fMax);
+        if (fits(y, yP, subFMM) && fits(y, yN, subFMM)) {
+          const digits = v.toFixed(2).slice(2);
+          const anchor = dir > 0 ? 'start' : 'end';
+          text('.' + digits, dir > 0 ? xB + tM + 0.4 : xB - tM - 0.4, y, subFMM, 400, anchor);
+        }
+      }
+
+      const ss = sub / 10;
+      if (ss >= minSub) {
+        for (let j = 0; j < 10; j++) {
+          const va = a + j*step, vb = a + (j+1)*step;
+          for (let k = 1; k < 10; k++) {
+            const vv = va + (vb - va) * k / 10, yy = pos(vv, fMin, fMax), m2 = k === 5;
+            line(xB, yy, xB + (m2 ? tS : tT) * dir, yy, m2 ? 0.1 : 0.07);
+          }
+        }
+      } else if (sub / 2 >= minSub) {
+        for (let j = 0; j < 10; j++) {
+          const ym = pos(a + (j + 0.5) * step, fMin, fMax);
+          line(xB, ym, xB + tT * dir, ym, 0.07);
+        }
+      }
+    }
+  }
+
+  // ── Draw scale dispatch ──
+  function drawScale(sd, xB, dir) {
+    if (sd.linear) drawLinearScale(sd, xB, dir);
+    else drawLogScale(sd, xB, dir);
+  }
+
+  // ── Layout ──
+  slideScales.forEach((sd, i) => drawScale(sd, slideX + i * scaleSlot, 1));
+  statorScales.forEach((sd, i) => drawScale(sd, statorX + (statorScales.length - 1 - i) * scaleSlot + scaleW, -1));
+
+  // ── Top labels ──
+  const labelY = 2.5;
+  const headFS = fontMM * 1.2;
+
+  slideScales.forEach((sd, i) => {
+    text(sd.name, slideX + i * scaleSlot + scaleW * 0.35, labelY, headFS, 600, 'middle');
+  });
+  statorScales.forEach((sd, i) => {
+    text(sd.name, statorX + (statorScales.length - 1 - i) * scaleSlot + scaleW * 0.65, labelY, headFS, 600, 'middle');
+  });
+
+  svg.innerHTML = out;
+}
+
+generate();
+</script>
+</body>
+</html>

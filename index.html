@@ -113,9 +113,14 @@ main>article::after{
 }
 
 details article {
-  background: light-dark(oldlace,Field);
+  background: oldlace;
   padding:1em;
   margin-bottom: 1lh;
+}
+@media (prefers-color-scheme: dark){
+  details article {
+    background: Field;
+  }
 }
 
 #life:checked ~ .life,

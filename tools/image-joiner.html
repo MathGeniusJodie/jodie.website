@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Joiner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0e0e10;
+    --surface: #18181c;
+    --surface-hover: #222228;
+    --border: #2a2a32;
+    --border-focus: #5a5aff;
+    --text: #e8e8ec;
+    --text-dim: #78788a;
+    --accent: #6c6cff;
+    --accent-glow: rgba(108, 108, 255, 0.15);
+    --danger: #ff4a6a;
+    --danger-glow: rgba(255, 74, 106, 0.15);
+    --success: #34d399;
+    --radius: 10px;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .control-group label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .control-group input[type="number"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    width: 5rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .control-group input:focus {
+    border-color: var(--border-focus);
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  .controls-hint {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    align-self: center;
+    margin-left: 0.25rem;
+    opacity: 0.7;
+  }
+
+  #drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 4rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--surface);
+  }
+
+  #drop-zone.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  #drop-zone p {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  #drop-zone p .key {
+    display: inline-block;
+    background: var(--border);
+    border-radius: 4px;
+    padding: 0.15em 0.5em;
+    font-size: 0.8em;
+    margin: 0 0.15em;
+  }
+
+  #drop-zone .expect {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { filter: brightness(1.15); }
+  .btn-primary:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    filter: none;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-dim);
+  }
+  .btn-outline:hover {
+    border-color: var(--text-dim);
+    color: var(--text);
+  }
+
+  /* Grid arrangement section */
+  #arrange-section {
+    display: none;
+    margin-top: 2rem;
+  }
+
+  .arrange-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .arrange-header h2 {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-dim);
+  }
+
+  .arrange-header h2 strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .arrange-info {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+  }
+
+  #arrange-grid {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cell {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+
+  .cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 3px;
+  }
+
+  .cell .cell-label {
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    background: rgba(14, 14, 16, 0.85);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .cell.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .cell.dragging {
+    opacity: 0.4;
+  }
+
+  .cell[draggable="true"] {
+    cursor: grab;
+  }
+
+  .cell[draggable="true"]:active {
+    cursor: grabbing;
+  }
+
+  /* Preview */
+  #preview-section {
+    display: none;
+    margin-top: 2rem;
+  }
+
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .preview-header h2 {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-dim);
+  }
+
+  .preview-header h2 strong {
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  #preview-canvas {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    .controls { flex-direction: column; align-items: stretch; }
+    .control-group input[type="number"] { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<h1><span>⬡</span> Image Joiner</h1>
+
+<div class="controls">
+  <div class="control-group">
+    <label>Columns</label>
+    <input type="number" id="cols" value="4" min="1" max="50">
+  </div>
+  <div class="control-group">
+    <label>Rows</label>
+    <input type="number" id="rows" value="2" min="1" max="50">
+  </div>
+  <div class="controls-hint" id="expect-hint">expects 8 images</div>
+</div>
+
+<div id="drop-zone">
+  <p>Drop images here or <span class="key">click</span> to browse</p>
+  <p class="expect">tiles fill left-to-right, top-to-bottom</p>
+</div>
+
+<input type="file" id="file-input" accept="image/*" multiple hidden>
+
+<div id="arrange-section">
+  <div class="arrange-header">
+    <h2><strong id="image-count">0</strong> images loaded</h2>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+      <button class="btn btn-outline" id="clear-btn">Clear</button>
+      <button class="btn btn-primary" id="join-btn">Join &amp; Download</button>
+    </div>
+  </div>
+  <p class="arrange-info">drag tiles to reorder</p>
+  <div id="arrange-grid"></div>
+</div>
+
+<div id="preview-section">
+  <div class="preview-header">
+    <h2><strong>Result</strong></h2>
+    <button class="btn btn-primary" id="save-btn">Save PNG</button>
+  </div>
+  <canvas id="preview-canvas"></canvas>
+</div>
+
+<script>
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const colsInput = document.getElementById('cols');
+  const rowsInput = document.getElementById('rows');
+  const expectHint = document.getElementById('expect-hint');
+  const arrangeSection = document.getElementById('arrange-section');
+  const arrangeGrid = document.getElementById('arrange-grid');
+  const imageCount = document.getElementById('image-count');
+  const clearBtn = document.getElementById('clear-btn');
+  const joinBtn = document.getElementById('join-btn');
+  const previewSection = document.getElementById('preview-section');
+  const previewCanvas = document.getElementById('preview-canvas');
+  const saveBtn = document.getElementById('save-btn');
+
+  let images = []; // { img: HTMLImageElement, name: string }
+
+  function getCols() { return Math.max(1, parseInt(colsInput.value) || 1); }
+  function getRows() { return Math.max(1, parseInt(rowsInput.value) || 1); }
+
+  function updateExpectHint() {
+    const n = getCols() * getRows();
+    expectHint.textContent = `expects ${n} image${n !== 1 ? 's' : ''}`;
+  }
+  colsInput.addEventListener('input', updateExpectHint);
+  rowsInput.addEventListener('input', updateExpectHint);
+  updateExpectHint();
+
+  // --- Drop & file ---
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('active'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('active');
+    const files = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+    if (files.length) addFiles(files);
+  });
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) addFiles([...fileInput.files]);
+    fileInput.value = '';
+  });
+
+  async function addFiles(files) {
+    for (const file of files) {
+      const img = await loadImg(file);
+      images.push({ img, name: file.name });
+    }
+    renderGrid();
+  }
+
+  function loadImg(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // --- Arrangement grid with drag-to-reorder ---
+  let dragIdx = null;
+
+  function renderGrid() {
+    const cols = getCols();
+    arrangeGrid.innerHTML = '';
+    arrangeGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+    imageCount.textContent = images.length;
+    arrangeSection.style.display = images.length > 0 ? 'block' : 'none';
+    previewSection.style.display = 'none';
+
+    images.forEach((item, i) => {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.draggable = true;
+      cell.dataset.index = i;
+
+      const img = document.createElement('img');
+      img.src = item.img.src;
+      img.alt = item.name;
+      cell.appendChild(img);
+
+      const label = document.createElement('div');
+      label.className = 'cell-label';
+      const row = Math.floor(i / cols) + 1;
+      const col = (i % cols) + 1;
+      label.textContent = `${row}\u00d7${col}`;
+      cell.appendChild(label);
+
+      // Drag events
+      cell.addEventListener('dragstart', e => {
+        dragIdx = i;
+        cell.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      cell.addEventListener('dragend', () => {
+        cell.classList.remove('dragging');
+        dragIdx = null;
+      });
+      cell.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        cell.classList.add('drag-over');
+      });
+      cell.addEventListener('dragleave', () => {
+        cell.classList.remove('drag-over');
+      });
+      cell.addEventListener('drop', e => {
+        e.preventDefault();
+        cell.classList.remove('drag-over');
+        if (dragIdx === null || dragIdx === i) return;
+        // Swap
+        const temp = images[dragIdx];
+        images[dragIdx] = images[i];
+        images[i] = temp;
+        renderGrid();
+      });
+
+      arrangeGrid.appendChild(cell);
+    });
+  }
+
+  // --- Join ---
+  joinBtn.addEventListener('click', () => {
+    if (images.length === 0) return;
+    const cols = getCols();
+    const rows = getRows();
+
+    // Determine tile size: use the dimensions of the first image
+    const tileW = images[0].img.naturalWidth;
+    const tileH = images[0].img.naturalHeight;
+
+    const canvas = previewCanvas;
+    canvas.width = cols * tileW;
+    canvas.height = rows * tileH;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < cols * rows; i++) {
+      if (i >= images.length) break;
+      const c = i % cols;
+      const r = Math.floor(i / cols);
+      ctx.drawImage(images[i].img, c * tileW, r * tileH, tileW, tileH);
+    }
+
+    previewSection.style.display = 'block';
+    previewSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  // --- Save ---
+  saveBtn.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'joined.png';
+    link.href = previewCanvas.toDataURL('image/png');
+    link.click();
+  });
+
+  // --- Clear ---
+  clearBtn.addEventListener('click', () => {
+    images = [];
+    arrangeGrid.innerHTML = '';
+    arrangeSection.style.display = 'none';
+    previewSection.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>

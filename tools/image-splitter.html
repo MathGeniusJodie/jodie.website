@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Splitter</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0e0e10;
+    --surface: #18181c;
+    --surface-hover: #222228;
+    --border: #2a2a32;
+    --border-focus: #5a5aff;
+    --text: #e8e8ec;
+    --text-dim: #78788a;
+    --accent: #6c6cff;
+    --accent-glow: rgba(108, 108, 255, 0.15);
+    --danger: #ff4a6a;
+    --danger-glow: rgba(255, 74, 106, 0.15);
+    --radius: 10px;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .control-group label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .control-group input[type="number"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    width: 5rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .control-group input:focus {
+    border-color: var(--border-focus);
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  .controls-hint {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    align-self: center;
+    margin-left: 0.25rem;
+    opacity: 0.7;
+  }
+
+  #drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 4rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--surface);
+    position: relative;
+  }
+
+  #drop-zone.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  #drop-zone p {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  #drop-zone p .key {
+    display: inline-block;
+    background: var(--border);
+    border-radius: 4px;
+    padding: 0.15em 0.5em;
+    font-size: 0.8em;
+    margin: 0 0.15em;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { filter: brightness(1.15); }
+  .btn-primary:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    filter: none;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-dim);
+  }
+  .btn-outline:hover {
+    border-color: var(--text-dim);
+    color: var(--text);
+  }
+
+  .btn-danger {
+    background: transparent;
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+  .btn-danger:hover {
+    background: var(--danger-glow);
+  }
+
+  #tiles-section {
+    display: none;
+    margin-top: 2rem;
+  }
+
+  .tiles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .tiles-header h2 {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-dim);
+  }
+
+  .tiles-header h2 strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .source-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .source-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .source-label .dims {
+    opacity: 0.5;
+  }
+
+  .source-tiles {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .tile {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+  }
+
+  .tile:hover {
+    border-color: var(--danger);
+  }
+
+  .tile .delete-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--danger);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 0.15s ease;
+    pointer-events: none;
+  }
+
+  .tile:hover .delete-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .tile .tile-label {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    background: rgba(14, 14, 16, 0.8);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .tile.removed {
+    opacity: 0;
+    transform: scale(0.85);
+    pointer-events: none;
+    position: absolute;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    .controls { flex-direction: column; align-items: stretch; }
+    .control-group input[type="number"] { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<h1><span>⬡</span> Image Splitter</h1>
+
+<div class="controls">
+  <div class="control-group">
+    <label>Columns</label>
+    <input type="number" id="cols" value="4" min="1" max="50">
+  </div>
+  <div class="control-group">
+    <label>Rows</label>
+    <input type="number" id="rows" value="2" min="1" max="50">
+  </div>
+  <div class="controls-hint">set grid, then drop images</div>
+</div>
+
+<div id="drop-zone">
+  <p>Drop images here or <span class="key">click</span> to browse</p>
+  <p style="margin-top:0.5rem;font-size:0.75rem;opacity:0.6">multiple images supported — splits automatically</p>
+</div>
+
+<input type="file" id="file-input" accept="image/*" multiple hidden>
+
+<div id="tiles-section">
+  <div class="tiles-header">
+    <h2><strong id="tile-count">0</strong> tiles remaining</h2>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+      <button class="btn btn-outline" id="clear-btn">Clear All</button>
+      <button class="btn btn-primary" id="download-btn">Download All (.tar)</button>
+    </div>
+  </div>
+  <div id="tiles-grid"></div>
+</div>
+
+<script>
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const colsInput = document.getElementById('cols');
+  const rowsInput = document.getElementById('rows');
+  const tilesSection = document.getElementById('tiles-section');
+  const tilesGrid = document.getElementById('tiles-grid');
+  const tileCount = document.getElementById('tile-count');
+  const downloadBtn = document.getElementById('download-btn');
+  const clearBtn = document.getElementById('clear-btn');
+
+  let allTiles = []; // { canvas, sourceName, row, col, removed }
+
+  // --- Drop & file handling ---
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('active'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('active');
+    const files = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+    if (files.length) processFiles(files);
+  });
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) processFiles([...fileInput.files]);
+    fileInput.value = '';
+  });
+
+  async function processFiles(files) {
+    for (const file of files) {
+      const img = await loadImageFromFile(file);
+      splitAndAppend(img, file.name);
+    }
+    tilesSection.style.display = 'block';
+    updateCount();
+  }
+
+  function loadImageFromFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function splitAndAppend(sourceImage, fileName) {
+    const cols = Math.max(1, parseInt(colsInput.value) || 1);
+    const rows = Math.max(1, parseInt(rowsInput.value) || 1);
+    const tileW = Math.floor(sourceImage.naturalWidth / cols);
+    const tileH = Math.floor(sourceImage.naturalHeight / rows);
+    const baseName = fileName.replace(/\.[^.]+$/, '');
+
+    const group = document.createElement('div');
+    group.className = 'source-group';
+
+    const label = document.createElement('div');
+    label.className = 'source-label';
+    label.innerHTML = `<span>${escHtml(fileName)}</span><span class="dims">${sourceImage.naturalWidth}&times;${sourceImage.naturalHeight} &rarr; ${cols}&times;${rows}</span>`;
+    group.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'source-tiles';
+    grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    group.appendChild(grid);
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const canvas = document.createElement('canvas');
+        canvas.width = tileW;
+        canvas.height = tileH;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(sourceImage, c * tileW, r * tileH, tileW, tileH, 0, 0, tileW, tileH);
+
+        const tile = { canvas, sourceName: baseName, row: r, col: c, removed: false };
+        allTiles.push(tile);
+
+        const div = document.createElement('div');
+        div.className = 'tile';
+        const img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png');
+        img.alt = `${baseName} ${r + 1},${c + 1}`;
+        div.appendChild(img);
+
+        const badge = document.createElement('div');
+        badge.className = 'delete-badge';
+        badge.textContent = '\u00d7';
+        div.appendChild(badge);
+
+        const tileLabel = document.createElement('div');
+        tileLabel.className = 'tile-label';
+        tileLabel.textContent = `${r + 1}\u00d7${c + 1}`;
+        div.appendChild(tileLabel);
+
+        div.addEventListener('click', () => {
+          tile.removed = true;
+          div.classList.add('removed');
+          setTimeout(() => div.remove(), 200);
+          updateCount();
+          setTimeout(() => {
+            if (grid.querySelectorAll('.tile:not(.removed)').length === 0) {
+              group.remove();
+            }
+          }, 250);
+        });
+
+        grid.appendChild(div);
+      }
+    }
+
+    tilesGrid.appendChild(group);
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function updateCount() {
+    const remaining = allTiles.filter(t => !t.removed).length;
+    tileCount.textContent = remaining;
+    downloadBtn.disabled = remaining === 0;
+  }
+
+  // --- Clear all ---
+  clearBtn.addEventListener('click', () => {
+    allTiles = [];
+    tilesGrid.innerHTML = '';
+    tilesSection.style.display = 'none';
+  });
+
+  // --- Download as .tar ---
+  downloadBtn.addEventListener('click', async () => {
+    const remaining = allTiles.filter(t => !t.removed);
+    if (remaining.length === 0) return;
+
+    if (remaining.length === 1) {
+      const t = remaining[0];
+      const link = document.createElement('a');
+      link.download = `${t.sourceName}_${t.row + 1}_${t.col + 1}.png`;
+      link.href = t.canvas.toDataURL('image/png');
+      link.click();
+      return;
+    }
+
+    downloadBtn.textContent = 'Packing\u2026';
+    downloadBtn.disabled = true;
+
+    try {
+      const files = [];
+      for (const t of remaining) {
+        const blob = await new Promise(res => t.canvas.toBlob(res, 'image/png'));
+        const buf = await blob.arrayBuffer();
+        files.push({
+          name: `${t.sourceName}_${t.row + 1}_${t.col + 1}.png`,
+          data: new Uint8Array(buf)
+        });
+      }
+
+      const tarBlob = buildTar(files);
+      const url = URL.createObjectURL(tarBlob);
+      const link = document.createElement('a');
+      link.download = 'tiles.tar';
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      downloadBtn.textContent = 'Download All (.tar)';
+      downloadBtn.disabled = false;
+    }
+  });
+
+  // --- Minimal USTAR tar builder ---
+  function buildTar(files) {
+    const blocks = [];
+
+    for (const f of files) {
+      const header = new Uint8Array(512);
+
+      // File name (0, 100)
+      writeStr(header, 0, f.name, 100);
+      // Mode (100, 8)
+      writeStr(header, 100, '0000644\0', 8);
+      // uid/gid (108, 8 each)
+      writeStr(header, 108, '0000000\0', 8);
+      writeStr(header, 116, '0000000\0', 8);
+      // Size in octal (124, 12)
+      writeStr(header, 124, padOct(f.data.length, 11) + '\0', 12);
+      // Mtime (136, 12)
+      writeStr(header, 136, padOct(Math.floor(Date.now() / 1000), 11) + '\0', 12);
+      // Checksum placeholder: spaces (148, 8)
+      for (let i = 148; i < 156; i++) header[i] = 0x20;
+      // Type '0' (156)
+      header[156] = 0x30;
+      // USTAR magic + version (257, 8)
+      writeStr(header, 257, 'ustar\0', 6);
+      writeStr(header, 263, '00', 2);
+
+      // Compute checksum
+      let cksum = 0;
+      for (let i = 0; i < 512; i++) cksum += header[i];
+      writeStr(header, 148, padOct(cksum, 6) + '\0 ', 8);
+
+      blocks.push(header);
+      blocks.push(f.data);
+      const pad = f.data.length % 512;
+      if (pad !== 0) blocks.push(new Uint8Array(512 - pad));
+    }
+
+    // End-of-archive: two zero blocks
+    blocks.push(new Uint8Array(1024));
+
+    const total = blocks.reduce((s, b) => s + b.length, 0);
+    const out = new Uint8Array(total);
+    let pos = 0;
+    for (const b of blocks) { out.set(b, pos); pos += b.length; }
+    return new Blob([out], { type: 'application/x-tar' });
+  }
+
+  function writeStr(buf, off, str, max) {
+    for (let i = 0; i < Math.min(str.length, max); i++)
+      buf[off + i] = str.charCodeAt(i);
+  }
+
+  function padOct(n, w) {
+    return n.toString(8).padStart(w, '0');
+  }
+</script>
+
+</body>
+</html>
