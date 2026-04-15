@@ -5,6 +5,7 @@
 <link rel="alternate" type="application/atom+xml" title="Jodie's Blog Atom Feed" href="/feed.xml" />
 <link rel="canonical" href="https://jodie.website">
 <title>Jodie's Website</title>
+<meta name="description" content="Jodie's blog about maximizing delight in life and speed in code.">
 <style>
 .projects li img{
   width: 100%;
@@ -194,14 +195,6 @@ figcaption {
 }
 math.h2{
   height:1lh
-}
-.bright-adjust {
-  filter: brightness(50%);
-}
-@media (prefers-color-scheme: dark){
-  .bright-adjust {
-    filter: brightness(160%);
-  }
 }
 
 [aria-hidden="true"] {
@@ -769,7 +762,7 @@ p {
           dither patterns become harder and harder to see and vram gets more and more
           strained. Ordered dithering isn't just the past, it's the future as well!</p>
         <ul role="doc-endnotes" id="#dither-notes">
-          <li><a role="doc-footnote" href="#dither-noteref">* As far as I know.<a></li>
+          <li><a role="doc-footnote" href="#dither-noteref">* As far as I know.</a></li>
         </ul>
       </article>
     </details></li>
@@ -1013,6 +1006,16 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
 </article>
 <article id="blackbody" class="math">
   <time datetime="2025-07-19">July 19<sup>th</sup>, 2025</time>
+  <style>
+    .bright-adjust {
+      filter: brightness(50%);
+    }
+    @media (prefers-color-scheme: dark){
+      .bright-adjust {
+        filter: brightness(160%);
+      }
+    }
+  </style>
   <h2 class="bright-adjust"><span style="color:rgb(254, 57, 0)">Ra</span><span style="color:rgb(214, 103, 0)">ti</span><span style="color:rgb(182, 121, 63)">on</span><span style="color:rgb(161, 128, 96)">al</span> <span style="color:rgb(149, 131, 116)">Bl</span><span style="color:rgb(141, 133, 130)">ac</span><span style="color:rgb(135, 134, 140)">k-</span><span style="color:rgb(130, 134, 148)">bo</span><span style="color:rgb(127, 134, 153)">dy</span></h2>
   <iframe loading="lazy" src="blackbody.html" style="width: 100%; height: 186px; margin: -18px; border: none; margin-bottom: 1lh;"></iframe>
   <p>I made this dead-simple rational approximation of the <a href="https://en.wikipedia.org/wiki/Black-body_radiation" target="_blank">black-body</a> radiation formula.</p>
@@ -1386,7 +1389,7 @@ Computers turned us into information and math cyborgs, now they allow us to enha
 	<h2>A Programmer Without a Computer</h2>
 	<p>I've been using my phone as my main computer for a week now. I'm even coding on it, and it's… fine?</p>
 	<p>I'm writing this blog post on my phone right now in fact, using termux, neovim and unexpected keyboard.</p>
-	<figure><img src="4-neovim.png" alt=""></figure>
+	<figure><img src="4-neovim.png" alt="" width="540" height="1071"></figure>
 	<p>I might get a foldable phone and/or a physical keyboard in the future, but I'm not in a rush.</p>
 </article>
 <article id="desk" class="life">
@@ -1455,7 +1458,7 @@ You don't need └───┬──────────┬──┘
   <h2>My Projects:</h2>
   <ul class="projects">
     <li><a href="https://www.shadertoy.com/view/4dBcD1" target="_blank"><img src="https://static2.mtlws.ca/tonemap.png" width="640" height="360" alt=""><h3>Jodie Reinhard Tonemap</h3></a>Yes, I'm that Jodie, the one from the tonemap</li>
-    <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.jpg" width="1865" height="822" alt=""><h3>MoreWrong</h3></a>A satirical blog about rats</li>
+    <li><a href="https://morewrong.jodie.website/" target="_blank"><img src="https://static2.mtlws.ca/morewrong.webp" width="480" height="212" alt=""><h3>MoreWrong</h3></a>A satirical blog about rats</li>
     <li><a href="https://www.shadertoy.com/view/ttSGzh" target="_blank"><img src="https://static2.mtlws.ca/sky.png" width="240" height="135" alt=""><h3>Sky Renderer</h3></a>New Model of Scattering and Absorption in Translucent Media</li>
     <li><a href="https://mathgeniusjodie.github.io/tasktux/" target="_blank"><img src="https://static2.mtlws.ca/tux.png" width="806" height="707" alt=""><h3>Tasktux</h3></a>An opinionated todo manager</li>
     <li><a href="https://github.com/MathGeniusJodie/tuxfetch-rs" target="_blank"><img src="https://static2.mtlws.ca/tuxfetch.png" width="976" height="421" alt=""><h3>Tuxfetch</h3></a>A <em>fast</em> system information tool for linux</li>
