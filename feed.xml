@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 16 Apr 2026 10:58:25 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 17 Apr 2026 12:50:31 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+        <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
@@ -2677,7 +2677,72 @@ mistake the warmth for love
     
     The cheap shoes that hurt your feet? A bad mattress or a slow laptop that you use eight hours a day? For a $100 saving per year? Saving 10% on groceries and rent will save you thousands yearly.
     
-    Negotiate, optimize, and shop around \*hard\* for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+    Negotiate, optimize, and shop around _hard_ for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+    
+*   April 17th - **How to Make a Floating Point Math Library, Part III** (draft)
+    
+    ## How to Make a Floating Point Math Library, Part III
+    
+    In Parts I and II we built approximations for `exp2`, `log2`, `sqrt`, `rsqrt`, `cbrt`, and `rcp`. They get the order of magnitude right, which is crucial for floating point, but they're off by a few percent, which is useless for most things.
+    
+    The next few installments are about [numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis), a field of math dedicated to approximating transcendental functions with elementary functions (which have CPU instructions). I'm skipping past most of the theory and focusing on software tools that do the math for us.
+    
+    #### Numerical Analysis Part I: Iterative Refinement
+    
+    Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.
+    
+    ```
+    float Q_rsqrt( float number )
+    {
+    	long i;
+    	float x2, y;
+    	const float threehalfs = 1.5F;
+    
+    	x2 = number * 0.5F;
+    	y  = number;
+    	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+    	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+    	y  = * ( float * ) &i;
+    	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+    //	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+    
+    	return y;
+    }
+    ```
+    
+    The idea: you have a cheap, bad guess at `f(x)`. You also have a formula that turns that guess into a better one. Apply the formula until the guess is accurate enough.
+    
+    If you stare at the math, you can kinda tell what it's doing. `x2 * y * y` is `0.5 * x / sqrt(x) / sqrt(x)`, and `x / sqrt(x) / sqrt(x) == 1`. Because we only have a bad approximation of `1/sqrt(x)`, our `1` is the error between the true value and the approximate value. The rest of the formula scales it, since the error we have is on the _square_ of `f(x)`, not `f(x)` itself. We can't get the error of `f(x)` directly without knowing the ground truth, which is what we're trying to compute in the first place, so this is also an approximation. Hence the iterations.
+    
+    There's a systematic way to derive the iteration formula: [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method).
+    
+    xn+1 \= xn + (1/f) (xn) (1/f)′ (xn)
+    
+    Here `(1/f)(x)` means `1/f(x)`, and `′` means the derivative of the function.
+    
+    You can see it takes the guess and steps in the direction of the derivative until it hits zero.
+    
+    For `y = 1/sqrt(x)`, the function whose zero we want is `1/((1/y)^2-x)`, with derivative `(2 y)/(x y^2 - 1)^2`. Putting it together gives a giant mess that thankfully simplifies to `y' = y * ( 3/2 - ( x/2 * y * y ) )`, the exact formula from `Q_rsqrt`.
+    
+    Newton's method is part of a family called [Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method), which uses higher-order derivatives (derivatives of derivatives) in the numerator and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, but each iteration costs more. Which one to use depends. Trial and error.
+    
+    Deriving these by hand is a pain, so let the computer do it using [WolframScript](https://www.wolfram.com/wolframscript/), the language behind Wolfram Alpha and Mathematica.
+    
+    ```
+    (* Define your function eg. CubeRoot[x] *)
+    g[x_] := CubeRoot[x]
+    
+    inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0]
+    
+    f[y_] := 1/(inv[y]-x)
+    
+    Print["       Newton: ", FullSimplify[y+f[y]/f'[y]]]
+    Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
+    Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
+    Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]
+    ```
+    
+    In **Part IV** we will implement the other function and show error plots.
     
 
 *   April 15th - **Everything is Awesome**
@@ -2738,7 +2803,7 @@ Be the kind of person who shrugs off the bad things and gets genuine, childlike 
     
     The cheap shoes that hurt your feet? A bad mattress or a slow laptop that you use eight hours a day? For a $100 saving per year? Saving 10% on groceries and rent will save you thousands yearly.
     
-    Negotiate, optimize, and shop around \*hard\* for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+    Negotiate, optimize, and shop around _hard_ for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
     
 April 16th - **Price per Year**
 
@@ -2750,7 +2815,7 @@ When you budget, always multiply by frequency. A $5 daily coffee is a $1,825 ann
 
 The cheap shoes that hurt your feet? A bad mattress or a slow laptop that you use eight hours a day? For a $100 saving per year? Saving 10% on groceries and rent will save you thousands yearly.
 
-Negotiate, optimize, and shop around \*hard\* for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+Negotiate, optimize, and shop around _hard_ for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
 
 April 16th - **Price per Year**th**Price per Year**
 
@@ -2762,7 +2827,7 @@ When you budget, always multiply by frequency. A $5 daily coffee is a $1,825 ann
 
 The cheap shoes that hurt your feet? A bad mattress or a slow laptop that you use eight hours a day? For a $100 saving per year? Saving 10% on groceries and rent will save you thousands yearly.
 
-Negotiate, optimize, and shop around \*hard\* for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+Negotiate, optimize, and shop around _hard_ for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
 
 ## Price per Year
 
@@ -2772,7 +2837,283 @@ When you budget, always multiply by frequency. A $5 daily coffee is a $1,825 ann
 
 The cheap shoes that hurt your feet? A bad mattress or a slow laptop that you use eight hours a day? For a $100 saving per year? Saving 10% on groceries and rent will save you thousands yearly.
 
-Negotiate, optimize, and shop around \*hard\* for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.]]></description>
+Negotiate, optimize, and shop around _hard_ for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+
+_hard_*   April 17th - **How to Make a Floating Point Math Library, Part III** (draft)
+    
+    ## How to Make a Floating Point Math Library, Part III
+    
+    In Parts I and II we built approximations for `exp2`, `log2`, `sqrt`, `rsqrt`, `cbrt`, and `rcp`. They get the order of magnitude right, which is crucial for floating point, but they're off by a few percent, which is useless for most things.
+    
+    The next few installments are about [numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis), a field of math dedicated to approximating transcendental functions with elementary functions (which have CPU instructions). I'm skipping past most of the theory and focusing on software tools that do the math for us.
+    
+    #### Numerical Analysis Part I: Iterative Refinement
+    
+    Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.
+    
+    ```
+    float Q_rsqrt( float number )
+    {
+    	long i;
+    	float x2, y;
+    	const float threehalfs = 1.5F;
+    
+    	x2 = number * 0.5F;
+    	y  = number;
+    	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+    	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+    	y  = * ( float * ) &i;
+    	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+    //	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+    
+    	return y;
+    }
+    ```
+    
+    The idea: you have a cheap, bad guess at `f(x)`. You also have a formula that turns that guess into a better one. Apply the formula until the guess is accurate enough.
+    
+    If you stare at the math, you can kinda tell what it's doing. `x2 * y * y` is `0.5 * x / sqrt(x) / sqrt(x)`, and `x / sqrt(x) / sqrt(x) == 1`. Because we only have a bad approximation of `1/sqrt(x)`, our `1` is the error between the true value and the approximate value. The rest of the formula scales it, since the error we have is on the _square_ of `f(x)`, not `f(x)` itself. We can't get the error of `f(x)` directly without knowing the ground truth, which is what we're trying to compute in the first place, so this is also an approximation. Hence the iterations.
+    
+    There's a systematic way to derive the iteration formula: [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method).
+    
+    xn+1 \= xn + (1/f) (xn) (1/f)′ (xn)
+    
+    Here `(1/f)(x)` means `1/f(x)`, and `′` means the derivative of the function.
+    
+    You can see it takes the guess and steps in the direction of the derivative until it hits zero.
+    
+    For `y = 1/sqrt(x)`, the function whose zero we want is `1/((1/y)^2-x)`, with derivative `(2 y)/(x y^2 - 1)^2`. Putting it together gives a giant mess that thankfully simplifies to `y' = y * ( 3/2 - ( x/2 * y * y ) )`, the exact formula from `Q_rsqrt`.
+    
+    Newton's method is part of a family called [Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method), which uses higher-order derivatives (derivatives of derivatives) in the numerator and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, but each iteration costs more. Which one to use depends. Trial and error.
+    
+    Deriving these by hand is a pain, so let the computer do it using [WolframScript](https://www.wolfram.com/wolframscript/), the language behind Wolfram Alpha and Mathematica.
+    
+    ```
+    (* Define your function eg. CubeRoot[x] *)
+    g[x_] := CubeRoot[x]
+    
+    inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0]
+    
+    f[y_] := 1/(inv[y]-x)
+    
+    Print["       Newton: ", FullSimplify[y+f[y]/f'[y]]]
+    Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
+    Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
+    Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]
+    ```
+    
+    In **Part IV** we will implement the other function and show error plots.
+    
+April 17th - **How to Make a Floating Point Math Library, Part III** (draft)
+
+## How to Make a Floating Point Math Library, Part III
+
+In Parts I and II we built approximations for `exp2`, `log2`, `sqrt`, `rsqrt`, `cbrt`, and `rcp`. They get the order of magnitude right, which is crucial for floating point, but they're off by a few percent, which is useless for most things.
+
+The next few installments are about [numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis), a field of math dedicated to approximating transcendental functions with elementary functions (which have CPU instructions). I'm skipping past most of the theory and focusing on software tools that do the math for us.
+
+#### Numerical Analysis Part I: Iterative Refinement
+
+Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.
+
+```
+float Q_rsqrt( float number )
+{
+	long i;
+	float x2, y;
+	const float threehalfs = 1.5F;
+
+	x2 = number * 0.5F;
+	y  = number;
+	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+	y  = * ( float * ) &i;
+	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+	return y;
+}
+```
+
+The idea: you have a cheap, bad guess at `f(x)`. You also have a formula that turns that guess into a better one. Apply the formula until the guess is accurate enough.
+
+If you stare at the math, you can kinda tell what it's doing. `x2 * y * y` is `0.5 * x / sqrt(x) / sqrt(x)`, and `x / sqrt(x) / sqrt(x) == 1`. Because we only have a bad approximation of `1/sqrt(x)`, our `1` is the error between the true value and the approximate value. The rest of the formula scales it, since the error we have is on the _square_ of `f(x)`, not `f(x)` itself. We can't get the error of `f(x)` directly without knowing the ground truth, which is what we're trying to compute in the first place, so this is also an approximation. Hence the iterations.
+
+There's a systematic way to derive the iteration formula: [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method).
+
+xn+1 \= xn + (1/f) (xn) (1/f)′ (xn)
+
+Here `(1/f)(x)` means `1/f(x)`, and `′` means the derivative of the function.
+
+You can see it takes the guess and steps in the direction of the derivative until it hits zero.
+
+For `y = 1/sqrt(x)`, the function whose zero we want is `1/((1/y)^2-x)`, with derivative `(2 y)/(x y^2 - 1)^2`. Putting it together gives a giant mess that thankfully simplifies to `y' = y * ( 3/2 - ( x/2 * y * y ) )`, the exact formula from `Q_rsqrt`.
+
+Newton's method is part of a family called [Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method), which uses higher-order derivatives (derivatives of derivatives) in the numerator and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, but each iteration costs more. Which one to use depends. Trial and error.
+
+Deriving these by hand is a pain, so let the computer do it using [WolframScript](https://www.wolfram.com/wolframscript/), the language behind Wolfram Alpha and Mathematica.
+
+```
+(* Define your function eg. CubeRoot[x] *)
+g[x_] := CubeRoot[x]
+
+inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0]
+
+f[y_] := 1/(inv[y]-x)
+
+Print["       Newton: ", FullSimplify[y+f[y]/f'[y]]]
+Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
+Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
+Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]
+```
+
+In **Part IV** we will implement the other function and show error plots.
+
+April 17th - **How to Make a Floating Point Math Library, Part III** (draft)th**How to Make a Floating Point Math Library, Part III**
+
+## How to Make a Floating Point Math Library, Part III
+
+In Parts I and II we built approximations for `exp2`, `log2`, `sqrt`, `rsqrt`, `cbrt`, and `rcp`. They get the order of magnitude right, which is crucial for floating point, but they're off by a few percent, which is useless for most things.
+
+The next few installments are about [numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis), a field of math dedicated to approximating transcendental functions with elementary functions (which have CPU instructions). I'm skipping past most of the theory and focusing on software tools that do the math for us.
+
+#### Numerical Analysis Part I: Iterative Refinement
+
+Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.
+
+```
+float Q_rsqrt( float number )
+{
+	long i;
+	float x2, y;
+	const float threehalfs = 1.5F;
+
+	x2 = number * 0.5F;
+	y  = number;
+	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+	y  = * ( float * ) &i;
+	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+	return y;
+}
+```
+
+The idea: you have a cheap, bad guess at `f(x)`. You also have a formula that turns that guess into a better one. Apply the formula until the guess is accurate enough.
+
+If you stare at the math, you can kinda tell what it's doing. `x2 * y * y` is `0.5 * x / sqrt(x) / sqrt(x)`, and `x / sqrt(x) / sqrt(x) == 1`. Because we only have a bad approximation of `1/sqrt(x)`, our `1` is the error between the true value and the approximate value. The rest of the formula scales it, since the error we have is on the _square_ of `f(x)`, not `f(x)` itself. We can't get the error of `f(x)` directly without knowing the ground truth, which is what we're trying to compute in the first place, so this is also an approximation. Hence the iterations.
+
+There's a systematic way to derive the iteration formula: [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method).
+
+xn+1 \= xn + (1/f) (xn) (1/f)′ (xn)
+
+Here `(1/f)(x)` means `1/f(x)`, and `′` means the derivative of the function.
+
+You can see it takes the guess and steps in the direction of the derivative until it hits zero.
+
+For `y = 1/sqrt(x)`, the function whose zero we want is `1/((1/y)^2-x)`, with derivative `(2 y)/(x y^2 - 1)^2`. Putting it together gives a giant mess that thankfully simplifies to `y' = y * ( 3/2 - ( x/2 * y * y ) )`, the exact formula from `Q_rsqrt`.
+
+Newton's method is part of a family called [Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method), which uses higher-order derivatives (derivatives of derivatives) in the numerator and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, but each iteration costs more. Which one to use depends. Trial and error.
+
+Deriving these by hand is a pain, so let the computer do it using [WolframScript](https://www.wolfram.com/wolframscript/), the language behind Wolfram Alpha and Mathematica.
+
+```
+(* Define your function eg. CubeRoot[x] *)
+g[x_] := CubeRoot[x]
+
+inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0]
+
+f[y_] := 1/(inv[y]-x)
+
+Print["       Newton: ", FullSimplify[y+f[y]/f'[y]]]
+Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
+Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
+Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]
+```
+
+In **Part IV** we will implement the other function and show error plots.
+
+## How to Make a Floating Point Math Library, Part III
+
+In Parts I and II we built approximations for `exp2`, `log2`, `sqrt`, `rsqrt`, `cbrt`, and `rcp`. They get the order of magnitude right, which is crucial for floating point, but they're off by a few percent, which is useless for most things.
+
+`exp2``log2``sqrt``rsqrt``cbrt``rcp`
+
+The next few installments are about [numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis), a field of math dedicated to approximating transcendental functions with elementary functions (which have CPU instructions). I'm skipping past most of the theory and focusing on software tools that do the math for us.
+
+[numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis)
+
+#### Numerical Analysis Part I: Iterative Refinement
+
+Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.
+
+```
+float Q_rsqrt( float number )
+{
+	long i;
+	float x2, y;
+	const float threehalfs = 1.5F;
+
+	x2 = number * 0.5F;
+	y  = number;
+	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+	y  = * ( float * ) &i;
+	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+	return y;
+}
+```
+`float Q_rsqrt( float number ) { long i; float x2, y; const float threehalfs = 1.5F; x2 = number * 0.5F; y = number; i = * ( long * ) &y; // evil floating point bit level hacking i = 0x5f3759df - ( i >> 1 ); // what the fuck? y = * ( float * ) &i; y = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration // y = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed return y; }`
+
+The idea: you have a cheap, bad guess at `f(x)`. You also have a formula that turns that guess into a better one. Apply the formula until the guess is accurate enough.
+
+`f(x)`
+
+If you stare at the math, you can kinda tell what it's doing. `x2 * y * y` is `0.5 * x / sqrt(x) / sqrt(x)`, and `x / sqrt(x) / sqrt(x) == 1`. Because we only have a bad approximation of `1/sqrt(x)`, our `1` is the error between the true value and the approximate value. The rest of the formula scales it, since the error we have is on the _square_ of `f(x)`, not `f(x)` itself. We can't get the error of `f(x)` directly without knowing the ground truth, which is what we're trying to compute in the first place, so this is also an approximation. Hence the iterations.
+
+`x2 * y * y``0.5 * x / sqrt(x) / sqrt(x)``x / sqrt(x) / sqrt(x) == 1``1/sqrt(x)``1`_square_`f(x)``f(x)``f(x)`
+
+There's a systematic way to derive the iteration formula: [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method).
+
+[Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method) xn+1 \= xn + (1/f) (xn) (1/f)′ (xn) xn+1xn+1n+1\=xnxn+ (1/f) (xn) (1/f)′ (xn) (1/f) (xn) (1/f)(xnxn) (1/f)′ (xn) (1/f)′)′(xnxn)
+
+Here `(1/f)(x)` means `1/f(x)`, and `′` means the derivative of the function.
+
+`(1/f)(x)``1/f(x)``′`
+
+You can see it takes the guess and steps in the direction of the derivative until it hits zero.
+
+For `y = 1/sqrt(x)`, the function whose zero we want is `1/((1/y)^2-x)`, with derivative `(2 y)/(x y^2 - 1)^2`. Putting it together gives a giant mess that thankfully simplifies to `y' = y * ( 3/2 - ( x/2 * y * y ) )`, the exact formula from `Q_rsqrt`.
+
+`y = 1/sqrt(x)``1/((1/y)^2-x)``(2 y)/(x y^2 - 1)^2``y' = y * ( 3/2 - ( x/2 * y * y ) )``Q_rsqrt`
+
+Newton's method is part of a family called [Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method), which uses higher-order derivatives (derivatives of derivatives) in the numerator and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, but each iteration costs more. Which one to use depends. Trial and error.
+
+[Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method)
+
+Deriving these by hand is a pain, so let the computer do it using [WolframScript](https://www.wolfram.com/wolframscript/), the language behind Wolfram Alpha and Mathematica.
+
+[WolframScript](https://www.wolfram.com/wolframscript/)```
+(* Define your function eg. CubeRoot[x] *)
+g[x_] := CubeRoot[x]
+
+inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0]
+
+f[y_] := 1/(inv[y]-x)
+
+Print["       Newton: ", FullSimplify[y+f[y]/f'[y]]]
+Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
+Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
+Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]
+```
+`(* Define your function eg. CubeRoot[x] *) g[x_] := CubeRoot[x] inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0] f[y_] := 1/(inv[y]-x) Print[" Newton: ", FullSimplify[y+f[y]/f'[y]]] Print[" Halley: ", FullSimplify[y+2*f'[y]/f''[y]]] Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]] Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]`
+
+In **Part IV** we will implement the other function and show error plots.
+
+**Part IV**]]></description>
             <link>https://jodie.website#inkhaven</link>
             <guid isPermaLink="false">inkhaven</guid>
             <category><![CDATA[life]]></category>
@@ -2805,7 +3146,7 @@ Animal welfare organizations should take a cut of their budget and put it into f
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -2831,7 +3172,7 @@ the ground under a stranger's feet]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Manipulating Floats with Integer Operations]]></title>
@@ -2883,7 +3224,7 @@ In **Part II**, we'll use this knowledge to implement other transcendental funct
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Remove Your Browser]]></title>
@@ -2905,7 +3246,7 @@ Now when I pick up my phone reflexively to fill time, there's nothing to scroll.
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -3008,7 +3349,7 @@ In **Part III**, we're learning how to make these crude approximations usably ac
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Absolute Unit Line Height]]></title>
@@ -3124,7 +3465,7 @@ Flexbox items have `min-width:auto`, which means items refuse to shrink below th
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[The Obvious]]></title>
@@ -3160,7 +3501,7 @@ I fixed my sleep by sleeping less, on the floor, after drinking more water in or
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[No Friction]]></title>
@@ -3194,7 +3535,7 @@ But here's what'll actually happen: you'll want to do more, because you've remov
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Not Just for Quantization]]></title>
@@ -3294,7 +3635,7 @@ With technological progress, as pixel densities get higher and higher, dither pa
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Dailies]]></title>
@@ -3321,7 +3662,7 @@ _and_]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Friendly Problems]]></title>
@@ -3342,7 +3683,7 @@ Don't hesitate to add trivial tasks. Like taking a walk or making tea. Everythin
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -3365,7 +3706,7 @@ Found something outside your control? You've still made progress. You found out 
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -3401,7 +3742,7 @@ mistake the warmth for love]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -3419,7 +3760,7 @@ Be the kind of person who shrugs off the bad things and gets genuine, childlike 
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
@@ -3431,11 +3772,100 @@ When you budget, always multiply by frequency. A $5 daily coffee is a $1,825 ann
 
 The cheap shoes that hurt your feet? A bad mattress or a slow laptop that you use eight hours a day? For a $100 saving per year? Saving 10% on groceries and rent will save you thousands yearly.
 
-Negotiate, optimize, and shop around \*hard\* for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.]]></description>
+Negotiate, optimize, and shop around _hard_ for frequent expenses. Consider big lifestyle changes. Those things will compound over years and improve your quality of life. And the nicer boots will too.
+
+_hard_]]></description>
             <link>https://jodie.website#</link>
             <guid isPermaLink="true">https://jodie.website#</guid>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Thu, 16 Apr 2026 10:58:25 GMT</pubDate>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Untitled]]></title>
+            <description><![CDATA[## How to Make a Floating Point Math Library, Part III
+
+In Parts I and II we built approximations for `exp2`, `log2`, `sqrt`, `rsqrt`, `cbrt`, and `rcp`. They get the order of magnitude right, which is crucial for floating point, but they're off by a few percent, which is useless for most things.
+
+`exp2``log2``sqrt``rsqrt``cbrt``rcp`
+
+The next few installments are about [numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis), a field of math dedicated to approximating transcendental functions with elementary functions (which have CPU instructions). I'm skipping past most of the theory and focusing on software tools that do the math for us.
+
+[numerical analysis](https://en.wikipedia.org/wiki/Numerical_analysis)
+
+#### Numerical Analysis Part I: Iterative Refinement
+
+Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.
+
+```
+float Q_rsqrt( float number )
+{
+	long i;
+	float x2, y;
+	const float threehalfs = 1.5F;
+
+	x2 = number * 0.5F;
+	y  = number;
+	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+	y  = * ( float * ) &i;
+	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+	return y;
+}
+```
+`float Q_rsqrt( float number ) { long i; float x2, y; const float threehalfs = 1.5F; x2 = number * 0.5F; y = number; i = * ( long * ) &y; // evil floating point bit level hacking i = 0x5f3759df - ( i >> 1 ); // what the fuck? y = * ( float * ) &i; y = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration // y = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed return y; }`
+
+The idea: you have a cheap, bad guess at `f(x)`. You also have a formula that turns that guess into a better one. Apply the formula until the guess is accurate enough.
+
+`f(x)`
+
+If you stare at the math, you can kinda tell what it's doing. `x2 * y * y` is `0.5 * x / sqrt(x) / sqrt(x)`, and `x / sqrt(x) / sqrt(x) == 1`. Because we only have a bad approximation of `1/sqrt(x)`, our `1` is the error between the true value and the approximate value. The rest of the formula scales it, since the error we have is on the _square_ of `f(x)`, not `f(x)` itself. We can't get the error of `f(x)` directly without knowing the ground truth, which is what we're trying to compute in the first place, so this is also an approximation. Hence the iterations.
+
+`x2 * y * y``0.5 * x / sqrt(x) / sqrt(x)``x / sqrt(x) / sqrt(x) == 1``1/sqrt(x)``1`_square_`f(x)``f(x)``f(x)`
+
+There's a systematic way to derive the iteration formula: [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method).
+
+[Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method) xn+1 \= xn + (1/f) (xn) (1/f)′ (xn) xn+1xn+1n+1\=xnxn+ (1/f) (xn) (1/f)′ (xn) (1/f) (xn) (1/f)(xnxn) (1/f)′ (xn) (1/f)′)′(xnxn)
+
+Here `(1/f)(x)` means `1/f(x)`, and `′` means the derivative of the function.
+
+`(1/f)(x)``1/f(x)``′`
+
+You can see it takes the guess and steps in the direction of the derivative until it hits zero.
+
+For `y = 1/sqrt(x)`, the function whose zero we want is `1/((1/y)^2-x)`, with derivative `(2 y)/(x y^2 - 1)^2`. Putting it together gives a giant mess that thankfully simplifies to `y' = y * ( 3/2 - ( x/2 * y * y ) )`, the exact formula from `Q_rsqrt`.
+
+`y = 1/sqrt(x)``1/((1/y)^2-x)``(2 y)/(x y^2 - 1)^2``y' = y * ( 3/2 - ( x/2 * y * y ) )``Q_rsqrt`
+
+Newton's method is part of a family called [Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method), which uses higher-order derivatives (derivatives of derivatives) in the numerator and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, but each iteration costs more. Which one to use depends. Trial and error.
+
+[Householder's method](https://en.wikipedia.org/wiki/Householder%27s_method)
+
+Deriving these by hand is a pain, so let the computer do it using [WolframScript](https://www.wolfram.com/wolframscript/), the language behind Wolfram Alpha and Mathematica.
+
+[WolframScript](https://www.wolfram.com/wolframscript/)```
+(* Define your function eg. CubeRoot[x] *)
+g[x_] := CubeRoot[x]
+
+inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0]
+
+f[y_] := 1/(inv[y]-x)
+
+Print["       Newton: ", FullSimplify[y+f[y]/f'[y]]]
+Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
+Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
+Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]
+```
+`(* Define your function eg. CubeRoot[x] *) g[x_] := CubeRoot[x] inv[x_] := FullSimplify[InverseFunction[g][x], Assumptions -> x > 0] f[y_] := 1/(inv[y]-x) Print[" Newton: ", FullSimplify[y+f[y]/f'[y]]] Print[" Halley: ", FullSimplify[y+2*f'[y]/f''[y]]] Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]] Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]`
+
+In **Part IV** we will implement the other function and show error plots.
+
+**Part IV**]]></description>
+            <link>https://jodie.website#</link>
+            <guid isPermaLink="true">https://jodie.website#</guid>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Fri, 17 Apr 2026 12:50:31 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Untitled]]></title>
