@@ -35,6 +35,9 @@ html {
 html,body {
   text-size-adjust: none;
 }
+li{
+  text-wrap-style: balance;
+}
 
 header img {
   width: 80px;
@@ -307,9 +310,9 @@ sup,sub {
       </article>
     </details></li>
     <li><details>
-      <summary>April 4<sup>th</sup> - <strong>How to Make a Floating Point Math Library, Part I</strong></summary>
+      <summary>April 4<sup>th</sup> - <strong>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;I</strong></summary>
       <article>
-        <h2>How to Make a Floating Point Math Library, Part I</h2>
+        <h2>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;I</h2>
         <p>You might have seen <a target="_blank" href="https://en.wikipedia.org/wiki/Fast_inverse_square_root">the fast 
           inverse square root</a>. The one with the magic hex constant <code>0x5F3759DF</code> and the
           comment <em>"what the fuck?"</em> from the Quake&nbsp;III source. 
@@ -357,7 +360,7 @@ log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
           <code>0x5F3759DF</code> is just 2<sup>127/2</sup>. The integer subtract combines the
           reciprocal and the multiplication by 2<sup>127/2</sup>. Two birds, one <code>SUB</code>.
         </p>
-        <p>In <strong>Part II</strong>, we'll use this knowledge to implement other transcendental functions in code!</p>
+        <p>In <strong>Part&nbsp;II</strong>, we'll use this knowledge to implement other transcendental functions in code!</p>
 
 
       </article>
@@ -396,10 +399,10 @@ log(1/√<em>a</em>)      = −log(<em>a</em>) / 2</code></pre>
       </article>
     </details></li>
     <li><details>
-      <summary>April 6<sup>th</sup> - <strong>How to Make a Floating Point Math Library, Part II</strong></summary>
+      <summary>April 6<sup>th</sup> - <strong>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;II</strong></summary>
       <article>
-        <h2>How to Make a Floating Point Math Library, Part II</h2> 
-        <p>With only what we've learned in part I, you could figure out reciprocals,
+        <h2>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;II</h2> 
+        <p>With only what we've learned in part&nbsp;I, you could figure out reciprocals,
         cube roots, and square roots on your own. So I'll leave those for the end and 
         start with the less obvious exp2 and log2.
         </p>
@@ -478,7 +481,7 @@ fn rsqrt_approx(x: f32) -> f32 {
           <figcaption>Approximate Reciprocal Square Root</figcaption>
           <img loading="lazy" src="https://static2.mtlws.ca/rsqrt_approx.png" class="img-adapt-dark" alt="" width="480" height="480">
         </figure>
-        <p>In <strong>Part III</strong>, we're learning how to make these crude approximations usably accurate!</p>
+        <p>In <strong>Part&nbsp;III</strong>, we're learning how to make these crude approximations usably accurate!</p>
       </article>
     </details></li>
     <li><details>
@@ -872,14 +875,14 @@ p {
       </article>
     </details></li>
     <li><details>
-      <summary>April 17<sup>th</sup> - <strong>How to Make a Floating Point Math Library, Part III</strong> (draft)</summary>
+      <summary>April 17<sup>th</sup> - <strong>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;III</strong> (draft)</summary>
       <article>
-          <h2>How to Make a Floating Point Math Library, Part III</h2>
+          <h2>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;III</h2>
 
 
 <p>In Parts I and II we built approximations for <code>exp2</code>, <code>log2</code>,
   <code>sqrt</code>, <code>rsqrt</code>, <code>cbrt</code>, and <code>rcp</code>. 
-  They get the order of magnitude right, which is crucial for floating point, but
+  They get the order of magnitude right, which is crucial for floating&nbsp;point, but
   they're off by a few percent, which is useless for most things.</p>
 
 <p>The next few installments are about <a href="https://en.wikipedia.org/wiki/Numerical_analysis">numerical analysis</a>,
@@ -887,7 +890,7 @@ p {
     (which have CPU instructions). I'm skipping past most of the theory and focusing on software
      tools that do the math for us.</p>
 
-<h4>Numerical Analysis Part I: Iterative Refinement</h4>
+<h4>Numerical Analysis Part&nbsp;I: Iterative Refinement</h4>
 
 <p>Back to the Quake III reciprocal square root. We're looking at the part after the bit hacking.</p>
 
@@ -900,7 +903,7 @@ p {
   x2 = number * 0.5F;
   y  = number;
   i  = * ( long * ) &amp;y;
-  // evil floating point bit level hacking
+  // evil floating&nbsp;point bit level hacking
   i  = 0x5f3759df - ( i &gt;&gt; 1 );
   // what the fuck?
   y  = * ( float * ) &amp;i;
@@ -958,7 +961,8 @@ p {
 <p>Newton's method is part of a family called 
   <a href="https://en.wikipedia.org/wiki/Householder%27s_method">Householder's method</a>,
   which uses higher-order derivatives (derivatives of derivatives) in the numerator
-  and denominator. Higher-order derivatives give a better guess per iteration, so you need fewer, 
+  and denominator. Using a second order derivative is also called Halley's method. 
+  Higher-order derivatives give a better guess per iteration, so you need fewer, 
   but each iteration costs more. Which one to use depends. Trial and error.</p>
 
 <p>Deriving these by hand is a pain, so let the computer do it using
@@ -977,7 +981,7 @@ Print["       Halley: ", FullSimplify[y+2*f'[y]/f''[y]]]
 Print["Householder 3: ", FullSimplify[y+3*f''[y]/f'''[y]]]
 Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]</code></pre>
 
-<p>In <strong>Part IV</strong> we will implement the other function and show error plots.</p>
+<p>In <strong>Part&nbsp;IV</strong> we will implement the other function and show error plots.</p>
 
 
 
@@ -1003,6 +1007,86 @@ Print["Householder 4: ", FullSimplify[y+4*f'''[y]/f''''[y]]]</code></pre>
           <li><strong>Nimona</strong> - Watching this movie changed me. It explores a particular theme (no spoilers) like no other movie does.</li>
           <li><strong>Snatch</strong> - Fun! Quotable! Badass!</li>
         </ul>
+      </article>
+    </details></li>
+    <li><details>
+      <summary>April 19<sup>th</sup> - <strong>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;IV</strong></summary>
+      <article>
+        <h2>How to Make a Floating&nbsp;Point Math Library, Part&nbsp;IV</h2>
+        <p>Square roots have a CPU instruction, so let's skip them and go straight to cube roots.
+            Running our wolframscript gives:</p>
+          
+<pre><code>$ wolframscript -file getnewton.wls
+Newton: (x + 2*y^3)/(3*y^2)
+Halley: (2*x*y + y^4)/(x + 2*y^3)</code></pre>
+
+        <p>Combined with the approximation we made in Part&nbsp;II:</p>
+<pre><code>fn cbrt_halley(x: f32) -> f32 {
+  let y = f32::from_bits(0x2a5063f7 + (x.to_bits() / 3));
+  (2.*x*y + (y*y)*(y*y)) / (x + 2.*(y*y)*y)
+}
+fn cbrt_newton(x: f32) -> f32 {
+  let y = f32::from_bits(0x2a5063f7 + (x.to_bits() / 3));
+  (x + 2.*(y*y)*y) / (3.*(y*y))
+}</code></pre>
+        <p>Let's look at the accuracy.</p>
+        <figure>
+          <figcaption>Approximation</figcaption>
+          <img loading="lazy" src="https://static2.mtlws.ca/cbrt_approx_error.png" class="img-adapt-dark" alt="" width="480" height="480">
+        </figure>
+        <figure>
+          <figcaption>Newton</figcaption>
+          <img loading="lazy" src="https://static2.mtlws.ca/cbrt_newton_error.png" class="img-adapt-dark" alt="" width="480" height="480">
+        </figure>
+        <figure>
+          <figcaption>Newton</figcaption>
+          <img loading="lazy" src="https://static2.mtlws.ca/cbrt_halley_error.png" class="img-adapt-dark" alt="" width="480" height="480">
+        </figure>
+        <p>Orders of magnitude better, but still not enough. Another iteration:</p>
+<pre><code>fn cbrt_approx(x: f32) -> f32 {
+	let y = f32::from_bits(0x2a509849u32 + (x.to_bits() / 3));
+	// newton iteration
+	let y = (x + 2.*(y*y)*y) / (3.*(y*y));
+	// halley iteration
+	(2.*x*y + (y*y)*(y*y))/(x + 2.*(y*y)*y)
+}</code></pre>
+
+        <figure>
+          <figcaption>Newton and Halley</figcaption>
+          <img loading="lazy" src="https://static2.mtlws.ca/cbrt_newton_halley_error.png" class="img-adapt-dark" alt="" width="480" height="480">
+        </figure>
+
+        <p>Perfect! Our average error under one bit. Good enough for a standard library. Now let's try with <code>log2</code>.</p>
+
+<pre><code>g[x_] := Log[x,2]
+
+$ wolframscript -file getnewton.wls
+Newton: (y*(y - (x*y)/2^y^(-1) + Log[2]))/Log[2]</code></pre>
+
+        <p>Oh no! The iteration needs <code>2^y</code> which is <code>exp2</code>. Let's try <code>exp2</code> then:</p>
+<pre><code>g[x_] := 2^x
+
+jodiemath-rs $ wolframscript -file getnewton.wls
+Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
+        <p>And <code>exp2</code> needs <code>log2</code>. We have a bootstrapping problem. We need a different strategy:
+          approximation theory.
+        </p>
+
+        <p>In <strong>Part V</strong> we'll learn non-iterative approximation methods to implement exponentials and logarithms.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </article>
     </details></li>
   </ul>
@@ -1277,7 +1361,7 @@ Tonight, on this darkest day, we do what our ancestors did: we gather, we specul
   
   <ul>
     <li>One texture + different vertex colors = many looks.</li>
-    <li>If your floating point data is only positive, put data in the sign bit.</li>
+    <li>If your floating&nbsp;point data is only positive, put data in the sign bit.</li>
     <li>If float data is always &lt; 1, there's a free bit in the exponent.</li>
     <li>The least significant bit of a float probably doesn't matter. Yolo.</li>
     <li>Float precision issues are often skill issues. Use <a href="https://herbie.uwplse.org/">Herbie</a> and floatfloat methods before giving up and using larger types.</li>
