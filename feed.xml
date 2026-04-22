@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 22 Apr 2026 15:16:45 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 22 Apr 2026 15:24:21 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 22 Apr 2026 15:16:44 GMT</pubDate>
+        <pubDate>Wed, 22 Apr 2026 15:24:20 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <item>
@@ -2427,7 +2427,7 @@ as you sailed away?</p>]]></content:encoded>
             <guid isPermaLink="false">https://jodie.website#feed</guid>
             <category><![CDATA[web]]></category>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
-            <pubDate>Invalid Date</pubDate>
+            <pubDate>Sat, 24 Feb 2024 00:00:00 GMT</pubDate>
             <content:encoded><![CDATA[<p>My blog now has an RSS feed! You can find it <a href="/feed.xml">here</a>.</p>
 <p>The script to generate the feed is my first experience trusting <abbr>ai</abbr> to write all the code. The recently released Claude 3.7 is pretty good so far. I found out today that GitHub Copilot allows you to use it right in your <abbr>ide</abbr>.</p>]]></content:encoded>
         </item>
