@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 22 Apr 2026 15:24:21 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 23 Apr 2026 12:05:53 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 22 Apr 2026 15:24:20 GMT</pubDate>
+        <pubDate>Thu, 23 Apr 2026 12:05:53 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <item>
@@ -881,7 +881,7 @@ Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
   </ul>
   <ul class="linklist">
     <li><details>
-      <summary>April 22<sup>th</sup> - <strong>In Defense of Directionless Dabbling</strong></summary>
+      <summary>April 22<sup>nd</sup> - <strong>In Defense of Directionless Dabbling</strong></summary>
       <article>
         <h2>In Defense of Directionless Dabbling</h2>
         <p>A year of guitar makes you a mediocre guitarist. 12 months of 12 hobbies makes you 12 people in a trenchcoat.</p>
@@ -893,6 +893,31 @@ Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
         <h3>You Find the One by Trying Twelve</h3>
         <p>People who stuck with a thing for twenty years didn't start with that thing. They tried stuff. Something clicked, and they kept going because they wanted to. The one thing you'll get good at is the thing you can't stop doing.</p>
         <p>The goal shouldn't be to become The Bread Guy. It's finding out what being The Bread Guy feels like, and seeing if it feels like you.</p>
+      </article>
+    </details></li>
+    <li><details>
+      <summary>April 23<sup>rd</sup> - <strong>Static</strong></summary>
+      <article>
+        <h2>Static</h2>
+<p>
+in the silence between words<br>
+waiting for you to listen<br>
+a language older than language<br>
+the heartbeat, the first music
+</p>
+<p>
+from the static, whispers<br>
+from the whispers, a god
+</p>
+<p>
+dreaming on a blank page<br>
+calling it scripture<br>
+hiding the obvious<br>
+in plain view
+</p>
+<p><a href="https://inv.thepixora.com/embed/J4A3U75qzg8?t=6" target="_blank" style="text-decoration: none;">⣀⠄⢠⣤⠐⢀⣠⠖⠂⣀⠠⣠⡀⢀⠄⣠⠂<br>
+⡠⣀⠐⠄⣀⠠⣤⠂⢀⠠⣠⠐⠁⡀⣀⠄⢀⣠<br>
+⢀⠂⣠⠠⣀⠐⢠⣀⠄⣠⠂⡀⣠⠐⠄⢀⡠⠂</a></p>
       </article>
     </details></li>
   </ul>]]></description>
@@ -1771,7 +1796,7 @@ Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
   </ul>
   <ul class="linklist">
     <li><details>
-      <summary>April 22<sup>th</sup> - <strong>In Defense of Directionless Dabbling</strong></summary>
+      <summary>April 22<sup>nd</sup> - <strong>In Defense of Directionless Dabbling</strong></summary>
       <article>
         <h2>In Defense of Directionless Dabbling</h2>
         <p>A year of guitar makes you a mediocre guitarist. 12 months of 12 hobbies makes you 12 people in a trenchcoat.</p>
@@ -1783,6 +1808,31 @@ Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
         <h3>You Find the One by Trying Twelve</h3>
         <p>People who stuck with a thing for twenty years didn't start with that thing. They tried stuff. Something clicked, and they kept going because they wanted to. The one thing you'll get good at is the thing you can't stop doing.</p>
         <p>The goal shouldn't be to become The Bread Guy. It's finding out what being The Bread Guy feels like, and seeing if it feels like you.</p>
+      </article>
+    </details></li>
+    <li><details>
+      <summary>April 23<sup>rd</sup> - <strong>Static</strong></summary>
+      <article>
+        <h2>Static</h2>
+<p>
+in the silence between words<br>
+waiting for you to listen<br>
+a language older than language<br>
+the heartbeat, the first music
+</p>
+<p>
+from the static, whispers<br>
+from the whispers, a god
+</p>
+<p>
+dreaming on a blank page<br>
+calling it scripture<br>
+hiding the obvious<br>
+in plain view
+</p>
+<p><a href="https://inv.thepixora.com/embed/J4A3U75qzg8?t=6" target="_blank" style="text-decoration: none;">⣀⠄⢠⣤⠐⢀⣠⠖⠂⣀⠠⣠⡀⢀⠄⣠⠂<br>
+⡠⣀⠐⠄⣀⠠⣤⠂⢀⠠⣠⠐⠁⡀⣀⠄⢀⣠<br>
+⢀⠂⣠⠠⣀⠐⢠⣀⠄⣠⠂⡀⣠⠐⠄⢀⡠⠂</a></p>
       </article>
     </details></li>
   </ul>]]></content:encoded>
