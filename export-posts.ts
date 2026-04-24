@@ -89,6 +89,22 @@ function childrenToMarkdown(el: any): string {
   return parts.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
+const MONTH_NAMES: Record<string, string> = {
+  january: '01', february: '02', march: '03', april: '04',
+  may: '05', june: '06', july: '07', august: '08',
+  september: '09', october: '10', november: '11', december: '12',
+};
+
+// Parse a date like "April 2nd" from summary text, using parent year
+function parseSummaryDate(summaryText: string, parentYear: string): string {
+  const m = summaryText.match(/^(\w+)\s+(\d+)/);
+  if (!m) return '';
+  const month = MONTH_NAMES[m[1].toLowerCase()];
+  if (!month) return '';
+  const day = m[2].padStart(2, '0');
+  return `${parentYear}-${month}-${day}`;
+}
+
 const data = fs.readFileSync(path.resolve(htmlFilePath), 'utf8');
 const dom = new JSDOM(data);
 const document = dom.window.document;
@@ -109,7 +125,6 @@ const articles: any[] = Array.from(document.querySelectorAll('main > article[id]
 
 for (const article of articles) {
   const id = article.id;
-  const category = Array.from(article.classList as any)[0] as string || '';
   const timeEl = article.querySelector(':scope > time');
   const date = timeEl ? timeEl.getAttribute('datetime') : '';
 
@@ -136,33 +151,82 @@ for (const article of articles) {
 
 console.log(`\nExported ${articles.length} posts to ./${outputDir}/`);
 
-// Export nested articles inside <details> (skip hidden ones)
+// Export nested articles inside <details> (including hidden ones)
 const subpostsDir = 'subposts';
 if (!fs.existsSync(subpostsDir)) fs.mkdirSync(subpostsDir);
 
-const subArticles: any[] = Array.from(
-  document.querySelectorAll('main > article[id] li:not([hidden]) details > article')
-);
+let subpostCount = 0;
 
-for (const article of subArticles) {
-  const parentArticle = article.closest('main > article[id]');
-  const categories = Array.from(parentArticle.classList as any) as string[];
+for (const article of articles) {
+  const parentId = article.id;
+  const categories = Array.from(article.classList as any) as string[];
+  const timeEl = article.querySelector(':scope > time');
+  const parentYear = timeEl ? timeEl.getAttribute('datetime').split('-')[0] : '';
 
-  const frontmatter = [
-    '---',
-    `categories: [${categories.join(', ')}]`,
-    `parent: ${parentArticle.id}`,
-    '---',
-    '',
-  ].join('\n');
+  // Export inline subposts from <details> (both visible and hidden)
+  const listItems: any[] = Array.from(article.querySelectorAll('li'));
+  for (const li of listItems) {
+    const details = li.querySelector(':scope > details');
+    const subArticle = details?.querySelector(':scope > article');
+    const summary = details?.querySelector(':scope > summary');
+    if (!subArticle || !summary) continue;
 
-  const body = childrenToMarkdown(article);
+    const isHidden = li.hasAttribute('hidden');
+    const summaryText = summary.textContent.trim();
+    const date = parseSummaryDate(summaryText, parentYear);
 
-  const titleEl = article.querySelector('h2');
-  const title = titleEl ? titleEl.textContent.trim() : '';
-  const filename = `${slugify(title) || 'untitled'}.md`;
-  fs.writeFileSync(path.join(subpostsDir, filename), frontmatter + body + '\n');
-  console.log(`Written subpost: ${filename}`);
+    const frontmatterLines = [
+      '---',
+      ...(date ? [`date: ${date}`] : []),
+      `categories: [${categories.join(', ')}]`,
+      `parent: ${parentId}`,
+      ...(isHidden ? ['hidden: true'] : []),
+      '---',
+      '',
+    ];
+
+    const body = childrenToMarkdown(subArticle);
+    const titleEl = subArticle.querySelector('h2');
+    const title = titleEl ? titleEl.textContent.trim() : '';
+    const filename = `${slugify(title) || 'untitled'}.md`;
+    fs.writeFileSync(path.join(subpostsDir, filename), frontmatterLines.join('\n') + body + '\n');
+    console.log(`Written subpost: ${filename}${isHidden ? ' (hidden)' : ''}`);
+    subpostCount++;
+  }
+
+  // Export external link items from linklist
+  const linkItems: any[] = Array.from(article.querySelectorAll('ul.linklist > li'));
+  for (const li of linkItems) {
+    if (li.querySelector('details')) continue; // already handled above
+    const link = li.querySelector('a[href]');
+    if (!link) continue;
+
+    const summaryText = li.textContent.trim();
+    const date = parseSummaryDate(summaryText, parentYear);
+    const href = link.getAttribute('href');
+    const title = link.textContent.trim();
+
+    // Source is text after last " - " that isn't part of the title
+    const parts = summaryText.split(' - ');
+    const source = parts.length >= 3 ? parts[parts.length - 1].trim() : '';
+
+    const frontmatterLines = [
+      '---',
+      ...(date ? [`date: ${date}`] : []),
+      `categories: [${categories.join(', ')}]`,
+      `parent: ${parentId}`,
+      `href: ${href}`,
+      ...(source ? [`source: ${source}`] : []),
+      '---',
+      '',
+    ];
+
+    const filename = `${slugify(title) || 'untitled'}.md`;
+    const body = `## ${title}\n`;
+    fs.writeFileSync(path.join(subpostsDir, filename), frontmatterLines.join('\n') + body + '\n');
+    console.log(`Written subpost (external): ${filename}`);
+    subpostCount++;
+  }
 }
 
-console.log(`\nExported ${subArticles.length} subposts to ./${subpostsDir}/`);
+console.log(`\nExported ${subpostCount} subposts to ./${subpostsDir}/`);

@@ -6,12 +6,13 @@ const { marked } = require('marked');
 const { JSDOM } = jsdom;
 
 const postsDir = 'posts';
+const subpostsDir = 'subposts';
 const outputFile = 'index2.html';
 
 // --- frontmatter parser ---
-function parseFrontmatter(content: string): { date: string; categories: string[]; body: string } {
+function parseFrontmatter(content: string): { date: string; categories: string[]; parent: string; hidden: boolean; href: string; source: string; body: string } {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { date: '', categories: [], body: content };
+  if (!match) return { date: '', categories: [], parent: '', hidden: false, href: '', source: '', body: content };
   const meta: Record<string, string> = {};
   for (const line of match[1].split('\n')) {
     const [key, ...rest] = line.split(':');
@@ -19,7 +20,15 @@ function parseFrontmatter(content: string): { date: string; categories: string[]
   }
   const categoriesRaw = meta.categories?.replace(/^\[|\]$/g, '') ?? '';
   const categories = categoriesRaw ? categoriesRaw.split(',').map((s: string) => s.trim()) : [];
-  return { date: meta.date ?? '', categories, body: match[2] };
+  return {
+    date: meta.date ?? '',
+    categories,
+    parent: meta.parent ?? '',
+    hidden: meta.hidden === 'true',
+    href: meta.href ?? '',
+    source: meta.source ?? '',
+    body: match[2],
+  };
 }
 
 // --- date formatter: "2026-04-01" → "April 1<sup>st</sup>, 2026" ---
@@ -31,8 +40,11 @@ function ordinal(n: number): string {
 }
 function formatDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
-  const day = d;
-  return `${MONTHS[m - 1]} ${day}<sup>${ordinal(day)}</sup>, ${y}`;
+  return `${MONTHS[m - 1]} ${d}<sup>${ordinal(d)}</sup>, ${y}`;
+}
+function formatDayMonth(iso: string): string {
+  const [, m, d] = iso.split('-').map(Number);
+  return `${MONTHS[m - 1]} ${d}<sup>${ordinal(d)}</sup>`;
 }
 
 // --- markdown → HTML, preserving raw HTML blocks through blank lines ---
@@ -81,6 +93,39 @@ function mdToHtml(md: string): string {
   return html;
 }
 
+// --- subpost → linklist item HTML ---
+function renderSubpostItem(sub: any): string {
+  const label = formatDayMonth(sub.date);
+  const titleHtml = marked.parseInline(sub.title) as string;
+
+  if (sub.href) {
+    const source = sub.source ? ` - ${sub.source}` : '';
+    const item = `<li>${label} - <strong><a href="${sub.href}" target="_blank">${titleHtml}</a></strong>${source}</li>`;
+    return sub.hidden ? `<li hidden="">${item.slice(4)}` : item;
+  }
+
+  const body = mdToHtml(sub.body.replace(/^##[^\n]*\n/, ''));
+  const inner = `<details>\n      <summary>${label} - <strong>${titleHtml}</strong></summary>\n      <article>\n        <h2>${titleHtml}</h2>\n${body}      </article>\n    </details>`;
+  return sub.hidden ? `<li hidden="">${inner}</li>` : `<li>${inner}</li>`;
+}
+
+// --- load subposts for a given parent id ---
+function loadSubposts(parentId: string): any[] {
+  if (!fs.existsSync(subpostsDir)) return [];
+  return fs.readdirSync(subpostsDir)
+    .filter((f: string) => f.endsWith('.md'))
+    .map((filename: string) => {
+      const raw = fs.readFileSync(path.join(subpostsDir, filename), 'utf8');
+      const { date, parent, hidden, href, source, body } = parseFrontmatter(raw);
+      if (parent !== parentId) return null;
+      const titleMatch = body.match(/^##\s+(.+)/m);
+      const title = titleMatch ? titleMatch[1].trim() : filename.replace(/\.md$/, '');
+      return { date, hidden, href, source, body, title };
+    })
+    .filter((s: any) => s !== null)
+    .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+}
+
 // --- load template, strip articles ---
 const templateHtml = fs.readFileSync('template.html', 'utf8');
 const dom = new JSDOM(templateHtml);
@@ -111,7 +156,18 @@ for (const post of posts) {
   timeEl.innerHTML = formatDate(post.date);
 
   article.appendChild(timeEl);
-  article.insertAdjacentHTML('beforeend', '\n' + mdToHtml(post.body));
+
+  let html = mdToHtml(post.body);
+
+  // inject subposts linklist if marker present
+  const subposts = loadSubposts(post.id);
+  if (subposts.length > 0 && html.includes('<!-- subposts -->')) {
+    const items = subposts.map(renderSubpostItem).join('\n    ');
+    const linklist = `<ul class="linklist">\n    ${items}\n  </ul>`;
+    html = html.replace('<!-- subposts -->', linklist);
+  }
+
+  article.insertAdjacentHTML('beforeend', '\n' + html);
   main.appendChild(article);
 }
 

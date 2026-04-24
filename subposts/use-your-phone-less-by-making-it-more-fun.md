@@ -1,4 +1,5 @@
 ---
+date: 2026-04-05
 categories: [life]
 parent: inkhaven
 ---
