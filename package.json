@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/node": "^22.13.5",
     "jsdom": "^26.0.0",
+    "marked": "^18.0.2",
     "rss": "^1.2.2",
     "tsx": "^4.19.3",
     "turndown": "^7.2.0",
