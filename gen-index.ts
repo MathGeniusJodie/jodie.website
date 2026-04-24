@@ -7,7 +7,7 @@ const { JSDOM } = jsdom;
 
 const postsDir = 'posts';
 const subpostsDir = 'subposts';
-const outputFile = 'index2.html';
+const outputFile = 'index.html';
 
 // --- frontmatter parser ---
 function parseFrontmatter(content: string): { date: string; categories: string[]; parent: string; hidden: boolean; href: string; source: string; body: string } {
@@ -126,6 +126,18 @@ function loadSubposts(parentId: string): any[] {
     .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
 
+// --- add target="_blank" to external links ---
+function addExternalLinkTargets(html: string): string {
+  const d = new JSDOM(html);
+  for (const a of Array.from(d.window.document.querySelectorAll('a[href]'))) {
+    const href = (a as HTMLAnchorElement).getAttribute('href') ?? '';
+    if (/^https?:\/\//.test(href) && !(a as HTMLAnchorElement).hasAttribute('target')) {
+      (a as HTMLAnchorElement).setAttribute('target', '_blank');
+    }
+  }
+  return d.window.document.body.innerHTML;
+}
+
 // --- load template, strip articles ---
 const templateHtml = fs.readFileSync('template.html', 'utf8');
 const dom = new JSDOM(templateHtml);
@@ -166,6 +178,8 @@ for (const post of posts) {
     const linklist = `<ul class="linklist">\n    ${items}\n  </ul>`;
     html = html.replace('<!-- subposts -->', linklist);
   }
+
+  html = addExternalLinkTargets(html);
 
   article.insertAdjacentHTML('beforeend', '\n' + html);
   main.appendChild(article);
