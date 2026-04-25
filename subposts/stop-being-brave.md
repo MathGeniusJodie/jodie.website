@@ -3,12 +3,11 @@ date: 2026-04-25
 categories: [life]
 parent: inkhaven
 ---
-
 ## Stop Being Brave
 
 When something hurts, you have three options.
 
-**Enduring** is the worst of the three, and it's the one we get praised for. You stay with pain, you feel it as much as you can. You're showing off, usually just to yourself, while using up all your energy for no payoff.
+**Enduring** is the worst of the three, and it's the one we get praised for. You stay with the pain, you feel it as much as you can. You're showing off, usually just to yourself, while using up all your energy for no payoff.
 
 **Reframing** transforms the pain into something else. The cold shower becomes invigorating. The long run becomes meditative. The boredom becomes a space to think. It works when it works. But sometimes there isn't a silver lining, and lying to yourself is just enduring, but while jumping through flaming hoops.
 
