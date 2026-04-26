@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wheel</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --fg: oklch(0.95 0.01 270);
+    --dim: oklch(0.55 0.02 270);
+    --accent: oklch(0.75 0.18 30);
+    --line: oklch(0.30 0.02 270);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font: 14px/1.5 ui-monospace, monospace;
+    padding: 0;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: max-content;
+  }
+  .col-wheel { align-items: center; }
+  .col-info { align-items: center; text-align: center; }
+  .wheel-wrap {
+    position: relative;
+    width: min(100%, 360px);
+    aspect-ratio: 1;
+  }
+  .pointer {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 24px solid var(--accent);
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.4));
+  }
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: transform 4s cubic-bezier(.17, .67, .12, 1);
+  }
+  .controls {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  button {
+    background: var(--accent);
+    color: var(--bg);
+    border: 0;
+    padding: .7rem 1.4rem;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  button.secondary {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--line);
+  }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  .total {
+    font-size: 1.1rem;
+  }
+  .total span { color: var(--accent); font-weight: 700; }
+  .result {
+    font-size: clamp(3rem, 12vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+    min-height: 1em;
+    color: var(--accent);
+    letter-spacing: -.04em;
+  }
+  .log {
+    width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    border-top: 1px solid var(--line);
+    padding-top: .75rem;
+    font-size: 13px;
+    text-align: left;
+  }
+  .log div {
+    padding: .25rem 0;
+    color: var(--dim);
+    border-bottom: 1px dashed var(--line);
+  }
+  .log div:last-child { border: 0; }
+  .log .reset { color: var(--accent); font-style: italic; }
+</style>
+</head>
+<body>
+
+  <div class="layout">
+    <div class="col col-wheel">
+      <div class="wheel-wrap">
+        <div class="pointer"></div>
+        <svg id="wheel" viewBox="-110 -110 220 220"></svg>
+      </div>
+    </div>
+
+    <div class="col col-info">
+      <div class="result" id="result"></div>
+      <div class="total">total: <span id="total">0</span></div>
+      <div class="controls">
+        <button id="spin">spin</button>
+        <button id="reset" class="secondary">reset</button>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+<script>
+  // ---- options: easy to modify ----
+  const OPTIONS = [1, 2, 1, 3, 1, 4, 1, 5, 1, 10, 1, '🥳💯🥳'];
+
+  // ---- wheel rendering ----
+  const svg = document.getElementById('wheel');
+  const N = OPTIONS.length;
+  const SLICE = 360 / N;
+  const R = 100;
+
+  // light-to-dark radial gradient per slice (light at hub, dark at rim)
+  function sliceGradient(i) {
+    const hue = (i * 360 / N + 20) % 360;
+    const isJackpot = OPTIONS[i] === '🥳💯🥳';
+    const inner = isJackpot ? `oklch(0.85 0.18 ${hue})` : `oklch(0.78 0.14 ${hue})`;
+    const outer = isJackpot ? `oklch(0.22 0.18 ${hue})` : `oklch(0.16 0.10 ${hue})`;
+    return { inner, outer };
+  }
+
+  // smoothstep: 3x^2 - 2x^3, classic ease-in-out
+  function smoothstep(x) { return x * x * (3 - 2 * x); }
+
+  // interpolate L and C between inner/outer using smoothstep curve
+  // (sample multiple stops so the gradient follows an S-curve, not linear)
+  function gradientStops(i) {
+    const hue = (i * 360 / N + 20) % 360;
+    const isJackpot = OPTIONS[i] === '🥳💯🥳';
+    const Li = isJackpot ? 0.85 : 0.78;
+    const Lo = isJackpot ? 0.22 : 0.16;
+    const Ci = isJackpot ? 0.18 : 0.14;
+    const Co = isJackpot ? 0.18 : 0.10;
+    const stops = [];
+    const N_STOPS = 9;
+    for (let k = 0; k < N_STOPS; k++) {
+      const t = k / (N_STOPS - 1);
+      const s = smoothstep(t);
+      const L = Li + (Lo - Li) * s;
+      const C = Ci + (Co - Ci) * s;
+      stops.push({ offset: t * 100, color: `oklch(${L.toFixed(3)} ${C.toFixed(3)} ${hue})` });
+    }
+    return stops;
+  }
+
+  // shared <defs> for radial gradients + filters
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+  // drop shadow filter for text
+  const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+  filter.setAttribute('id', 'text-shadow');
+  filter.setAttribute('x', '-50%');
+  filter.setAttribute('y', '-50%');
+  filter.setAttribute('width', '200%');
+  filter.setAttribute('height', '200%');
+  // stack two drop shadows so the blurred alpha compounds toward fully opaque
+  const drop1 = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow');
+  drop1.setAttribute('dx', '0');
+  drop1.setAttribute('dy', '0');
+  drop1.setAttribute('stdDeviation', '0.7');
+  drop1.setAttribute('flood-color', 'black');
+  drop1.setAttribute('flood-opacity', '1');
+  filter.appendChild(drop1);
+  const drop2 = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow');
+  drop2.setAttribute('dx', '0');
+  drop2.setAttribute('dy', '0');
+  drop2.setAttribute('stdDeviation', '0.7');
+  drop2.setAttribute('flood-color', 'black');
+  drop2.setAttribute('flood-opacity', '1');
+  filter.appendChild(drop2);
+  defs.appendChild(filter);
+
+  for (let i = 0; i < N; i++) {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+    g.setAttribute('id', `slice-grad-${i}`);
+    g.setAttribute('cx', '0');
+    g.setAttribute('cy', '0');
+    g.setAttribute('r', R);
+    g.setAttribute('gradientUnits', 'userSpaceOnUse');
+    for (const { offset, color } of gradientStops(i)) {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      s.setAttribute('offset', `${offset}%`);
+      s.setAttribute('stop-color', color);
+      g.appendChild(s);
+    }
+    defs.appendChild(g);
+  }
+  svg.appendChild(defs);
+
+  function polar(angleDeg, r) {
+    const a = (angleDeg - 90) * Math.PI / 180;
+    return [Math.cos(a) * r, Math.sin(a) * r];
+  }
+
+  for (let i = 0; i < N; i++) {
+    const a0 = i * SLICE;
+    const a1 = (i + 1) * SLICE;
+    const [x0, y0] = polar(a0, R);
+    const [x1, y1] = polar(a1, R);
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M0,0 L${x0},${y0} A${R},${R} 0 0,1 ${x1},${y1} Z`);
+    path.setAttribute('fill', `url(#slice-grad-${i})`);
+    path.setAttribute('stroke', 'oklch(0.96 0.01 270)');
+    path.setAttribute('stroke-width', '2');
+    svg.appendChild(path);
+
+    // label
+    const mid = a0 + SLICE / 2;
+    const [tx, ty] = polar(mid, R * 0.82);
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', tx);
+    text.setAttribute('y', ty);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'central');
+    text.setAttribute('transform', `rotate(${mid}, ${tx}, ${ty})`);
+    text.setAttribute('fill', 'oklch(0.96 0.01 270)');
+    text.setAttribute('font-size', '11');
+    text.setAttribute('filter', 'url(#text-shadow)');
+    text.setAttribute('font-weight', '700');
+    text.setAttribute('font-family', 'ui-monospace, monospace');
+    text.textContent = OPTIONS[i];
+    svg.appendChild(text);
+  }
+
+  // outer ring
+  const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  ring.setAttribute('r', R);
+  ring.setAttribute('fill', 'none');
+  ring.setAttribute('stroke', 'oklch(0.96 0.01 270)');
+  ring.setAttribute('stroke-width', '2');
+  svg.appendChild(ring);
+
+  // hub
+  const hub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  hub.setAttribute('r', '10');
+  hub.setAttribute('fill', 'oklch(0.18 0.02 270)');
+  hub.setAttribute('stroke', 'oklch(0.96 0.01 270)');
+  hub.setAttribute('stroke-width', '2');
+  svg.appendChild(hub);
+
+  // ---- audio ----
+  let ac;
+  function audio() { return ac ||= new (window.AudioContext || window.webkitAudioContext)(); }
+
+  // short noise burst — wide-spectrum, no real pitch
+  function click() {
+    const c = audio();
+    const sr = c.sampleRate;
+    const len = Math.floor(sr * 0.020); // 20ms
+    const buf = c.createBuffer(1, len, sr);
+    const d = buf.getChannelData(0);
+    for (let t = 0; t < len; t++) {
+      // XOR of fast-moving bytebeat terms => broadband-ish noise
+      const v = ((t * 13) ^ (t * 7) ^ (t >> 1)) & 0xff;
+      const env = Math.pow(1 - t / len, 4);
+      d[t] = (v / 128 - 1) * env * 0.4;
+    }
+    const src = c.createBufferSource();
+    src.buffer = buf;
+    src.connect(c.destination);
+    src.start();
+  }
+
+  // jingle: ascending arpeggio, square-wave bytebeat-style
+  function jingle() {
+    const c = audio();
+    const sr = c.sampleRate;
+    // notes in Hz: C5, E5, G5, C6
+    const notes = [523, 659, 784, 1047];
+    const noteDur = 0.12;
+    const totalDur = noteDur * notes.length + 0.15;
+    const len = Math.floor(sr * totalDur);
+    const buf = c.createBuffer(1, len, sr);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) {
+      const t = i / sr;
+      const noteIdx = Math.min(notes.length - 1, Math.floor(t / noteDur));
+      const noteT = t - noteIdx * noteDur;
+      const freq = notes[noteIdx];
+      // square wave via sign of sine — pure pitch, bytebeat character
+      const phase = (t * freq) % 1;
+      const v = phase < 0.5 ? 1 : -1;
+      // per-note envelope: quick attack, decay over note duration
+      const env = Math.pow(1 - noteT / noteDur, 1.2);
+      d[i] = v * env * 0.18;
+    }
+    const src = c.createBufferSource();
+    src.buffer = buf;
+    src.connect(c.destination);
+    src.start();
+  }
+
+  // ---- spin logic ----
+  let currentRotation = 0;
+  let spinning = false;
+  let total = 0;
+
+  const spinBtn = document.getElementById('spin');
+  const resetBtn = document.getElementById('reset');
+  const totalEl = document.getElementById('total');
+  const resultEl = document.getElementById('result');
+  const logEl = document.getElementById('log');
+
+  function logMsg(text, cls = '') {
+    const div = document.createElement('div');
+    if (cls) div.className = cls;
+    const time = new Date().toLocaleTimeString();
+    div.textContent = `[${time}] ${text}`;
+    logEl.prepend(div);
+  }
+
+  function spin() {
+    if (spinning) return;
+    spinning = true;
+    spinBtn.disabled = true;
+    resultEl.textContent = '';
+
+    // pick winner uniformly at random, then compute rotation to land on it
+    const winner = Math.floor(Math.random() * N);
+    const turns = 5 + Math.floor(Math.random() * 3); // 5-7 full turns
+    // pointer is at top (angle 0). slice i occupies [i*SLICE, (i+1)*SLICE].
+    // we want the wheel rotated so the middle of slice `winner` is at the top.
+    // rotation needed (mod 360): -((winner + 0.5) * SLICE) + small jitter
+    const jitter = (Math.random() - 0.5) * (SLICE * 0.7);
+    const target = -((winner + 0.5) * SLICE) + jitter;
+    const finalRotation = currentRotation + turns * 360 + (target - (currentRotation % 360));
+
+    // schedule clicks: roughly one per slice but capped, easing toward sparse at end
+    const totalDelta = Math.abs(finalRotation - currentRotation);
+    const rawCrossings = Math.floor(totalDelta / SLICE);
+    // sample every Nth crossing so clicks feel spaced rather than constant
+    const clickCount = Math.min(22, Math.max(8, Math.floor(rawCrossings / 3)));
+    const duration = 4000; // matches CSS transition
+
+    for (let k = 1; k <= clickCount; k++) {
+      const progress = k / clickCount;
+      // strong ease — clicks bunch early, sparse and slow at the end
+      const tNorm = 1 - Math.pow(1 - progress, 0.45);
+      setTimeout(click, tNorm * duration);
+    }
+
+    svg.style.transform = `rotate(${finalRotation}deg)`;
+    currentRotation = finalRotation;
+
+    setTimeout(() => {
+      const value = OPTIONS[winner];
+      const numeric = typeof value === 'number' ? value : 100;
+      total += numeric;
+      totalEl.textContent = total;
+      resultEl.textContent = value;
+      logMsg(`spin → ${value} (+${numeric})`);
+      jingle();
+      spinning = false;
+      spinBtn.disabled = false;
+    }, duration + 50);
+  }
+
+  function reset() {
+    total = 0;
+    totalEl.textContent = 0;
+    resultEl.textContent = '';
+    logMsg('reset', 'reset');
+  }
+
+  spinBtn.addEventListener('click', spin);
+  resetBtn.addEventListener('click', reset);
+</script>
+</body>
+</html>
