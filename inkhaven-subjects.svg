@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-222.93 -172.10 427.99 320.43" width="427.99" height="320.43" role="img" aria-label="Pie chart of April Inkhaven blog post subjects">
+<path d="M 2.000,0.425 L 2.000,-147.530 A 147.95531881026994,147.95531881026994 0 1 1 -58.179,135.589 Z" fill="#FEAC9E"/>
+<path d="M -3.236,2.351 L -62.620,135.729 A 146.0,146.0 0 0 1 -148.436,17.612 Z" fill="#D1C779"/>
+<path d="M -4.677,-1.519 L -148.965,13.646 A 145.08281332885153,145.08281332885153 0 0 1 -112.494,-98.599 Z" fill="#79DABF"/>
+<path d="M -3.236,-5.605 L -109.898,-101.644 A 143.52786404500043,143.52786404500043 0 0 1 -33.077,-145.996 Z" fill="#8DCBFF"/>
+<path d="M -2.000,-19.029 L -29.209,-147.035 A 130.86645553298874,130.86645553298874 0 0 1 -2.000,-149.895 Z" fill="#E0B0EE"/>
+<text x="103.3" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="#000000" font-family="monospace" font-size="16" font-weight="700">57%</text>
+<text x="-85.9" y="62.4" text-anchor="middle" dominant-baseline="middle" fill="#000000" font-family="monospace" font-size="16" font-weight="700">17%</text>
+<text x="-101.3" y="-32.9" text-anchor="middle" dominant-baseline="middle" fill="#000000" font-family="monospace" font-size="16" font-weight="700">13%</text>
+<text x="-53.5" y="-92.6" text-anchor="middle" dominant-baseline="middle" fill="#000000" font-family="monospace" font-size="16" font-weight="700">10%</text>
+<text x="-11.6" y="-110.1" text-anchor="middle" dominant-baseline="middle" fill="#000000" font-family="monospace" font-size="16" font-weight="700">3%</text>
+<text x="160.4" y="34.1" text-anchor="start" dominant-baseline="middle" font-size="18" font-weight="500" font-family="monospace" fill="#1a1a1a">life</text>
+<text x="-132.7" y="96.4" text-anchor="end" dominant-baseline="middle" font-size="18" font-weight="500" font-family="monospace" fill="#1a1a1a">math</text>
+<text x="-156.0" y="-50.7" text-anchor="end" dominant-baseline="middle" font-size="18" font-weight="500" font-family="monospace" fill="#1a1a1a">satire</text>
+<text x="-82.0" y="-142.0" text-anchor="end" dominant-baseline="middle" font-size="18" font-weight="500" font-family="monospace" fill="#1a1a1a">poetry</text>
+<text x="-17.1" y="-163.1" text-anchor="end" dominant-baseline="middle" font-size="18" font-weight="500" font-family="monospace" fill="#1a1a1a">webdev</text>
+</svg>
