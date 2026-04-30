@@ -2,7 +2,6 @@
 date: 2026-04-30
 categories: [life]
 parent: inkhaven
-hidden: true
 ---
 ## Inkhaven Recap
 

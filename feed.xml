@@ -4,9 +4,9 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 29 Apr 2026 14:10:03 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 30 Apr 2026 11:16:54 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 29 Apr 2026 14:10:02 GMT</pubDate>
+        <pubDate>Thu, 30 Apr 2026 11:16:54 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
         <item>
@@ -684,7 +684,7 @@ Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
 <p>When you hit a wall, stop pushing. Go around it.</p>
       </article>
     </details></li>
-    <li hidden=""><details>
+    <li><details>
       <summary>April 30<sup>th</sup> - <strong>Inkhaven Recap</strong></summary>
       <article>
         <h2>Inkhaven Recap</h2>
@@ -1444,7 +1444,7 @@ Newton: y*(1 + x*Log[2] - Log[y])</code></pre>
 <p>When you hit a wall, stop pushing. Go around it.</p>
       </article>
     </details></li>
-    <li hidden=""><details>
+    <li><details>
       <summary>April 30<sup>th</sup> - <strong>Inkhaven Recap</strong></summary>
       <article>
         <h2>Inkhaven Recap</h2>
