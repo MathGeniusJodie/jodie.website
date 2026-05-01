@@ -68,17 +68,12 @@ summary::before{
 [open] > summary::before{
   content:"▼";
 }
-.wrapper {
-  display:flex;
-  flex-wrap: wrap;
-  gap: 3em;
-  justify-content: center;
-  max-width: 100%;
-}
 main>article {
   display: none;
   border-bottom: 2px solid;
   margin-bottom: calc(1lh - 2px);
+  contain: content;
+  padding: 0 1em;
 }
 main>article::after{
   content: "♞";
@@ -101,12 +96,19 @@ details article {
   }
 }
 
-#life:checked ~ .life,
-#math:checked ~ .math,
-#poetry:checked ~ .poetry,
-#web:checked ~ .web,
-#all:checked ~ article {
+main label {
+  white-space: nowrap;
+}
+
+main:has(#life:checked) .life,
+main:has(#math:checked) .math,
+main:has(#poetry:checked) .poetry,
+main:has(#web:checked) .web,
+main:has(#all:checked) article{
   display: block;
+}
+.filters{
+  text-wrap: balance;
 }
 
 .poetry p{
@@ -116,9 +118,28 @@ details article {
 .spacer {
   height: 1lh;
 }
-main {
-  width: 60ch;
-  max-width: 100%;
+.wrapper{
+  width:100%
+}
+@media (max-width: 104ch) {
+  main{
+    max-width: 63ch;
+    width:100%
+  }
+  main, aside{
+    margin-inline: auto;
+  }
+} 
+@media not (max-width: 104ch) {
+  .mobile{
+    display:none
+  }
+  .wrapper {
+    display: grid;
+    grid-template-columns: 63ch minmax(0, 30ch);
+    justify-content: center;
+    gap: 3em;
+  }
 }
 aside{
   max-width: 30ch;
@@ -132,8 +153,6 @@ img{
 body{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 1em;
   gap: 1em
 }
 pre,table{
@@ -199,9 +218,21 @@ sup,sub {
   font-size: .85em;
   width: fit-content
 }
+.flex{
+  display:flex
+}
+.gap{
+  gap:3ch
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-inline: auto
+}
 </style>
 
-</head><body><header style="display: flex; align-items: center; gap: 1em">
+</head><body><header>
     <img src="logo.svg" alt="">
     <div>
       <h1 style="margin-top:0;margin-bottom:.2em;">Jodie's Website</h1>
@@ -213,18 +244,15 @@ sup,sub {
     </div>
 </header>
 <div class="wrapper">
-<main>
-  <h2 id="blog">Blog:</h2>
-  <input type="radio" name="filter" id="all" checked="">
-  <label for="all">All</label>
-  <input type="radio" name="filter" id="life">
-  <label for="life">Life</label>
-  <input type="radio" name="filter" id="math">
-  <label for="math">Math</label>
-  <input type="radio" name="filter" id="poetry">
-  <label for="poetry">Poetry</label>
-  <input type="radio" name="filter" id="web">
-  <label for="web">Web Dev</label>
+<main id="blog">
+  <div class="flex gap"><h2 id="blog">Blog:</h2><a href="#sidebar" class="mobile">Jump to Sidebar</a></div>
+  <div class="filters">
+    <label for="all"></label><input type="radio" name="filter" id="all" checked="">All
+    <label for="life"></label><input type="radio" name="filter" id="life">Life
+    <label for="math"></label><input type="radio" name="filter" id="math">Math
+    <label for="poetry"></label><input type="radio" name="filter" id="poetry">Poetry
+    <label for="web"></label><input type="radio" name="filter" id="web">Web Dev
+  </div>
   <div class="spacer"></div>
 <article id="inkhaven" class="life"><time datetime="2026-04-01">April 1<sup>st</sup>, 2026</time>
 <h2>We Have Inkhaven at Home</h2>
@@ -1356,7 +1384,8 @@ You don't need └───┬──────────┬──┘
 <p>Using a bit array to keep track of visited neighbors is much faster.</p>
 <p>For a code example, see <a href="https://github.com/MathGeniusJodie/joann" target="_blank">Joann</a>, my <abbr>HNSW</abbr> implementation.</p>
 </article></main>
-<aside>
+<aside id="sidebar">
+  <a href="#blog" class="mobile">Jump to Blog</a>
   <h2>Support Me:</h2>
   <a href="https://ko-fi.com/M4M71OS4OY" target="_blank"><img width="580" height="146" style="border:0px;height:36px;width:auto" src="https://storage.ko-fi.com/cdn/kofi3.png?v=6" border="0" alt="Buy Me a Coffee at ko-fi.com"></a>
   <h2>Newsletter:</h2>
