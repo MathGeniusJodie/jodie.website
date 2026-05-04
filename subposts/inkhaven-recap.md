@@ -21,7 +21,7 @@ I was certain I would run out of things to say. Now I have a longer backlog than
 
 ### Subjects
 <figure>
-    <img loading="lazy" src="./inkhaven-subjects.svg"  alt="57% life, 17% math, 13% satire, 10% poetry, 3% webdev" width="428" height="320">
+    <img loading="lazy" style="background:white" src="./inkhaven-subjects.svg"  alt="57% life, 17% math, 13% satire, 10% poetry, 3% webdev" width="428" height="320">
 </figure>
 
 ### Tier List
