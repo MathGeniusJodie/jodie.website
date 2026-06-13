@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercise Index v2 — Exhaustive Edition</title>
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --ink: #1a1a1a;
+    --rule: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #b8341a;
+    --bw: #1a1a1a;
+    --bb: #b8341a;
+    --mob: #2d6a4f;
+    --rehab: #5a3a82;
+    --yoga: #b8860b;
+    --taichi: #1d6fa3;
+    --paper-grain: rgba(0,0,0,0.015);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1916;
+      --ink: #e8e3d8;
+      --rule: #e8e3d8;
+      --muted: #8a857a;
+      --accent: #e8642a;
+      --bw: #e8e3d8;
+      --bb: #e8642a;
+      --mob: #74c69d;
+      --rehab: #b294d1;
+      --yoga: #e0b84a;
+      --taichi: #6bb6dd;
+      --paper-grain: rgba(255,255,255,0.02);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Iowan Old Style', 'Charter', 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.45;
+    padding: 2rem 1.5rem 6rem;
+    max-width: 1040px;
+    margin: 0 auto;
+    background-image:
+      repeating-linear-gradient(0deg, var(--paper-grain) 0 1px, transparent 1px 4px);
+  }
+  header {
+    border-bottom: 3px double var(--rule);
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  h1 {
+    font-family: 'Iowan Old Style', 'Charter', 'Georgia', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 70ch;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.8rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .controls {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1.5rem;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  input[type="search"] {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.5rem 0.7rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+  }
+  input[type="search"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+  }
+  .filter-btn {
+    padding: 0.45rem 0.7rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+  .filter-btn:hover { background: var(--ink); color: var(--bg); }
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .random-btn {
+    padding: 0.45rem 0.9rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--accent);
+    color: var(--bg);
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .random-btn:hover { filter: brightness(1.1); }
+  .count {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  #random-display {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.2rem;
+    border: 2px solid var(--accent);
+    background: rgba(184, 52, 26, 0.04);
+    display: none;
+  }
+  #random-display.shown { display: block; }
+  #random-display .label {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  #random-display .name {
+    font-family: 'Iowan Old Style', 'Charter', 'Georgia', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  #random-display .ctx {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+  section.category {
+    margin-bottom: 2.5rem;
+  }
+  section.category.hidden { display: none; }
+  .cat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .cat-num {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: bold;
+  }
+  h2 {
+    font-family: 'Iowan Old Style', 'Charter', 'Georgia', serif;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .cat-tally {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+  .cat-note {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+    max-width: 75ch;
+  }
+  ul.exercises {
+    list-style: none;
+    columns: 2;
+    column-gap: 2rem;
+    column-rule: 1px solid var(--rule);
+  }
+  @media (max-width: 640px) {
+    ul.exercises { columns: 1; }
+  }
+  li.ex {
+    break-inside: avoid;
+    padding: 0.22rem 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.92rem;
+  }
+  li.ex.hidden { display: none; }
+  li.ex.highlighted {
+    background: rgba(184, 52, 26, 0.15);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .tag {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    margin-top: 0.4rem;
+  }
+  .tag.bw { background: var(--bw); }
+  .tag.bb { background: var(--bb); }
+  .tag.mob { background: var(--mob); }
+  .tag.rehab { background: var(--rehab); }
+  .tag.yoga { background: var(--yoga); }
+  .tag.taichi { background: var(--taichi); }
+  .ex-name { flex: 1; }
+  .ex-modifier {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-style: italic;
+  }
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.2rem;
+    border-top: 3px double var(--rule);
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  footer .legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+  footer .legend span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .ornament {
+    text-align: center;
+    color: var(--muted);
+    font-size: 1.4rem;
+    letter-spacing: 0.6em;
+    margin: 2rem 0 1rem;
+  }
+  .sources {
+    font-size: 0.78rem;
+    margin-top: 0.8rem;
+  }
+  .sources b {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    display: block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Movement Reference v2 · Exhaustive Edition</div>
+  <h1>The Exercise Index</h1>
+  <p class="subtitle">Bodyweight, barbell (no rack, no bench), mobility/stretching, rehab/PT, yoga asanas, and tai chi movements. Includes USAWA odd lifts, old-time strongman feats, gymnastic skill positions, neglected-muscle drills. No tutorials, no upsells.</p>
+  <div class="meta">
+    <span>Total: <strong id="total-count">0</strong></span>
+    <span><span class="tag bw"></span> BW: <strong id="bw-count">0</strong></span>
+    <span><span class="tag bb"></span> BB: <strong id="bb-count">0</strong></span>
+    <span><span class="tag mob"></span> Mob: <strong id="mob-count">0</strong></span>
+    <span><span class="tag rehab"></span> Rehab: <strong id="rehab-count">0</strong></span>
+    <span><span class="tag yoga"></span> Yoga: <strong id="yoga-count">0</strong></span>
+    <span><span class="tag taichi"></span> Tai Chi: <strong id="taichi-count">0</strong></span>
+  </div>
+</header>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="filter by name (e.g. 'pistol', 'snatch', 'hip')...">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="bw">Bodyweight</button>
+  <button class="filter-btn" data-filter="bb">Barbell</button>
+  <button class="filter-btn" data-filter="mob">Mobility</button>
+  <button class="filter-btn" data-filter="rehab">Rehab/PT</button>
+  <button class="filter-btn" data-filter="yoga">Yoga</button>
+  <button class="filter-btn" data-filter="taichi">Tai Chi</button>
+  <button class="random-btn" id="random-btn">🎲 Random</button>
+  <span class="count"><span id="visible-count">0</span> visible</span>
+</div>
+
+<div id="random-display">
+  <div class="label">Your random exercise →</div>
+  <div class="name" id="random-name"></div>
+  <div class="ctx" id="random-ctx"></div>
+</div>
+
+<!-- §1 SQUAT -->
+<section class="category" data-cat="squat">
+  <div class="cat-header"><span class="cat-num">§ 01</span><h2>Squat Pattern</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">Knee-dominant. Front-loaded barbell variants work racklessly via clean grip, zercher, or steinborn.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Air squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Prisoner squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sissy squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse sissy squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Cossack squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sumo squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plié squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Frog squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Jump squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Squat jump to box</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Broad jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">90/90 jump squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Squat hold</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Deep squat sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pistol squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pistol squat negative</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Assisted pistol squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Shrimp squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Advanced shrimp squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hawaiian squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Box pistol squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Skater squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse lunge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Forward lunge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Walking lunge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Lateral lunge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Curtsy lunge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Jumping lunge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Split squat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Step-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">High step-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wall sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Single-leg wall sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Spanish squat</span><span class="ex-modifier">band around knees</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">ATG split squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Front squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Zercher squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Zercher squat one-arm</span><span class="ex-modifier">USAWA C9</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Overhead squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Anderson squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">12" base squat</span><span class="ex-modifier">USAWA C1</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Lunge squat</span><span class="ex-modifier">USAWA C3</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">One-leg squat</span><span class="ex-modifier">USAWA C4 (pistol w/ BB)</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Piper squat</span><span class="ex-modifier">USAWA C6, BB across hips</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Steinborn lift</span><span class="ex-modifier">historical, hazardous</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Jefferson squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Continental squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bulgarian split squat</span><span class="ex-modifier">front-rack</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Zercher lunge</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine reverse lunge</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine cossack</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine goblet squat</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Sots squat</span><span class="ex-modifier">behind neck, deep ATG</span></li>
+  </ul>
+</section>
+
+<!-- §2 HINGE -->
+<section class="category" data-cat="hinge">
+  <div class="cat-header"><span class="cat-num">§ 02</span><h2>Hip Hinge &amp; Posterior Chain</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">Deadlift and its derivatives — every variant starts from the floor or a pulled position.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Glute bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Single-leg glute bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hip thrust</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Single-leg hip thrust</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Frog pump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse hyperextension</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Superman</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Swimmer</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Good morning</span><span class="ex-modifier">unweighted</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Single-leg RDL</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Nordic curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Razor curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sliding leg curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Inchworm</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Donkey kick</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Fire hydrant</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bird dog</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hyperextension</span><span class="ex-modifier">floor or GHR</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Conventional deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Sumo deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Romanian deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Stiff-leg deadlift</span><span class="ex-modifier">USAWA B16</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deficit deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Block / pin pull</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">12" base deadlift</span><span class="ex-modifier">USAWA B1</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch-grip deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch-grip RDL</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, 2 bars</span><span class="ex-modifier">USAWA B2</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, heels together</span><span class="ex-modifier">USAWA B9</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, one arm</span><span class="ex-modifier">USAWA B13</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, one leg</span><span class="ex-modifier">USAWA B14</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, no thumbs</span><span class="ex-modifier">USAWA B10</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, no thumbs overhand</span><span class="ex-modifier">USAWA B11</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, no thumb, one arm</span><span class="ex-modifier">USAWA B12</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Ciavattone deadlift</span><span class="ex-modifier">USAWA B3, both hands overhand</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Ciavattone deadlift, one arm</span><span class="ex-modifier">USAWA B4</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Reeves deadlift</span><span class="ex-modifier">USAWA B15, gripping plates</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hack lift</span><span class="ex-modifier">USAWA B17, behind back</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hack lift, one arm</span><span class="ex-modifier">USAWA B18</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Jefferson lift</span><span class="ex-modifier">USAWA B19, straddle</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Saxon deadlift</span><span class="ex-modifier">one hand, behind back</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Peoples deadlift</span><span class="ex-modifier">USAWA H12, raised plates</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Dinnie lift</span><span class="ex-modifier">USAWA H5, 2 bars, suitcase</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Kennedy lift</span><span class="ex-modifier">USAWA H10, hand-and-thigh-style</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Habecker lift</span><span class="ex-modifier">USAWA H9</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Travis lift</span><span class="ex-modifier">USAWA I24, finger lift on plate-loaded bar</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Trap-bar deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Single-leg RDL</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">B-stance RDL</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Jefferson curl</span><span class="ex-modifier">loaded mobility</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Good morning</span><span class="ex-modifier">USAWA D15, from floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Zercher good morning</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Back extension</span><span class="ex-modifier">USAWA D12</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hip thrust</span><span class="ex-modifier">on floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Glute bridge</span><span class="ex-modifier">on floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine RDL</span></li>
+  </ul>
+</section>
+
+<!-- §3 HORIZONTAL PUSH -->
+<section class="category" data-cat="hpush">
+  <div class="cat-header"><span class="cat-num">§ 03</span><h2>Horizontal Push</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Knee push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Incline push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Decline push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Diamond push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wide push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hindu push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Divebomber push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Archer push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Typewriter push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sliding push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Assisted one-arm push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pseudo planche push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Planche push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck planche push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle planche push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Maltese push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Clap push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Aztec push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Superman push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">90-degree push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Knuckle push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Fingertip push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Spiderman push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">T push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plyometric push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring fly</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Parallette push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Push-up plus</span><span class="ex-modifier">serratus emphasis</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pseudo-planche lean</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bench dip</span><span class="ex-modifier">USAWA D5</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Korean dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Russian dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bulgarian dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring dip with turnout</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Impossible dip</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Floor press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hackenschmidt floor press</span><span class="ex-modifier">USAWA H8</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">JM press</span><span class="ex-modifier">from floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Close-grip floor press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pullover and press</span><span class="ex-modifier">USAWA A34</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pullover and press, wrestler bridge</span><span class="ex-modifier">USAWA A35</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pullover and push</span><span class="ex-modifier">USAWA A36</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Half-kneeling landmine press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine chest press</span></li>
+  </ul>
+</section>
+
+<!-- §4 VERTICAL PUSH -->
+<section class="category" data-cat="vpush">
+  <div class="cat-header"><span class="cat-num">§ 04</span><h2>Vertical Push</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pike push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Elevated pike push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wall handstand</span><span class="ex-modifier">chest-to-wall</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wall handstand</span><span class="ex-modifier">back-to-wall</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Freestanding handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wall HSPU</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Freestanding HSPU</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Deficit HSPU</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Negative HSPU</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hollow back press</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring HSPU</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">90° to handstand press</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle press to handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck press to handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pike press to handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Stalder press</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Crow pose to handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Frog stand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Headstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Headstand push-up</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Overhead press</span><span class="ex-modifier">clean &amp; press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, 12" base</span><span class="ex-modifier">USAWA A11</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, alternate grip</span><span class="ex-modifier">USAWA A12</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, behind neck</span><span class="ex-modifier">USAWA A13</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, heels together</span><span class="ex-modifier">USAWA A14</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, on knees</span><span class="ex-modifier">USAWA A15</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, middle fingers</span><span class="ex-modifier">USAWA A16</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and press, reverse grip</span><span class="ex-modifier">USAWA A17</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and push press</span><span class="ex-modifier">USAWA A18</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and seated press</span><span class="ex-modifier">USAWA A19</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and seated press, behind neck</span><span class="ex-modifier">USAWA A20</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Push press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Push jerk</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Split jerk</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Squat jerk</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Behind-the-neck press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Sots press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Z press</span><span class="ex-modifier">seated on floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bradford press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Side press</span><span class="ex-modifier">USAWA A43</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bent press</span><span class="ex-modifier">USAWA A7, classic Saxon</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Cyr press</span><span class="ex-modifier">USAWA H4</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Anderson press</span><span class="ex-modifier">USAWA H1, from boxes</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">French press</span><span class="ex-modifier">USAWA A25, overhead tricep</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Jackson press</span><span class="ex-modifier">USAWA A26, reverse grip OHP</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bottoms-up press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Half-kneeling press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Tall-kneeling press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine OHP</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine push press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine viking press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pullover and press, wrestler bridge</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Two hands anyhow</span><span class="ex-modifier">USAWA D28, BB + DB simultaneously</span></li>
+  </ul>
+</section>
+
+<!-- §5 HORIZONTAL PULL -->
+<section class="category" data-cat="hpull">
+  <div class="cat-header"><span class="cat-num">§ 05</span><h2>Horizontal Pull</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Inverted row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Australian pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Feet-elevated inverted row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wide inverted row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Close inverted row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Archer row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm inverted row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring row with turnout</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck front lever row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Advanced tuck front lever row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle front lever row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Front lever row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wide front lever row</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Towel row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bent-over row</span><span class="ex-modifier">USAWA D6, overhand</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bent-over row, underhand</span><span class="ex-modifier">Yates</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pendlay row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch-grip row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Meadows row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">T-bar row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Seal row</span><span class="ex-modifier">prone on box</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Kroc row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Dead-stop row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Conventional row from blocks</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pullover, bent arm</span><span class="ex-modifier">USAWA D23</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Pullover, straight arm</span><span class="ex-modifier">USAWA D24</span></li>
+  </ul>
+</section>
+
+<!-- §6 VERTICAL PULL -->
+<section class="category" data-cat="vpull">
+  <div class="cat-header"><span class="cat-num">§ 06</span><h2>Vertical Pull</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Chin-up</span><span class="ex-modifier">USAWA I3</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Neutral-grip pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wide-grip pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Close-grip pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Mixed-grip pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Negative pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Scapular pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Dead hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Active hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">L-sit pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Archer pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Typewriter pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Side-to-side pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Commando pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Around-the-world pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Chest-to-bar pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">High pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sternum pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm assisted pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm negative</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bar muscle-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring muscle-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Strict muscle-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Kipping pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Butterfly pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plyometric pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Clapping pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Towel pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Fingertip pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Rope climb</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Legless rope climb</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">High pull</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch-grip high pull</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Muscle clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Muscle snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Upright row</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Wide-grip upright row</span></li>
+  </ul>
+</section>
+
+<!-- §7 OLYMPIC -->
+<section class="category" data-cat="oly">
+  <div class="cat-header"><span class="cat-num">§ 07</span><h2>Olympic Lifts &amp; Derivatives</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Power snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Squat snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Split snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hang snatch</span><span class="ex-modifier">USAWA A44</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hang power snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Block snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch pull</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch balance</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Drop snatch</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Heaving snatch balance</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Continental snatch</span><span class="ex-modifier">USAWA A21</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Kelly snatch</span><span class="ex-modifier">USAWA A45</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch on knees</span><span class="ex-modifier">USAWA A46</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch, one arm</span><span class="ex-modifier">USAWA A47</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Saxon snatch</span><span class="ex-modifier">USAWA H13</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Power clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Squat clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Split clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hang clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hang power clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Block clean</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean pull</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Ziegler clean</span><span class="ex-modifier">USAWA A48</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and jerk</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and jerk, behind neck</span><span class="ex-modifier">USAWA A8</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Clean and jerk, one arm</span><span class="ex-modifier">USAWA A9</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Judd clean and jerk</span><span class="ex-modifier">USAWA A30</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Miller clean and jerk</span><span class="ex-modifier">USAWA A31</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Reflex clean and jerk</span><span class="ex-modifier">USAWA A38</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Reflex clean and push press</span><span class="ex-modifier">USAWA A39</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Continental to chest</span><span class="ex-modifier">USAWA A23</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Continental to chest and jerk</span><span class="ex-modifier">USAWA A24</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Continental to belt</span><span class="ex-modifier">USAWA A22</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Apollon lift</span><span class="ex-modifier">USAWA H3, thick-bar C&J</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Lurich lift</span><span class="ex-modifier">USAWA H11</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">James lift</span><span class="ex-modifier">USAWA A27, clean+squat+press combo</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Thruster</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch thruster</span></li>
+  </ul>
+</section>
+
+<!-- §8 CORE -->
+<section class="category" data-cat="core">
+  <div class="cat-header"><span class="cat-num">§ 08</span><h2>Core, Trunk &amp; Anti-Movement</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plank</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Forearm plank</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Side plank</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Side plank with hip dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Star plank</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse plank</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Long-lever plank</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plank to push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plank reach</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plank shoulder tap</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Body saw</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hollow body hold</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hollow body rock</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Arch hold</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Arch rock</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sit-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Crunch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse crunch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bicycle crunch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">V-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Toe touch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Flutter kick</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Scissor kick</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Leg raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hanging knee raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hanging leg raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hanging windshield wiper</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Toes-to-bar</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Knees-to-elbows</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">L-sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck L-sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-leg L-sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">V-sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Manna</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle L-sit</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Dragon flag</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck dragon flag</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Dragon flag negative</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Russian twist</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Windshield wiper</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Dead bug</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Mountain climber</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Cross-body mountain climber</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bear crawl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Crab walk</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Lizard crawl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Spiderman crawl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ab wheel rollout</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sliding rollout</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pike compression</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Seated good morning</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Stir-the-pot</span><span class="ex-modifier">on a ball</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell rollout</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Abdominal raise</span><span class="ex-modifier">USAWA D1</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Abdominal raise, Roman chair</span><span class="ex-modifier">USAWA D2</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Roman chair sit-up</span><span class="ex-modifier">USAWA I21</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Holdout, raised</span><span class="ex-modifier">USAWA D17, front raise hold</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Holdout, lowered</span><span class="ex-modifier">USAWA D16</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Allen lift</span><span class="ex-modifier">USAWA D3</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Arthur lift</span><span class="ex-modifier">USAWA D4</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Mansfield lift</span><span class="ex-modifier">USAWA D22</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Lano lift</span><span class="ex-modifier">USAWA D19</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Scott lift</span><span class="ex-modifier">USAWA D26</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Gardner, full</span><span class="ex-modifier">USAWA D13</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Gardner, half</span><span class="ex-modifier">USAWA D14</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Rectangular fix</span><span class="ex-modifier">USAWA D25</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Shoulder drop</span><span class="ex-modifier">USAWA D27</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine 180</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine rainbow</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine anti-rotation press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Suitcase deadlift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Suitcase carry</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Zercher carry</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Front-rack carry</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Overhead carry</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bear hug carry</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Turkish get-up</span><span class="ex-modifier">USAWA I25</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Side bend</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell windmill</span></li>
+  </ul>
+</section>
+
+<!-- §9 ARMS / ACCESSORY -->
+<section class="category" data-cat="arms">
+  <div class="cat-header"><span class="cat-num">§ 09</span><h2>Arms, Forearms &amp; Direct Accessory</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bodyweight curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Doorframe curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Towel curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Headbanger pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Skull crusher</span><span class="ex-modifier">on parallettes</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring triceps extension</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wrist push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse wrist push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Fingertip plank</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Standing curl, strict</span><span class="ex-modifier">USAWA D10</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Cheat curl</span><span class="ex-modifier">USAWA D7</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Cheat curl, reverse grip</span><span class="ex-modifier">USAWA D8</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Strict curl, reverse grip</span><span class="ex-modifier">USAWA D9</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Wrist curl</span><span class="ex-modifier">USAWA D11</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Reverse wrist curl</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Behind-the-back wrist curl</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Drag curl</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Wide-grip curl</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Close-grip curl</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">21s</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Landmine curl</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Skull crusher</span><span class="ex-modifier">on floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Tate press</span><span class="ex-modifier">on floor</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">California press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Maxey press</span><span class="ex-modifier">USAWA F11, Fulton bar</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell shrug</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Snatch-grip shrug</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Behind-the-back shrug</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hise shrug</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Reverse curl</span></li>
+  </ul>
+</section>
+
+<!-- §10 GRIP / FINGER / THICK BAR -->
+<section class="category" data-cat="grip">
+  <div class="cat-header"><span class="cat-num">§ 10</span><h2>Grip, Finger &amp; Thick-Bar Lifts</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">USAWA-style grip work. The Fulton bar (2" thick) and Inch dumbbell tradition. Finger lifts, pinch grips, vertical bars.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plate pinch</span><span class="ex-modifier">USAWA I17/I18</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pinch grip deadlift</span><span class="ex-modifier">USAWA I15/I16</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bar hangs</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Towel hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Crush gripper</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Rice bucket</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Putty squeeze</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Finger extensor band</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Nail bending</span><span class="ex-modifier">old-time strongman feat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Card tearing</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Phonebook tearing</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, fingers index</span><span class="ex-modifier">USAWA B5</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, fingers little</span><span class="ex-modifier">USAWA B6</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, fingers middle</span><span class="ex-modifier">USAWA B7</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deadlift, fingers ring</span><span class="ex-modifier">USAWA B8</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Finger lift</span><span class="ex-modifier">USAWA I12, per finger</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Travis lift</span><span class="ex-modifier">USAWA I24, on plate edge</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar bench press</span><span class="ex-modifier">USAWA F1</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar clean &amp; jerk</span><span class="ex-modifier">USAWA F2</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar clean &amp; press</span><span class="ex-modifier">USAWA F3</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar continental to chest</span><span class="ex-modifier">USAWA F5</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar deadlift</span><span class="ex-modifier">USAWA F6</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar Ciavattone deadlift</span><span class="ex-modifier">USAWA F7</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar deadlift, one arm</span><span class="ex-modifier">USAWA F8</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar hack lift</span><span class="ex-modifier">USAWA F9</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar Jefferson</span><span class="ex-modifier">USAWA F10</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar rectangular fix</span><span class="ex-modifier">USAWA F12</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Fulton bar snatch</span><span class="ex-modifier">USAWA F13</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">3" bar deadlift</span><span class="ex-modifier">USAWA I4</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Vertical bar lift, 1", one hand</span><span class="ex-modifier">USAWA I26</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Vertical bar lift, 2", one hand</span><span class="ex-modifier">USAWA I27</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Vertical bars, 2x 1"</span><span class="ex-modifier">USAWA I28</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Vertical bars, 2x 2"</span><span class="ex-modifier">USAWA I29</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Weaver stick</span><span class="ex-modifier">USAWA I30, front and rear</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Rim lift</span><span class="ex-modifier">USAWA I20</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Goerner stroll</span><span class="ex-modifier">USAWA H7, weighted walk</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Dumbbell walk</span><span class="ex-modifier">USAWA I11</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Inman mile</span><span class="ex-modifier">USAWA D18, never officially completed</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell holds</span></li>
+  </ul>
+</section>
+
+<!-- §11 OLD-TIME STRONGMAN / ODD -->
+<section class="category" data-cat="oldtime">
+  <div class="cat-header"><span class="cat-num">§ 11</span><h2>Old-Time Strongman &amp; Heavy Partials</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">Heavy partial lifts using harness, hand-and-thigh, and back-lift setups. Largely forgotten outside USAWA.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Back lift</span><span class="ex-modifier">USAWA G1, Travis-style</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hand and thigh lift</span><span class="ex-modifier">USAWA G2</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Harness lift</span><span class="ex-modifier">USAWA G3</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hip lift</span><span class="ex-modifier">USAWA G4</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Neck lift</span><span class="ex-modifier">USAWA G5</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Teeth lift</span><span class="ex-modifier">USAWA I22</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Foot press</span><span class="ex-modifier">USAWA I13</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Leg press, self-loaded</span><span class="ex-modifier">USAWA D20</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Leg press, unsupported</span><span class="ex-modifier">USAWA D21</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bearhug</span><span class="ex-modifier">USAWA I1</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Carter lift</span><span class="ex-modifier">USAWA I2</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Deanna lift</span><span class="ex-modifier">USAWA I10</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Phumchaona lift</span><span class="ex-modifier">USAWA I14</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Thor's hammer</span><span class="ex-modifier">USAWA H14, leverage lift</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Van Dam lift</span><span class="ex-modifier">USAWA E21</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Dumbbell to shoulder</span><span class="ex-modifier">USAWA H6, BB-on-end version</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Crucifix</span><span class="ex-modifier">USAWA E8, lateral hold</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Iron mile</span><span class="ex-modifier">carrying barbell on back</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Total poundage</span><span class="ex-modifier">USAWA I23, cumulative volume</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Reeves clean</span><span class="ex-modifier">gripping plates</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Hatfield-style rest-pause hold</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bus driver</span><span class="ex-modifier">plate rotation</span></li>
+  </ul>
+</section>
+
+<!-- §12 CALF / LOWER LEG / TIBIALIS -->
+<section class="category" data-cat="calf">
+  <div class="cat-header"><span class="cat-num">§ 12</span><h2>Calves, Tibialis, Feet &amp; Ankles</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Standing calf raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Single-leg calf raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Deficit calf raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Donkey calf raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Seated calf raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tibialis raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wall tibialis raise</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Heel walk</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Toe walk</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pogo hop</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ankle circles</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Toe yoga</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Short foot</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tibialis posterior inversion</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Foot doming</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Standing BB calf raise</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Zercher calf raise</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Donkey calf raise, weighted</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Seated BB calf raise</span></li>
+  </ul>
+</section>
+
+<!-- §13 STATIC HOLDS / SKILL -->
+<section class="category" data-cat="static">
+  <div class="cat-header"><span class="cat-num">§ 13</span><h2>Static Holds &amp; Gymnastic Skill</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Front lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck front lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Advanced tuck front lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-leg front lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle front lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Back lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck back lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle back lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Half-lay back lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Planche</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck planche</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Advanced tuck planche</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Straddle planche</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-leg planche</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Maltese</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Iron cross</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Inverted cross</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Victorian</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Support hold</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Ring support with turnout</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Inverted hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">German hang</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Skin the cat</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wrestler bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Stand-to-stand bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wall walk</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Press handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">One-arm handstand</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Elbow lever</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hollow back press</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Stalder press</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Human flag</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tuck human flag</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Dragon press</span></li>
+  </ul>
+</section>
+
+<!-- §14 CONDITIONING -->
+<section class="category" data-cat="cond">
+  <div class="cat-header"><span class="cat-num">§ 14</span><h2>Conditioning, Locomotion &amp; Plyo</h2><span class="cat-tally"></span></div>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Burpee</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Half burpee</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Burpee broad jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Burpee pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Burpee box jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Squat thrust</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Jumping jack</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Cross jack</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Skater jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Lateral bound</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Box jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Depth jump</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Depth push-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Single-leg hop</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bounding</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">A-skip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">B-skip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">High knees</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Butt kicks</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sprint</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Hill sprint</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Stair sprint</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Jump rope</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Double-under</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Shadow boxing</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell complex</span><span class="ex-modifier">Javorek / Bear</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell carry</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Barbell get-up</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bear complex</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Man maker</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Devils press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Sumo deadlift high pull</span></li>
+  </ul>
+</section>
+
+<!-- §15 MOBILITY -->
+<section class="category" data-cat="mobility">
+  <div class="cat-header"><span class="cat-num">§ 15</span><h2>Mobility &amp; Joint Articulation</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">Active range-of-motion drills, joint CARs (controlled articular rotations), and dynamic openers — for every major joint.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Neck CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Chin tucks</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Shoulder CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Arm circles</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Halo</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Scapular wall slide</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">YTWL</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Prone Y raise</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Prone T raise</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Prone W raise</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Prone I raise</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Band pull-apart</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Band dislocate</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cuban rotation</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Sleeper stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cross-body shoulder stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Doorway pec stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Behind-back grip stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Thread the needle</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Quadruped t-spine rotation</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Open book</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Foam-roller t-spine extension</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cat-cow</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Child's pose</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Downward dog</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cobra</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Upward dog</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Sphinx pose</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Standing forward fold</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Seated forward fold</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Pancake stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Front splits</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Middle splits</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Hip CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">90/90 hip switch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Shin box</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Pigeon pose</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Couch stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cossack stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Frog stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Half-kneeling hip flexor</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Standing quad stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Lying hamstring stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wall hamstring stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Standing hamstring stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Glute stretch (figure-4)</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Reclined pigeon</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Butterfly stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Adductor rock-back</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">ITB cross-leg stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Knee-to-chest</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Double knee-to-chest</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Supine spinal twist</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Seated spinal twist</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Knee CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Ankle CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Knee circles</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Knees-over-toes step</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wall ankle dorsiflexion</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Banded ankle distraction</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Calf stretch</span><span class="ex-modifier">gastroc, straight leg</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Calf stretch</span><span class="ex-modifier">soleus, bent knee</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wrist CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wrist flexor stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wrist extensor stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Prayer wrist stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Reverse prayer stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Finger interlace stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Elbow CARs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Worlds greatest stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Spider lunge</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Lizard lunge</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cat-camel</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Scorpion</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Iron cross stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Inverted hang (passive)</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">German hang (passive)</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Bretzel</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Cossack to pike</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Squat sit reach</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Asian squat</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wall slides (Y-pattern)</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Wall angels</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Standing pec doorway</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Lat stretch (kneeling)</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Hanging passive stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">QL stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Psoas march</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Standing IT band stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Banded hip distraction</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">PAILs / RAILs</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Loaded progressive stretch</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">PNF contract-relax</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Jefferson curl</span><span class="ex-modifier">mobility, unloaded</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Hip flow / Animal flow</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Beast to crab</span></li>
+    <li class="ex" data-type="mob"><span class="tag mob"></span><span class="ex-name">Lateral scorpion reach</span></li>
+  </ul>
+</section>
+
+<!-- §16 REHAB / PT -->
+<section class="category" data-cat="rehab">
+  <div class="cat-header"><span class="cat-num">§ 16</span><h2>Rehab, PT &amp; Prehab</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">Clinical exercises for rotator cuff, lower back, knee, ankle, neck. Light-load corrective work and stability drills.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">External rotation</span><span class="ex-modifier">side-lying, band, or cable</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Internal rotation</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">External rotation at 90°</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Empty can</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Full can</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Pendulum swing</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Wall climb</span><span class="ex-modifier">finger walk</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Wand passive ROM</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Towel slide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Scapular squeeze</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Scapular push-up</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Serratus jab</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Serratus wall slide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Banded face pull</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Prone snow angel</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Sleeper stretch</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Cross-body stretch</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Lawnmower row</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">McGill big three</span><span class="ex-modifier">curl-up / side plank / bird dog</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Curl-up (McGill)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Bird dog</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Dead bug</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Pelvic tilt</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Posterior pelvic tilt hold</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Diaphragmatic breathing</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">90/90 breathing</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Crocodile breathing</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">McKenzie press-up</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Press-up with hip shift</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Sloppy push-up</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Cobra to child's pose</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Sciatic nerve glide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Median nerve glide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Ulnar nerve glide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Radial nerve glide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Clamshell</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Banded clamshell</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Side-lying hip abduction</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Monster walk</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Lateral band walk</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Glute bridge with band</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Copenhagen plank</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Adductor squeeze</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Terminal knee extension</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Wall slide squat</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Straight-leg raise</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Quad set</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Heel slide</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Step-down</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Single-leg balance</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Single-leg balance eyes closed</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Tandem stance</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Star excursion</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Y-balance</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">BAPS board / wobble board</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Alphabet drawing</span><span class="ex-modifier">ankle</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Ankle inversion / eversion (band)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Heel raise eccentric</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Single-leg heel raise eccentric</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Calf raise off step (eccentric)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Marble pickup</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Towel scrunch</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Foot doming (short foot)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Tibialis posterior strengthening</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Toe spreads</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Big toe lift</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Chin tuck</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Deep neck flexor activation</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Neck isometric (4 directions)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Neck retraction</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Sub-occipital release</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Wrist flexor eccentric</span><span class="ex-modifier">Tyler twist</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Wrist extensor eccentric</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Reverse Tyler twist</span><span class="ex-modifier">golfer's elbow</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Finger extension band</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Putty work</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Self-myofascial release (foam roll)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Lacrosse ball trigger point</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">IT band foam roll</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">TFL release</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Piriformis release</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Pec minor release</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Levator scapulae stretch</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Upper trap stretch</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Brügger relief position</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Wall pec stretch</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">ATG knee-over-toe split squat</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Tibialis raise (Knees Over Toes)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Reverse Nordic</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Sissy lean</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">VMO step-up</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Petersen step-up</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Spanish squat</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Poliquin step-up</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Banded knee distraction</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Patellar mobilization</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Hip airplane</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Single-leg deadlift balance</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Stir-the-pot</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Anti-rotation press (Pallof)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Pallof press hold</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Half-kneeling Pallof</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Suitcase carry (anti-lateral flex)</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Farmer carry</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Bottoms-up KB carry</span></li>
+    <li class="ex" data-type="rehab"><span class="tag rehab"></span><span class="ex-name">Bottoms-up KB press</span></li>
+  </ul>
+</section>
+
+<!-- §17 NEGLECTED / OBSCURE -->
+<section class="category" data-cat="weird">
+  <div class="cat-header"><span class="cat-num">§ 17</span><h2>Neglected Muscles &amp; Weird Targets</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">Muscles nobody trains: serratus anterior, serratus posterior, multifidus, transverse abdominis, longus colli, pelvic floor, jaw, eyes.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Push-up plus</span><span class="ex-modifier">serratus anterior</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Serratus jab</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Serratus wall slide</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Bear plank protraction</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Scapular dip</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Scapular pull-up</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Serratus posterior breathing drill</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Subclavius activation</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Transverse abdominis hollowing</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Abdominal vacuum</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Stomach vacuum</span><span class="ex-modifier">old-school bodybuilding</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Multifidus quadruped lift</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pelvic floor Kegel</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Reverse Kegel</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Jaw stretch (TMJ release)</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Mewing</span><span class="ex-modifier">tongue posture</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Tongue press</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Eye yoga / gaze drills</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">VOR / gaze stabilization</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Saccade training</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Diaphragm strengthening</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Intercostal stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Box breathing</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wim Hof breathing</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">CO2 tolerance drill</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sternocleidomastoid stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Longus colli activation</span><span class="ex-modifier">deep neck flexor</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wrestler front bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Wrestler back bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Side neck bridge</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Manual neck resistance</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Neck harness lift</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Adductor magnus seated stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Gracilis hamstring stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Sartorius activation</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Popliteus drill</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Peroneal eversion</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Brachialis hammer hold</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Brachioradialis reverse curl</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Pronation / supination drill</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Rotator cuff scarecrow</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Subscapularis stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Infraspinatus stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Teres major massage</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Lower trap raise (prone)</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Coracobrachialis stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Quadratus lumborum stretch</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Rhomboid squeeze</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Skin pinch / fascial flossing</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Plantar fascia release</span></li>
+    <li class="ex" data-type="bw"><span class="tag bw"></span><span class="ex-name">Frog jump (Catalan jumping)</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Crucifix curl hold</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Trap-3 raise (Y-raise)</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Cuban press</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Bus driver</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Wrist roller</span></li>
+    <li class="ex" data-type="bb"><span class="tag bb"></span><span class="ex-name">Plate halo</span></li>
+  </ul>
+</section>
+
+<!-- §18 YOGA ASANAS -->
+<section class="category" data-cat="yoga">
+  <div class="cat-header"><span class="cat-num">§ 18</span><h2>Yoga Asanas</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">The named postures from Wikipedia's List of asanas (Sanskrit · English), spanning Hatha-yoga texts through Iyengar's Light on Yoga. Variations (Ardha-, Supta-, Parivritta-, Eka Pada-, etc.) multiply these many times over; only the base poses are listed.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Tadasana</span><span class="ex-modifier">Mountain</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Adho Mukha Shvanasana</span><span class="ex-modifier">Downward-Facing Dog</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Urdhva Mukha Shvanasana</span><span class="ex-modifier">Upward-Facing Dog</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Adho Mukha Vrikshasana</span><span class="ex-modifier">Handstand</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Uttanasana</span><span class="ex-modifier">Standing Forward Bend</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Prasarita Padottanasana</span><span class="ex-modifier">Wide-Stance Forward Bend</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Utkatasana</span><span class="ex-modifier">Chair / Awkward</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Vrikshasana</span><span class="ex-modifier">Tree</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Garudasana</span><span class="ex-modifier">Eagle</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Natarajasana</span><span class="ex-modifier">Dancer / Lord of the Dance</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Trikonasana</span><span class="ex-modifier">Triangle</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Parshvakonasana</span><span class="ex-modifier">Side Angle</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Parshvottanasana</span><span class="ex-modifier">Intense Side Stretch</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Virabhadrasana I</span><span class="ex-modifier">Warrior I</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Virabhadrasana II</span><span class="ex-modifier">Warrior II</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Virabhadrasana III</span><span class="ex-modifier">Warrior III</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Viparita Virabhadrasana</span><span class="ex-modifier">Reverse Warrior</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Ardha Chandrasana</span><span class="ex-modifier">Half Moon</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Anjaneyasana</span><span class="ex-modifier">Crescent Moon / Low Lunge</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Parighasana</span><span class="ex-modifier">Gate</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Utthita Hastapadangusthasana</span><span class="ex-modifier">Standing Big-Toe Hold</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Trivikramasana</span><span class="ex-modifier">Standing Splits</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Durvasasana</span><span class="ex-modifier">Durvasa's pose</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Surya Namaskar</span><span class="ex-modifier">Sun Salutation sequence</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Chaturanga Dandasana</span><span class="ex-modifier">Four-Limbed Staff / Low Plank</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Ashtanga Namaskara</span><span class="ex-modifier">Eight-Limbed Salutation</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Vasishtasana</span><span class="ex-modifier">Side Plank</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bakasana</span><span class="ex-modifier">Crane (arms straight)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Kakasana</span><span class="ex-modifier">Crow (arms bent)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Kaundinyasana</span><span class="ex-modifier">Kaundinya's pose</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Astavakrasana</span><span class="ex-modifier">Eight-Angled</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bhujapidasana</span><span class="ex-modifier">Arm-Pressing</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Tittibhasana</span><span class="ex-modifier">Firefly</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Mayurasana</span><span class="ex-modifier">Peacock</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Pincha Mayurasana</span><span class="ex-modifier">Feathered Peacock / Forearm Stand</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Kukkutasana</span><span class="ex-modifier">Cockerel</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Lolasana</span><span class="ex-modifier">Pendant</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Tulasana</span><span class="ex-modifier">Scales / Balance</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Dandasana</span><span class="ex-modifier">Staff</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Paschimottanasana</span><span class="ex-modifier">Seated Forward Bend</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Janusirsasana</span><span class="ex-modifier">Head-to-Knee</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Upavishta Konasana</span><span class="ex-modifier">Wide-Angle Seated Forward Bend</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Baddha Konasana</span><span class="ex-modifier">Bound Angle / Cobbler</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Navasana</span><span class="ex-modifier">Boat</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Kurmasana</span><span class="ex-modifier">Tortoise</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Kraunchasana</span><span class="ex-modifier">Heron</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Akarna Dhanurasana</span><span class="ex-modifier">Archer / Shooting Bow</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Hanumanasana</span><span class="ex-modifier">Hanuman / Front Splits</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Samakonasana</span><span class="ex-modifier">Side Splits</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Malasana</span><span class="ex-modifier">Garland / Squat</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Pashasana</span><span class="ex-modifier">Noose</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Marichyasana</span><span class="ex-modifier">Marichi's Pose</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Matsyendrasana</span><span class="ex-modifier">Lord of the Fishes (twist)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bharadvajasana</span><span class="ex-modifier">Bharadvaja's Twist</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Padmasana</span><span class="ex-modifier">Lotus</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Siddhasana</span><span class="ex-modifier">Accomplished / Adept</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Sukhasana</span><span class="ex-modifier">Easy</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Svastikasana</span><span class="ex-modifier">Auspicious</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Muktasana</span><span class="ex-modifier">Liberated</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Gomukhasana</span><span class="ex-modifier">Cow-Faced</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Gorakshasana</span><span class="ex-modifier">Cowherd</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Simhasana</span><span class="ex-modifier">Lion</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Virasana</span><span class="ex-modifier">Hero (kneeling)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Vajrasana</span><span class="ex-modifier">Thunderbolt</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Mandukasana</span><span class="ex-modifier">Frog (seated)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Balasana</span><span class="ex-modifier">Child</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bidalasana / Marjariasana</span><span class="ex-modifier">Cat</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Ushtrasana</span><span class="ex-modifier">Camel</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Kapotasana</span><span class="ex-modifier">Pigeon (kneeling backbend)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Rajakapotasana</span><span class="ex-modifier">King Pigeon</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bhujangasana</span><span class="ex-modifier">Cobra</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Shalabhasana</span><span class="ex-modifier">Locust</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Dhanurasana</span><span class="ex-modifier">Bow</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bhekasana</span><span class="ex-modifier">Frog (reclining)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Makarasana</span><span class="ex-modifier">Crocodile</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Matsyasana</span><span class="ex-modifier">Fish</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Urdhva Dhanurasana</span><span class="ex-modifier">Wheel / Upward Bow</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Viparita Dandasana</span><span class="ex-modifier">Inverted Staff</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Anantasana</span><span class="ex-modifier">Vishnu's Couch</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Supta Padangusthasana</span><span class="ex-modifier">Reclining Big-Toe</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Jathara Parivartanasana</span><span class="ex-modifier">Belly Twist</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Bhairavasana</span><span class="ex-modifier">Formidable</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Yoganidrasana</span><span class="ex-modifier">Yogic Sleep</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Garbha Pindasana</span><span class="ex-modifier">Embryo in Womb</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Shavasana</span><span class="ex-modifier">Corpse</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Shirshasana</span><span class="ex-modifier">Headstand</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Sarvangasana</span><span class="ex-modifier">Shoulderstand</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Halasana</span><span class="ex-modifier">Plough</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Karnapidasana</span><span class="ex-modifier">Ear-Pressing</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Setu Bandha Sarvangasana</span><span class="ex-modifier">Bridge (shoulder-supported)</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Viparita Karani</span><span class="ex-modifier">Legs-Up-the-Wall</span></li>
+    <li class="ex" data-type="yoga"><span class="tag yoga"></span><span class="ex-name">Vrischikasana</span><span class="ex-modifier">Scorpion</span></li>
+  </ul>
+</section>
+
+<!-- §19 TAI CHI MOVEMENTS -->
+<section class="category" data-cat="taichi">
+  <div class="cat-header"><span class="cat-num">§ 19</span><h2>Tai Chi (Taijiquan) Movements</h2><span class="cat-tally"></span></div>
+  <p class="cat-note">The named postures of the Yang-style vocabulary. The 24-form (Beijing, 1956) is listed first in sequence; the remaining distinct postures appear across the 37-form (Cheng Man-ch'ing) and 108-form long forms. Pinyin · English. Repeated/left-right postures are listed once.</p>
+  <ul class="exercises">
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Qǐshì</span><span class="ex-modifier">Commencing</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yěmǎ Fēnzōng</span><span class="ex-modifier">Part the Wild Horse's Mane</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Báihè Liàngchì</span><span class="ex-modifier">White Crane Spreads Its Wings</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Lōuxī Àobù</span><span class="ex-modifier">Brush Knee and Twist Step</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shǒuhuī Pípā</span><span class="ex-modifier">Playing the Lute / Pipa</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Dào Juǎn Gōng</span><span class="ex-modifier">Step Back & Repulse Monkey</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Lǎn Què Wěi</span><span class="ex-modifier">Grasp the Sparrow's Tail</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Péng</span><span class="ex-modifier">Ward Off</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Lǚ</span><span class="ex-modifier">Rollback</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Jǐ</span><span class="ex-modifier">Press</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Àn</span><span class="ex-modifier">Push</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Dān Biān</span><span class="ex-modifier">Single Whip</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yúnshǒu</span><span class="ex-modifier">Wave Hands Like Clouds</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Gāo Tàn Mǎ</span><span class="ex-modifier">High Pat on Horse</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yòu Dēng Jiǎo</span><span class="ex-modifier">Right Heel Kick</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shuāng Fēng Guàn Ěr</span><span class="ex-modifier">Strike Ears with Both Fists</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zhuǎnshēn Zuǒ Dēngjiǎo</span><span class="ex-modifier">Turn Body, Left Heel Kick</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Xià Shì</span><span class="ex-modifier">Snake Creeps Down / Squatting Single Whip</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Jīn Jī Dúlì</span><span class="ex-modifier">Golden Rooster Stands on One Leg</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yùnǚ Chuānsuō</span><span class="ex-modifier">Fair Lady Works the Shuttles</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Hǎidǐ Zhēn</span><span class="ex-modifier">Needle at Sea Bottom</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shǎn Tōng Bì</span><span class="ex-modifier">Fan Through Back</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zhuǎnshēn Bānlánchuí</span><span class="ex-modifier">Turn, Deflect, Parry & Punch</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Rúfēng Shìbì</span><span class="ex-modifier">Apparent Close / Withdraw & Push</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shízì Shǒu</span><span class="ex-modifier">Cross Hands</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shōushì</span><span class="ex-modifier">Closing</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Tíshǒu Shàngshì</span><span class="ex-modifier">Raise Hands / Lift Hands</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Bàohǔ Guīshān</span><span class="ex-modifier">Embrace Tiger, Return to Mountain</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zhǒudǐ Chuí</span><span class="ex-modifier">Fist Under Elbow</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Xié Fēi Shì</span><span class="ex-modifier">Diagonal Flying</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Hǎidǐ Lāo Yuè</span><span class="ex-modifier">Scoop the Moon from Sea Bottom</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Piě Shēn Chuí</span><span class="ex-modifier">Chop / Flick the Body with Fist</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yòu Fēn Jiǎo</span><span class="ex-modifier">Separate Right Foot (toe kick)</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zuǒ Fēn Jiǎo</span><span class="ex-modifier">Separate Left Foot (toe kick)</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zhuǎnshēn Dēng Jiǎo</span><span class="ex-modifier">Turn & Kick with Heel</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Jìnbù Zāi Chuí</span><span class="ex-modifier">Step Forward, Punch Down</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yòu Pī Shēn Chuí</span><span class="ex-modifier">Turn & Chop Opponent with Fist</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shàngbù Lánchuí</span><span class="ex-modifier">Step Up, Parry & Punch</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Dǎ Hǔ Shì</span><span class="ex-modifier">Strike the Tiger</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Pī Shēn Chuí</span><span class="ex-modifier">Twin Fists / Box Opponent's Ears</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yùnǚ Chuānsuō (Sì Yú)</span><span class="ex-modifier">Fair Lady Shuttles, Four Corners</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Báishé Tǔxìn</span><span class="ex-modifier">White Snake Spits Tongue</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shízì Tuǐ</span><span class="ex-modifier">Cross Kick</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zhǐdāng Chuí</span><span class="ex-modifier">Punch to Groin</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Shàngbù Qīxīng</span><span class="ex-modifier">Step Up to Seven Stars</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Tuìbù Kuàhǔ</span><span class="ex-modifier">Step Back to Ride the Tiger</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Zhuǎnshēn Bǎilián</span><span class="ex-modifier">Turn Body, Lotus Kick (sweep)</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Wāngōng Shèhǔ</span><span class="ex-modifier">Bend the Bow, Shoot the Tiger</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Fú Hǔ Shì</span><span class="ex-modifier">Subdue / Tame the Tiger</span></li>
+    <li class="ex" data-type="taichi"><span class="tag taichi"></span><span class="ex-name">Yòu Qǐ Jiǎo</span><span class="ex-modifier">Raise / Lift Right Foot</span></li>
+  </ul>
+</section>
+
+
+<div class="ornament">§ &nbsp; § &nbsp; §</div>
+
+<footer>
+  <div class="legend">
+    <span><span class="tag bw"></span>Bodyweight</span>
+    <span><span class="tag bb"></span>Barbell · no rack, no bench</span>
+    <span><span class="tag mob"></span>Mobility / Stretch</span>
+    <span><span class="tag rehab"></span>Rehab / PT</span>
+    <span><span class="tag yoga"></span>Yoga asana</span>
+    <span><span class="tag taichi"></span>Tai Chi</span>
+  </div>
+  <div class="sources">
+    <b>Compiled from</b>
+    USAWA 11th-Edition Rulebook (185+ official odd lifts; codes shown in italics, e.g. USAWA H3 = Apollon's lift, USAWA D28 = Two Hands Anyhow);
+    Hermann Goerner, Arthur Saxon, Louis Cyr, Henry Steinborn, Warren Lincoln Travis, Eugen Sandow training records;
+    Gymnastics-strength tradition (Sommer, Gymnastic Bodies; FIG element catalog);
+    Russian school calisthenics; Knees Over Toes / ATG; Knees-over-toes step, Petersen step-up;
+    Stuart McGill's lumbar rehab protocol (big three);
+    Functional Range Conditioning (CARs, PAILs/RAILs);
+    AAOS / OrthoInfo rotator cuff conditioning;
+    Ido Portal &amp; Kit Laughlin shoulder/spine routines;
+    Mayo Clinic basic stretch reference;
+    Charles Poliquin/Ben Patrick step-up canon.
+    Yoga asanas: Wikipedia "List of asanas" (Sanskrit/English, drawn from Iyengar's Light on Yoga, Gheranda Samhita, Hatha Yoga Pradipika, et al.).
+    Tai Chi: Yang-style 24-form (Beijing, 1956; Chu Guiting, Cai Longyun, Fu Zhongwen, Zhang Yu) plus the broader Yang 108-form / Cheng Man-ch'ing 37-form posture vocabulary.
+  </div>
+  <p style="margin-top: 0.8rem;"><em>Excluded: dumbbells, kettlebells, machines, cables, sleds, sandbags, atlas stones, log, axle (unless BB-substitutable), and anything requiring a rack or bench. The Bench Press and Squat as conventionally performed are NOT in this list. The roughly 25 USAWA dumbbell/kettlebell lifts (Crucifix DB, Bent Press DB, Inch DB, etc.) are also excluded; you'd want a separate index for those.</em></p>
+  <p style="margin-top: 0.4rem;"><em>Form lookups are deliberately not provided. Use a search engine; ignore the SEO chaff in the first five results. For USAWA-coded lifts, the rulebook PDF on usawa.com is the authoritative source.</em></p>
+</footer>
+
+<script>
+  const tallyEls = document.querySelectorAll('.cat-tally');
+  const sections = document.querySelectorAll('section.category');
+  const allEx = document.querySelectorAll('li.ex');
+  const totalEl = document.getElementById('total-count');
+  const bwEl = document.getElementById('bw-count');
+  const bbEl = document.getElementById('bb-count');
+  const mobEl = document.getElementById('mob-count');
+  const rehabEl = document.getElementById('rehab-count');
+  const yogaEl = document.getElementById('yoga-count');
+  const taichiEl = document.getElementById('taichi-count');
+  const visibleEl = document.getElementById('visible-count');
+  const searchEl = document.getElementById('search');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const randomBtn = document.getElementById('random-btn');
+  const randomDisplay = document.getElementById('random-display');
+  const randomName = document.getElementById('random-name');
+  const randomCtx = document.getElementById('random-ctx');
+
+  let currentFilter = 'all';
+  let currentSearch = '';
+
+  // initial counts
+  totalEl.textContent = allEx.length;
+  bwEl.textContent = document.querySelectorAll('li.ex[data-type="bw"]').length;
+  bbEl.textContent = document.querySelectorAll('li.ex[data-type="bb"]').length;
+  mobEl.textContent = document.querySelectorAll('li.ex[data-type="mob"]').length;
+  rehabEl.textContent = document.querySelectorAll('li.ex[data-type="rehab"]').length;
+  yogaEl.textContent = document.querySelectorAll('li.ex[data-type="yoga"]').length;
+  taichiEl.textContent = document.querySelectorAll('li.ex[data-type="taichi"]').length;
+
+  // tally per section
+  sections.forEach(sec => {
+    const tally = sec.querySelector('.cat-tally');
+    const items = sec.querySelectorAll('li.ex');
+    const bw = sec.querySelectorAll('li.ex[data-type="bw"]').length;
+    const bb = sec.querySelectorAll('li.ex[data-type="bb"]').length;
+    const mob = sec.querySelectorAll('li.ex[data-type="mob"]').length;
+    const rh = sec.querySelectorAll('li.ex[data-type="rehab"]').length;
+    const yg = sec.querySelectorAll('li.ex[data-type="yoga"]').length;
+    const tc = sec.querySelectorAll('li.ex[data-type="taichi"]').length;
+    let parts = [`${items.length} total`];
+    if (bw) parts.push(`${bw} bw`);
+    if (bb) parts.push(`${bb} bb`);
+    if (mob) parts.push(`${mob} mob`);
+    if (rh) parts.push(`${rh} rehab`);
+    if (yg) parts.push(`${yg} yoga`);
+    if (tc) parts.push(`${tc} taichi`);
+    tally.textContent = parts.join(' · ');
+  });
+
+  function applyFilters() {
+    let visible = 0;
+    sections.forEach(sec => {
+      const items = sec.querySelectorAll('li.ex');
+      let secVisible = 0;
+      items.forEach(li => {
+        const type = li.dataset.type;
+        const name = li.querySelector('.ex-name').textContent.toLowerCase();
+        const matchesFilter = currentFilter === 'all' || type === currentFilter;
+        const matchesSearch = !currentSearch || name.includes(currentSearch);
+        const show = matchesFilter && matchesSearch;
+        li.classList.toggle('hidden', !show);
+        if (show) secVisible++;
+      });
+      sec.classList.toggle('hidden', secVisible === 0);
+      visible += secVisible;
+    });
+    visibleEl.textContent = visible;
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  searchEl.addEventListener('input', e => {
+    currentSearch = e.target.value.trim().toLowerCase();
+    applyFilters();
+  });
+
+  // Random exercise picker — respects current filter
+  randomBtn.addEventListener('click', () => {
+    // remove old highlights
+    document.querySelectorAll('li.ex.highlighted').forEach(el => el.classList.remove('highlighted'));
+
+    // pick from currently-visible exercises
+    const visible = Array.from(allEx).filter(li => !li.classList.contains('hidden'));
+    if (visible.length === 0) {
+      randomName.textContent = 'No exercises match current filter';
+      randomCtx.textContent = '';
+      randomDisplay.classList.add('shown');
+      return;
+    }
+    const pick = visible[Math.floor(Math.random() * visible.length)];
+    const name = pick.querySelector('.ex-name').textContent;
+    const mod = pick.querySelector('.ex-modifier');
+    const type = pick.dataset.type;
+    const sec = pick.closest('section.category');
+    const catName = sec.querySelector('h2').textContent;
+
+    const typeLabel = {
+      bw: 'Bodyweight',
+      bb: 'Barbell',
+      mob: 'Mobility',
+      rehab: 'Rehab',
+      yoga: 'Yoga',
+      taichi: 'Tai Chi'
+    }[type] || type;
+
+    randomName.textContent = name;
+    randomCtx.textContent = `${typeLabel} · ${catName}` + (mod ? ` · ${mod.textContent}` : '');
+    randomDisplay.classList.add('shown');
+
+    // highlight & scroll to it
+    pick.classList.add('highlighted');
+    pick.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  applyFilters();
+</script>
+
+</body>
+</html>
