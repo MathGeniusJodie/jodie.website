@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AA Grapher</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="data.js"></script>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 1rem; }
+  #controls { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin-bottom: .5rem; }
+  label { font-weight: 600; }
+  input[list] { padding: .25rem; width: 34rem; max-width: 90vw; font-family: ui-monospace, monospace; font-size: .85rem; }
+  #plot { width: 100%; height: 80vh; }
+  #filters { border: 1px solid #ddd; border-radius: 6px; padding: .75rem 1rem; margin-top: .5rem; background: #fafafa; }
+  #filters summary { font-weight: 600; cursor: pointer; user-select: none; }
+  #filter-sections { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: .75rem; align-items: flex-start; }
+  .filter-group { display: flex; flex-direction: column; gap: .3rem; }
+  .filter-group h3 { margin: 0 0 .3rem; font-size: .85rem; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  #creator-list { display: flex; flex-direction: column; gap: .2rem; max-height: 10rem; overflow-y: auto; }
+  #creator-list label { font-weight: normal; font-size: .88rem; display: flex; align-items: center; gap: .3rem; cursor: pointer; }
+  #range-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr)); gap: .4rem .75rem; max-height: 14rem; overflow-y: auto; }
+  .range-row { display: flex; align-items: center; gap: .4rem; font-size: .82rem; }
+  .range-row span { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .range-row input[type=number] { width: 6rem; flex-shrink: 0; padding: .15rem .3rem; font-size: .82rem; border: 1px solid #ccc; border-radius: 3px; }
+  #filter-toggles { display: flex; flex-direction: column; gap: .4rem; }
+  #filter-toggles label { font-weight: normal; display: flex; align-items: center; gap: .4rem; cursor: pointer; }
+  #share { padding: .25rem .75rem; font-size: .85rem; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+  #share.copied { background: #dcfce7; border-color: #86efac; }
+</style>
+</head>
+<body>
+<div id="controls">
+  <span><label for="x">X:</label>
+    <input id="x" list="fields" autocomplete="off" spellcheck="false">
+    <input type="checkbox" id="xrev"><label for="xrev" title="Plot axis high-to-low; Pareto treats lower as better">reverse (lower is better)</label>
+  </span>
+  <span><label for="y">Y:</label>
+    <input id="y" list="fields" autocomplete="off" spellcheck="false">
+    <input type="checkbox" id="yrev"><label for="yrev" title="Plot axis high-to-low; Pareto treats lower as better">reverse (lower is better)</label>
+  </span>
+  <datalist id="fields"></datalist>
+  <span><label for="c">Color:</label>
+    <input id="c" list="fields" autocomplete="off" spellcheck="false" placeholder="(none)">
+    <input type="checkbox" id="crev"><label for="crev" title="Flip the color ramp so lower values are bright">reverse (lower is better)</label>
+  </span>
+  <span><input type="checkbox" id="pareto"><label for="pareto">Pareto optimal only</label>
+    <input type="checkbox" id="pareto3"><label for="pareto3" title="3-way Pareto: a point is kept unless another beats it on X, Y and Color together. Points missing the color metric are dropped.">include color axis</label>
+  </span>
+  <span id="count"></span>
+  <button id="share" title="Copy link to clipboard">Share</button>
+</div>
+<div id="plot"></div>
+<details id="filters">
+  <summary>Filters</summary>
+  <div id="filter-sections">
+    <div class="filter-group">
+      <h3>Options</h3>
+      <div id="filter-toggles">
+        <label><input type="checkbox" id="openWeightsOnly"> Open weights only</label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <h3>Creators (uncheck to exclude)</h3>
+      <div id="creator-list"></div>
+    </div>
+    <div class="filter-group" style="flex:1 1 auto">
+      <h3>Field ranges (min / max)</h3>
+      <div id="range-grid"></div>
+    </div>
+  </div>
+</details>
+<script>
+const xSel = document.getElementById('x'), ySel = document.getElementById('y');
+const xRev = document.getElementById('xrev'), yRev = document.getElementById('yrev');
+const cSel = document.getElementById('c'), cRev = document.getElementById('crev');
+const paretoCb = document.getElementById('pareto');
+const pareto3Cb = document.getElementById('pareto3');
+const openWeightsOnly = document.getElementById('openWeightsOnly');
+
+// Build lookup maps from the FIELDS array of objects (keyed by short id)
+const FIELD_META = Object.fromEntries(FIELDS.map(f => [f.id, f]));
+const NAME_TO_ID = Object.fromEntries(FIELDS.map(f => [f.name, f.id]));
+const PRETTY_TO_ID = Object.fromEntries(FIELDS.map(f => [f.pretty_name, f.id]));
+
+const ALIASES = {
+  Speed: NAME_TO_ID['median_end_to_end_response_time_medium_prompt'],
+  Price: NAME_TO_ID['intelligence_index_run_cost'],
+  Intelligence: NAME_TO_ID['intelligence_index'],
+};
+
+// resolve an input's text to a short field id: alias, pretty name, original name, or id
+function fieldOf(v) {
+  if (ALIASES[v]) return ALIASES[v];
+  if (PRETTY_TO_ID[v]) return PRETTY_TO_ID[v];
+  if (NAME_TO_ID[v]) return NAME_TO_ID[v];
+  return FIELD_META[v] ? v : null;
+}
+
+function metaOf(field) { return FIELD_META[field] ?? {}; }
+
+const datalist = document.getElementById('fields');
+for (const v of [...Object.keys(ALIASES), ...FIELDS.map(f => f.pretty_name)]) {
+  const o = document.createElement('option');
+  o.value = v;
+  datalist.appendChild(o);
+}
+xSel.value = 'Price';
+ySel.value = 'Intelligence';
+
+// --- Creator filter ---
+const allCreators = [...new Set(DATA.map(r => r.creator).filter(Boolean))].sort();
+const creatorChecks = {};
+const creatorList = document.getElementById('creator-list');
+for (const cr of allCreators) {
+  const id = 'cr_' + cr.replace(/\W+/g, '_');
+  const lbl = document.createElement('label');
+  const cb = document.createElement('input');
+  cb.type = 'checkbox'; cb.checked = true; cb.id = id;
+  cb.onchange = draw;
+  creatorChecks[cr] = cb;
+  lbl.appendChild(cb);
+  lbl.append(' ' + cr);
+  creatorList.appendChild(lbl);
+}
+
+// --- Per-field range filters ---
+const rangeGrid = document.getElementById('range-grid');
+const rangeFilters = {}; // field -> {min: input, max: input}
+for (const f of FIELDS) {
+  const vals = DATA.map(r => r[f.id]).filter(v => Number.isFinite(v));
+  if (!vals.length) continue;
+  const row = document.createElement('div');
+  row.className = 'range-row';
+  const lbl = document.createElement('span');
+  lbl.textContent = f.pretty_name;
+  lbl.title = f.name;
+  const minIn = document.createElement('input');
+  minIn.type = 'number'; minIn.placeholder = 'min'; minIn.step = 'any';
+  const maxIn = document.createElement('input');
+  maxIn.type = 'number'; maxIn.placeholder = 'max'; maxIn.step = 'any';
+  minIn.oninput = maxIn.oninput = draw;
+  row.appendChild(lbl); row.appendChild(minIn); row.appendChild(maxIn);
+  rangeGrid.appendChild(row);
+  rangeFilters[f.id] = { min: minIn, max: maxIn };
+}
+
+openWeightsOnly.onchange = draw;
+
+function lowerIsBetter(name) {
+  return metaOf(fieldOf(name)).direction === 'min';
+}
+xRev.checked = lowerIsBetter(xSel.value);
+yRev.checked = lowerIsBetter(ySel.value);
+
+function paretoMask(pts) {
+  // pts: arrays of coords, already sign-adjusted so larger = better on every axis
+  return pts.map(p =>
+    !pts.some(q => q.every((v, k) => v >= p[k]) && q.some((v, k) => v > p[k])));
+}
+
+function draw() {
+  const xf = fieldOf(xSel.value), yf = fieldOf(ySel.value), cf3 = fieldOf(cSel.value);
+  if (!xf || !yf) return; // still typing
+  const sx = xRev.checked ? -1 : 1, sy = yRev.checked ? -1 : 1, sc = cRev.checked ? -1 : 1;
+  const pareto3 = paretoCb.checked && pareto3Cb.checked && cf3;
+  const excludedCreators = new Set(Object.entries(creatorChecks).filter(([, cb]) => !cb.checked).map(([cr]) => cr));
+  let rows = DATA.filter(r => Number.isFinite(r[xf]) && Number.isFinite(r[yf])
+    && (!pareto3 || Number.isFinite(r[cf3]))
+    && (!openWeightsOnly.checked || r.open_weights)
+    && !excludedCreators.has(r.creator)
+    && Object.entries(rangeFilters).every(([field, { min, max }]) => {
+      const v = r[field];
+      if (min.value !== '' && Number.isFinite(v) && v < +min.value) return false;
+      if (max.value !== '' && Number.isFinite(v) && v > +max.value) return false;
+      return true;
+    }));
+  const withData = rows.length;
+  if (paretoCb.checked) {
+    const mask = paretoMask(rows.map(r => pareto3
+      ? [sx * r[xf], sy * r[yf], sc * r[cf3]]
+      : [sx * r[xf], sy * r[yf]]));
+    rows = rows.filter((_, i) => mask[i]);
+  }
+  rows = rows.slice().sort((a, b) => a[xf] - b[xf]);
+  document.getElementById('count').textContent =
+    `${rows.length} of ${DATA.length} models shown` +
+    (withData < DATA.length ? ` (${DATA.length - withData} missing data for these axes)` : '');
+
+  const cf = fieldOf(cSel.value);
+  const mkTrace = rs => ({
+    x: rs.map(r => r[xf]),
+    y: rs.map(r => r[yf]),
+    text: rs.map(r => r.name),
+    customdata: rs.map(r => cf ? `${r.creator}<br>${cf}: ${r[cf]}` : r.creator),
+    hovertemplate: '<b>%{text}</b> (%{customdata})<br>' + (metaOf(xf).pretty_name ?? xf) + ': %{x}<br>' + (metaOf(yf).pretty_name ?? yf) + ': %{y}<extra></extra>',
+    // a 3D frontier isn't a curve, so only connect points for the 2D one
+    mode: paretoCb.checked ? (pareto3 ? 'markers+text' : 'lines+markers+text') : 'markers',
+    type: 'scatter',
+    textposition: 'top center',
+    textfont: { size: 9 },
+    line: { dash: 'dot', color: '#888' },
+    marker: { size: 9, color: '#2563eb' },
+  });
+
+  let traces;
+  if (cf) {
+    const colored = rows.filter(r => Number.isFinite(r[cf]));
+    const gray = rows.filter(r => !Number.isFinite(r[cf]));
+    // use a log color ramp for wide-range positive metrics (prices, token counts)
+    const vals = colored.map(r => r[cf]);
+    const useLog = vals.length && Math.min(...vals) > 0 && Math.max(...vals) / Math.min(...vals) > 100;
+    const t = mkTrace(colored);
+    t.marker = {
+      size: 9,
+      color: vals.map(v => useLog ? Math.log10(v) : v),
+      colorscale: 'Viridis',
+      reversescale: cRev.checked,
+      showscale: true,
+      colorbar: { title: { text: (useLog ? 'log10 ' : '') + (metaOf(cf).pretty_name ?? cf), side: 'right' }, thickness: 14 },
+    };
+    const g = mkTrace(gray);
+    g.marker = { size: 7, color: '#ccc' };
+    g.mode = 'markers';
+    traces = [t, g];
+  } else {
+    traces = [mkTrace(rows)];
+  }
+  Plotly.react('plot', traces, {
+    xaxis: { type: metaOf(xf).scale ?? 'log', title: { text: metaOf(xf).pretty_name ?? xf }, autorange: xRev.checked ? 'reversed' : true },
+    yaxis: { type: metaOf(yf).scale ?? 'log', title: { text: metaOf(yf).pretty_name ?? yf }, autorange: yRev.checked ? 'reversed' : true },
+    margin: { t: 30 },
+    showlegend: false,
+  }, { responsive: true });
+  updateURL();
+}
+
+const DEFAULT_X = fieldOf('Price'), DEFAULT_Y = fieldOf('Intelligence');
+
+function updateURL() {
+  const xf = fieldOf(xSel.value), yf = fieldOf(ySel.value), cf = fieldOf(cSel.value);
+  const p = new URLSearchParams();
+  if (xf !== DEFAULT_X) p.set('x', xf);
+  if (yf !== DEFAULT_Y) p.set('y', yf);
+  if (cf) p.set('c', cf);
+  if (xRev.checked !== lowerIsBetter(xSel.value)) p.set('xrev', xRev.checked ? '1' : '0');
+  if (yRev.checked !== lowerIsBetter(ySel.value)) p.set('yrev', yRev.checked ? '1' : '0');
+  if (cf && cRev.checked !== lowerIsBetter(cSel.value)) p.set('crev', cRev.checked ? '1' : '0');
+  if (paretoCb.checked) p.set('pareto', '1');
+  if (pareto3Cb.checked) p.set('pareto3', '1');
+  if (openWeightsOnly.checked) p.set('ow', '1');
+  const excl = Object.entries(creatorChecks).filter(([, cb]) => !cb.checked).map(([cr]) => cr);
+  if (excl.length) p.set('excl', excl.join('\t'));
+  for (const [field, { min, max }] of Object.entries(rangeFilters)) {
+    if (min.value !== '' || max.value !== '') p.set('r.' + field, min.value + ':' + max.value);
+  }
+  const qs = p.toString();
+  history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+}
+
+function loadFromURL() {
+  const p = new URLSearchParams(location.search);
+  const pretty = f => FIELD_META[f]?.pretty_name ?? f;
+  if (p.has('x')) xSel.value = pretty(p.get('x'));
+  if (p.has('y')) ySel.value = pretty(p.get('y'));
+  if (p.has('c')) cSel.value = pretty(p.get('c'));
+  // set rev defaults for chosen fields first, then override if explicitly set
+  xRev.checked = lowerIsBetter(xSel.value);
+  yRev.checked = lowerIsBetter(ySel.value);
+  cRev.checked = cSel.value ? lowerIsBetter(cSel.value) : false;
+  if (p.has('xrev')) xRev.checked = p.get('xrev') === '1';
+  if (p.has('yrev')) yRev.checked = p.get('yrev') === '1';
+  if (p.has('crev')) cRev.checked = p.get('crev') === '1';
+  if (p.has('pareto')) paretoCb.checked = true;
+  if (p.has('pareto3')) pareto3Cb.checked = true;
+  if (p.has('ow')) openWeightsOnly.checked = true;
+  if (p.has('excl')) {
+    const excl = new Set(p.get('excl').split('\t'));
+    for (const [cr, cb] of Object.entries(creatorChecks)) cb.checked = !excl.has(cr);
+  }
+  for (const [key, val] of p.entries()) {
+    if (!key.startsWith('r.')) continue;
+    const field = key.slice(2);
+    if (!rangeFilters[field]) continue;
+    const [mn, mx] = val.split(':');
+    rangeFilters[field].min.value = mn ?? '';
+    rangeFilters[field].max.value = mx ?? '';
+  }
+  if (p.has('excl') || p.has('ow') || [...p.keys()].some(k => k.startsWith('r.')))
+    document.getElementById('filters').open = true;
+}
+
+document.getElementById('share').onclick = function() {
+  navigator.clipboard.writeText(location.href);
+  this.textContent = 'Copied!';
+  this.classList.add('copied');
+  setTimeout(() => { this.textContent = 'Share'; this.classList.remove('copied'); }, 1500);
+};
+
+xSel.oninput = () => { if (fieldOf(xSel.value)) { xRev.checked = lowerIsBetter(xSel.value); draw(); } };
+ySel.oninput = () => { if (fieldOf(ySel.value)) { yRev.checked = lowerIsBetter(ySel.value); draw(); } };
+cSel.oninput = () => {
+  if (fieldOf(cSel.value)) { cRev.checked = lowerIsBetter(cSel.value); draw(); }
+  else if (cSel.value === '') draw();
+};
+xRev.onchange = yRev.onchange = cRev.onchange = paretoCb.onchange = pareto3Cb.onchange = draw;
+loadFromURL();
+draw();
+</script>
+</body>
+</html>
