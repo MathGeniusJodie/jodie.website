@@ -9,7 +9,24 @@
   body { font-family: system-ui, sans-serif; margin: 1rem; }
   #controls { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin-bottom: .5rem; }
   label { font-weight: 600; }
-  input[list] { padding: .25rem; width: 34rem; max-width: 90vw; font-family: ui-monospace, monospace; font-size: .85rem; }
+  .cb-wrap { position: relative; display: inline-block; }
+  .cb-input { padding: .25rem; width: 34rem; max-width: 90vw; font-family: ui-monospace, monospace; font-size: .85rem; box-sizing: border-box; }
+  .cb-list {
+    position: absolute; top: 100%; left: 0; z-index: 50;
+    width: 34rem; max-width: 90vw; max-height: 16rem; overflow-y: auto;
+    margin: 2px 0 0; padding: 0; list-style: none;
+    background: #fff; border: 1px solid #bbb; border-radius: 4px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.14);
+    -webkit-overflow-scrolling: touch;
+  }
+  .cb-list[hidden] { display: none; }
+  .cb-option {
+    padding: .45rem .55rem; font-family: ui-monospace, monospace; font-size: .85rem;
+    cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .cb-option[aria-selected="true"], .cb-option.cb-active { background: #2563eb; color: #fff; }
+  .cb-empty { padding: .45rem .55rem; color: #888; font-size: .85rem; }
+  @media (pointer: coarse) { .cb-option { padding: .65rem .6rem; } }
   #plot { width: 100%; height: 80vh; }
   #filters { border: 1px solid #ddd; border-radius: 6px; padding: .75rem 1rem; margin-top: .5rem; background: #fafafa; }
   #filters summary { font-weight: 600; cursor: pointer; user-select: none; }
@@ -31,16 +48,15 @@
 <body>
 <div id="controls">
   <span><label for="x">X:</label>
-    <input id="x" list="fields" autocomplete="off" spellcheck="false">
+    <span class="cb-wrap"><input id="x" class="cb-input" autocomplete="off" spellcheck="false"></span>
     <input type="checkbox" id="xrev"><label for="xrev" title="Plot axis high-to-low; Pareto treats lower as better">reverse (lower is better)</label>
   </span>
   <span><label for="y">Y:</label>
-    <input id="y" list="fields" autocomplete="off" spellcheck="false">
+    <span class="cb-wrap"><input id="y" class="cb-input" autocomplete="off" spellcheck="false"></span>
     <input type="checkbox" id="yrev"><label for="yrev" title="Plot axis high-to-low; Pareto treats lower as better">reverse (lower is better)</label>
   </span>
-  <datalist id="fields"></datalist>
   <span><label for="c">Color:</label>
-    <input id="c" list="fields" autocomplete="off" spellcheck="false" placeholder="(none)">
+    <span class="cb-wrap"><input id="c" class="cb-input" autocomplete="off" spellcheck="false" placeholder="(none)"></span>
     <input type="checkbox" id="crev"><label for="crev" title="Flip the color ramp so lower values are bright">reverse (lower is better)</label>
   </span>
   <span><input type="checkbox" id="pareto"><label for="pareto">Pareto optimal only</label>
@@ -79,6 +95,13 @@ const openWeightsOnly = document.getElementById('openWeightsOnly');
 
 // Build lookup maps from the FIELDS array of objects (keyed by short id)
 const FIELD_META = Object.fromEntries(FIELDS.map(f => [f.id, f]));
+
+// Fewer parameters is better, so default these axes to "lower is better".
+const LOWER_IS_BETTER_NAMES = ['parameters', 'inference_parameters_active_billions'];
+for (const name of LOWER_IS_BETTER_NAMES) {
+  const f = FIELDS.find(f => f.name === name);
+  if (f) FIELD_META[f.id].direction = 'min';
+}
 const NAME_TO_ID = Object.fromEntries(FIELDS.map(f => [f.name, f.id]));
 const PRETTY_TO_ID = Object.fromEntries(FIELDS.map(f => [f.pretty_name, f.id]));
 
@@ -98,12 +121,136 @@ function fieldOf(v) {
 
 function metaOf(field) { return FIELD_META[field] ?? {}; }
 
-const datalist = document.getElementById('fields');
-for (const v of [...Object.keys(ALIASES), ...FIELDS.map(f => f.pretty_name)]) {
-  const o = document.createElement('option');
-  o.value = v;
-  datalist.appendChild(o);
+// --- Custom ARIA combobox (replaces <input list>/<datalist>) ---
+// Keeps the underlying <input> so existing code (.value / oninput) keeps working;
+// dispatches a native 'input' event when an option is chosen.
+let comboboxSeq = 0;
+function makeCombobox(input, options) {
+  const wrap = input.parentElement; // .cb-wrap
+  const listId = 'cb-list-' + (++comboboxSeq);
+  const list = document.createElement('ul');
+  list.className = 'cb-list';
+  list.id = listId;
+  list.setAttribute('role', 'listbox');
+  list.hidden = true;
+  wrap.appendChild(list);
+
+  input.setAttribute('role', 'combobox');
+  input.setAttribute('aria-autocomplete', 'list');
+  input.setAttribute('aria-expanded', 'false');
+  input.setAttribute('aria-controls', listId);
+  input.setAttribute('aria-haspopup', 'listbox');
+
+  let activeIdx = -1;       // index into the currently rendered options
+  let rendered = [];        // array of {value, el}
+  let suppressFilter = false;
+
+  function open() {
+    if (!list.hidden) return;
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    if (list.hidden) return;
+    list.hidden = true;
+    input.setAttribute('aria-expanded', 'false');
+    input.removeAttribute('aria-activedescendant');
+    activeIdx = -1;
+  }
+  function setActive(idx) {
+    if (idx < 0) idx = rendered.length - 1;
+    if (idx >= rendered.length) idx = 0;
+    rendered.forEach((r, i) => {
+      const on = i === idx;
+      r.el.classList.toggle('cb-active', on);
+      r.el.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    activeIdx = idx;
+    if (rendered[idx]) {
+      input.setAttribute('aria-activedescendant', rendered[idx].el.id);
+      rendered[idx].el.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function commit(value) {
+    suppressFilter = true;
+    input.value = value;
+    close();
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    suppressFilter = false;
+  }
+  function render(filter) {
+    list.textContent = '';
+    rendered = [];
+    const q = (filter || '').trim().toLowerCase();
+    const matches = options.filter(o => o.toLowerCase().includes(q));
+    if (!matches.length) {
+      const li = document.createElement('li');
+      li.className = 'cb-empty';
+      li.textContent = 'No matches';
+      list.appendChild(li);
+      input.removeAttribute('aria-activedescendant');
+      activeIdx = -1;
+      return;
+    }
+    matches.forEach((val, i) => {
+      const li = document.createElement('li');
+      li.className = 'cb-option';
+      li.id = listId + '-opt-' + i;
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', 'false');
+      li.textContent = val;
+      // pointerdown fires before the input loses focus, avoiding a blur race on mobile
+      li.addEventListener('pointerdown', e => { e.preventDefault(); commit(val); });
+      list.appendChild(li);
+      rendered.push({ value: val, el: li });
+    });
+    activeIdx = -1;
+  }
+
+  input.addEventListener('input', () => {
+    if (suppressFilter) return;
+    open();
+    render(input.value);
+  });
+  input.addEventListener('focus', () => { open(); render(input.value); });
+  input.addEventListener('click', () => { open(); render(input.value); });
+  input.addEventListener('blur', () => close());
+
+  input.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (list.hidden) { open(); render(input.value); }
+        if (rendered.length) setActive(activeIdx + 1);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (list.hidden) { open(); render(input.value); }
+        if (rendered.length) setActive(activeIdx - 1);
+        break;
+      case 'Enter':
+        if (!list.hidden && activeIdx >= 0 && rendered[activeIdx]) {
+          e.preventDefault();
+          commit(rendered[activeIdx].value);
+        } else {
+          close();
+        }
+        break;
+      case 'Escape':
+        if (!list.hidden) { e.preventDefault(); close(); }
+        break;
+      case 'Tab':
+        close();
+        break;
+    }
+  });
 }
+
+const FIELD_OPTIONS = [...Object.keys(ALIASES), ...FIELDS.map(f => f.pretty_name)];
+makeCombobox(xSel, FIELD_OPTIONS);
+makeCombobox(ySel, FIELD_OPTIONS);
+makeCombobox(cSel, ['(none)', ...FIELD_OPTIONS]);
+
 xSel.value = 'Price';
 ySel.value = 'Intelligence';
 
@@ -191,15 +338,22 @@ function draw() {
     x: rs.map(r => r[xf]),
     y: rs.map(r => r[yf]),
     text: rs.map(r => r.name),
-    customdata: rs.map(r => cf ? `${r.creator}<br>${cf}: ${r[cf]}` : r.creator),
+    customdata: rs.map(r => cf ? `${r.creator}<br>${metaOf(cf).pretty_name ?? cf}: ${r[cf]}` : r.creator),
     hovertemplate: '<b>%{text}</b> (%{customdata})<br>' + (metaOf(xf).pretty_name ?? xf) + ': %{x}<br>' + (metaOf(yf).pretty_name ?? yf) + ': %{y}<extra></extra>',
-    // a 3D frontier isn't a curve, so only connect points for the 2D one
-    mode: paretoCb.checked ? (pareto3 ? 'markers+text' : 'lines+markers+text') : 'markers',
+    // markers only; the 2D frontier line is drawn as its own trace below
+    mode: paretoCb.checked ? 'markers+text' : 'markers',
     type: 'scatter',
     textposition: 'top center',
     textfont: { size: 9 },
-    line: { dash: 'dot', color: '#888' },
     marker: { size: 9, color: '#2563eb' },
+  });
+
+  // The frontier line is its own trace so it passes through every pareto point,
+  // including ones with no color data (the gray trace).
+  const paretoLine = rs => ({
+    x: rs.map(r => r[xf]), y: rs.map(r => r[yf]),
+    mode: 'lines', type: 'scatter', hoverinfo: 'skip',
+    line: { dash: 'dot', color: '#888' },
   });
 
   let traces;
@@ -220,10 +374,12 @@ function draw() {
     };
     const g = mkTrace(gray);
     g.marker = { size: 7, color: '#ccc' };
-    g.mode = 'markers';
-    traces = [t, g];
+    g.mode = paretoCb.checked ? 'markers+text' : 'markers';
+    // The frontier line must pass through every pareto point, including ones with
+    // no color data (the gray trace), so draw it as its own trace over all rows.
+    traces = paretoCb.checked && !pareto3 ? [paretoLine(rows), t, g] : [t, g];
   } else {
-    traces = [mkTrace(rows)];
+    traces = paretoCb.checked && !pareto3 ? [paretoLine(rows), mkTrace(rows)] : [mkTrace(rows)];
   }
   Plotly.react('plot', traces, {
     xaxis: { type: metaOf(xf).scale ?? 'log', title: { text: metaOf(xf).pretty_name ?? xf }, autorange: xRev.checked ? 'reversed' : true },
@@ -299,6 +455,7 @@ document.getElementById('share').onclick = function() {
 xSel.oninput = () => { if (fieldOf(xSel.value)) { xRev.checked = lowerIsBetter(xSel.value); draw(); } };
 ySel.oninput = () => { if (fieldOf(ySel.value)) { yRev.checked = lowerIsBetter(ySel.value); draw(); } };
 cSel.oninput = () => {
+  if (cSel.value === '(none)') cSel.value = '';
   if (fieldOf(cSel.value)) { cRev.checked = lowerIsBetter(cSel.value); draw(); }
   else if (cSel.value === '') draw();
 };
