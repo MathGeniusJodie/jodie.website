@@ -33,8 +33,8 @@
   #filter-sections { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: .75rem; align-items: flex-start; }
   .filter-group { display: flex; flex-direction: column; gap: .3rem; }
   .filter-group h3 { margin: 0 0 .3rem; font-size: .85rem; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-  #creator-list { display: flex; flex-direction: column; gap: .2rem; max-height: 10rem; overflow-y: auto; }
-  #creator-list label { font-weight: normal; font-size: .88rem; display: flex; align-items: center; gap: .3rem; cursor: pointer; }
+  #creator-list, #country-list { display: flex; flex-direction: column; gap: .2rem; max-height: 14rem; overflow-y: auto; }
+  #creator-list label, #country-list label { font-weight: normal; font-size: .88rem; display: flex; align-items: center; gap: .3rem; cursor: pointer; }
   #range-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr)); gap: .4rem .75rem; max-height: 14rem; overflow-y: auto; }
   .range-row { display: flex; align-items: center; gap: .4rem; font-size: .82rem; }
   .range-row span { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -43,6 +43,17 @@
   #filter-toggles label { font-weight: normal; display: flex; align-items: center; gap: .4rem; cursor: pointer; }
   #share { padding: .25rem .75rem; font-size: .85rem; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
   #share.copied { background: #dcfce7; border-color: #86efac; }
+  #leaderboard-section { margin-top: 1.5rem; }
+  #leaderboard-section h2 { font-size: 1.1rem; margin: 0 0 .25rem; }
+  #leaderboard-section .lb-note { color: #666; font-size: .82rem; margin: 0 0 .6rem; }
+  table.lb { border-collapse: collapse; width: 100%; font-size: .85rem; }
+  table.lb th, table.lb td { text-align: left; padding: .35rem .55rem; border-bottom: 1px solid #eee; vertical-align: top; }
+  table.lb th { background: #f4f4f5; position: sticky; top: 0; font-weight: 600; }
+  table.lb td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.lb tr:hover td { background: #f9fafb; }
+  .lb-rank { color: #999; }
+  .lb-metrics { color: #444; }
+  .lb-badge { display: inline-block; padding: .05rem .4rem; margin: 0 .2rem .15rem 0; border-radius: 10px; font-size: .72rem; font-weight: 600; background: #e0e7ff; color: #3730a3; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -74,6 +85,8 @@
       <div id="filter-toggles">
         <label><input type="checkbox" id="openWeightsOnly"> Open weights only</label>
       </div>
+      <h3 style="margin-top:.6rem">Countries (uncheck to exclude)</h3>
+      <div id="country-list"></div>
     </div>
     <div class="filter-group">
       <h3>Creators (uncheck to exclude)</h3>
@@ -85,6 +98,11 @@
     </div>
   </div>
 </details>
+<section id="leaderboard-section">
+  <h2>Leaderboard</h2>
+  <p class="lb-note">Models that rank #1 on at least one metric, ranked by how many metrics they top. Respects the filters above. Pareto badges mark models on the cost / speed / size vs. Intelligence Index trade-off frontier.</p>
+  <div id="leaderboard"></div>
+</section>
 <script>
 const xSel = document.getElementById('x'), ySel = document.getElementById('y');
 const xRev = document.getElementById('xrev'), yRev = document.getElementById('yrev');
@@ -108,7 +126,7 @@ const PRETTY_TO_ID = Object.fromEntries(FIELDS.map(f => [f.pretty_name, f.id]));
 const ALIASES = {
   Speed: NAME_TO_ID['median_end_to_end_response_time_medium_prompt'],
   Price: NAME_TO_ID['intelligence_index_run_cost'],
-  Intelligence: NAME_TO_ID['intelligence_index'],
+  Intelligence: NAME_TO_ID['intelligence_index_v4_1'],
 };
 
 // resolve an input's text to a short field id: alias, pretty name, original name, or id
@@ -246,6 +264,67 @@ function makeCombobox(input, options) {
   });
 }
 
+// Flag (by HQ country) for each model creator. Used in the creator filter,
+// the leaderboard, and plot tooltips.
+const CREATOR_FLAG = {
+  'AI21 Labs': '🇮🇱',
+  'Alibaba': '🇨🇳',
+  'Amazon': '🇺🇸',
+  'Anthropic': '🇺🇸',
+  'Arcee AI': '🇺🇸',
+  'ByteDance Seed': '🇨🇳',
+  'Cohere': '🇨🇦',
+  'Deep Cogito': '🇺🇸',
+  'DeepSeek': '🇨🇳',
+  'Google': '🇺🇸',
+  'IBM': '🇺🇸',
+  'Inception': '🇺🇸',
+  'InclusionAI': '🇨🇳',
+  'Kimi': '🇨🇳',
+  'KwaiKAT': '🇨🇳',
+  'Liquid AI': '🇺🇸',
+  'Meta': '🇺🇸',
+  'Microsoft': '🇺🇸',
+  'MiniMax': '🇨🇳',
+  'Mistral': '🇫🇷',
+  'Multiverse Computing': '🇪🇸',
+  'NVIDIA': '🇺🇸',
+  'Nous Research': '🇺🇸',
+  'OpenAI': '🇺🇸',
+  'Reka AI': '🇺🇸',
+  'Sarvam': '🇮🇳',
+  'StepFun': '🇨🇳',
+  'Tencent': '🇨🇳',
+  'Xiaomi': '🇨🇳',
+  'Z AI': '🇨🇳',
+  'xAI': '🇺🇸',
+};
+const FLAG_COUNTRY = {
+  '🇺🇸': 'United States', '🇨🇳': 'China', '🇫🇷': 'France',
+  '🇮🇱': 'Israel', '🇨🇦': 'Canada', '🇮🇳': 'India', '🇪🇸': 'Spain',
+};
+const COUNTRY_FLAG = Object.fromEntries(Object.entries(FLAG_COUNTRY).map(([f, c]) => [c, f]));
+const flagOf = cr => CREATOR_FLAG[cr] ? CREATOR_FLAG[cr] + ' ' : '';
+const creatorLabel = cr => cr ? flagOf(cr) + cr : '';
+const countryOf = cr => FLAG_COUNTRY[CREATOR_FLAG[cr]] ?? 'Unknown';
+const countryLabel = co => (COUNTRY_FLAG[co] ? COUNTRY_FLAG[co] + ' ' : '') + co;
+
+// Build a list of "uncheck to exclude" checkboxes; returns item -> checkbox map.
+function buildChecks(container, items, labelFn) {
+  const checks = {};
+  for (const it of items) {
+    const lbl = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = true;
+    cb.onchange = draw;
+    checks[it] = cb;
+    lbl.appendChild(cb);
+    lbl.append(' ' + labelFn(it));
+    container.appendChild(lbl);
+  }
+  return checks;
+}
+
 const FIELD_OPTIONS = [...Object.keys(ALIASES), ...FIELDS.map(f => f.pretty_name)];
 makeCombobox(xSel, FIELD_OPTIONS);
 makeCombobox(ySel, FIELD_OPTIONS);
@@ -254,21 +333,16 @@ makeCombobox(cSel, ['(none)', ...FIELD_OPTIONS]);
 xSel.value = 'Price';
 ySel.value = 'Intelligence';
 
+// Country is fixed per creator; resolve it once instead of on every filter pass.
+for (const r of DATA) r._country = countryOf(r.creator);
+
 // --- Creator filter ---
 const allCreators = [...new Set(DATA.map(r => r.creator).filter(Boolean))].sort();
-const creatorChecks = {};
-const creatorList = document.getElementById('creator-list');
-for (const cr of allCreators) {
-  const id = 'cr_' + cr.replace(/\W+/g, '_');
-  const lbl = document.createElement('label');
-  const cb = document.createElement('input');
-  cb.type = 'checkbox'; cb.checked = true; cb.id = id;
-  cb.onchange = draw;
-  creatorChecks[cr] = cb;
-  lbl.appendChild(cb);
-  lbl.append(' ' + cr);
-  creatorList.appendChild(lbl);
-}
+const creatorChecks = buildChecks(document.getElementById('creator-list'), allCreators, creatorLabel);
+
+// --- Country filter ---
+const allCountries = [...new Set(DATA.map(r => r._country))].sort();
+const countryChecks = buildChecks(document.getElementById('country-list'), allCountries, countryLabel);
 
 // --- Per-field range filters ---
 const rangeGrid = document.getElementById('range-grid');
@@ -305,22 +379,31 @@ function paretoMask(pts) {
     !pts.some(q => q.every((v, k) => v >= p[k]) && q.some((v, k) => v > p[k])));
 }
 
-function draw() {
-  const xf = fieldOf(xSel.value), yf = fieldOf(ySel.value), cf3 = fieldOf(cSel.value);
-  if (!xf || !yf) return; // still typing
-  const sx = xRev.checked ? -1 : 1, sy = yRev.checked ? -1 : 1, sc = cRev.checked ? -1 : 1;
-  const pareto3 = paretoCb.checked && pareto3Cb.checked && cf3;
+// Rows passing the filter section (creators / open weights / ranges) only —
+// shared by the plot and the leaderboard so both honor the same filters.
+function filteredRows() {
   const excludedCreators = new Set(Object.entries(creatorChecks).filter(([, cb]) => !cb.checked).map(([cr]) => cr));
-  let rows = DATA.filter(r => Number.isFinite(r[xf]) && Number.isFinite(r[yf])
-    && (!pareto3 || Number.isFinite(r[cf3]))
-    && (!openWeightsOnly.checked || r.open_weights)
+  const excludedCountries = new Set(Object.entries(countryChecks).filter(([, cb]) => !cb.checked).map(([co]) => co));
+  return DATA.filter(r =>
+    (!openWeightsOnly.checked || r.open_weights)
     && !excludedCreators.has(r.creator)
+    && !excludedCountries.has(r._country)
     && Object.entries(rangeFilters).every(([field, { min, max }]) => {
       const v = r[field];
       if (min.value !== '' && Number.isFinite(v) && v < +min.value) return false;
       if (max.value !== '' && Number.isFinite(v) && v > +max.value) return false;
       return true;
     }));
+}
+
+function draw() {
+  const xf = fieldOf(xSel.value), yf = fieldOf(ySel.value), cf3 = fieldOf(cSel.value);
+  if (!xf || !yf) return; // still typing
+  const sx = xRev.checked ? -1 : 1, sy = yRev.checked ? -1 : 1, sc = cRev.checked ? -1 : 1;
+  const pareto3 = paretoCb.checked && pareto3Cb.checked && cf3;
+  const baseRows = filteredRows();
+  let rows = baseRows.filter(r => Number.isFinite(r[xf]) && Number.isFinite(r[yf])
+    && (!pareto3 || Number.isFinite(r[cf3])));
   const withData = rows.length;
   if (paretoCb.checked) {
     const mask = paretoMask(rows.map(r => pareto3
@@ -338,7 +421,7 @@ function draw() {
     x: rs.map(r => r[xf]),
     y: rs.map(r => r[yf]),
     text: rs.map(r => r.name),
-    customdata: rs.map(r => cf ? `${r.creator}<br>${metaOf(cf).pretty_name ?? cf}: ${r[cf]}` : r.creator),
+    customdata: rs.map(r => cf ? `${creatorLabel(r.creator)}<br>${metaOf(cf).pretty_name ?? cf}: ${r[cf]}` : creatorLabel(r.creator)),
     hovertemplate: '<b>%{text}</b> (%{customdata})<br>' + (metaOf(xf).pretty_name ?? xf) + ': %{x}<br>' + (metaOf(yf).pretty_name ?? yf) + ': %{y}<extra></extra>',
     // markers only; the 2D frontier line is drawn as its own trace below
     mode: paretoCb.checked ? 'markers+text' : 'markers',
@@ -387,7 +470,81 @@ function draw() {
     margin: { t: 30 },
     showlegend: false,
   }, { responsive: true });
+  renderLeaderboard(baseRows);
   updateURL();
+}
+
+// --- Leaderboard ---
+// Metrics counted toward "best at". Skip bookkeeping fields that aren't a
+// meaningful quality/cost axis.
+const LB_SKIP = new Set(['display_order', 'num_hosts',
+  'omniscience_breakdown.total.total_questions',
+  'omniscience_breakdown.total.num_not_attempted',
+  'omniscience_breakdown.total.num_partial_answer']);
+// Precompute the direction sign once; it's static per field.
+const LB_METRICS = FIELDS.filter(f => !LB_SKIP.has(f.name))
+  .map(f => ({ ...f, dir: f.direction === 'min' ? -1 : 1 }));
+
+// Pareto trade-offs: each cost axis (lower better) vs Intelligence Index (higher better).
+const Q_ID = NAME_TO_ID['intelligence_index_v4_1'];
+const LB_PARETO = [
+  { label: 'Price / Quality', cost: NAME_TO_ID['intelligence_index_run_cost'] },
+  { label: 'Speed / Quality', cost: NAME_TO_ID['median_end_to_end_response_time_medium_prompt'] },
+  { label: 'Size / Quality',  cost: NAME_TO_ID['parameters'] },
+];
+
+function renderLeaderboard(rows) {
+  // tally how many metrics each model tops (ties all count)
+  const best = new Map(); // name -> { row, metrics: [pretty...] }
+  for (const f of LB_METRICS) {
+    const dir = f.dir;
+    // Single pass: track the best (sign-adjusted) value and the rows tied at it.
+    // For cost/price metrics (min direction) a 0 means "no data", not free —
+    // exclude it so cheap-looking placeholders don't win the metric.
+    let bestVal = -Infinity, winners = [];
+    for (const r of rows) {
+      const raw = r[f.id];
+      if (!Number.isFinite(raw) || (dir === -1 && raw === 0)) continue;
+      const v = dir * raw;
+      if (v > bestVal) { bestVal = v; winners = [r]; }
+      else if (v === bestVal) winners.push(r);
+    }
+    for (const r of winners) {
+      let e = best.get(r.name);
+      if (!e) { e = { row: r, metrics: [], pareto: [] }; best.set(r.name, e); }
+      e.metrics.push(f.pretty_name);
+    }
+  }
+  // pareto frontiers (only annotate models already on the board)
+  for (const pl of LB_PARETO) {
+    const pts = rows.filter(r => Number.isFinite(r[pl.cost]) && r[pl.cost] !== 0 && Number.isFinite(r[Q_ID]));
+    if (!pts.length) continue;
+    const mask = paretoMask(pts.map(r => [-r[pl.cost], r[Q_ID]]));
+    pts.forEach((r, i) => {
+      if (mask[i] && best.has(r.name)) best.get(r.name).pareto.push(pl.label);
+    });
+  }
+
+  const entries = [...best.values()]
+    .sort((a, b) => b.metrics.length - a.metrics.length
+      || b.pareto.length - a.pareto.length
+      || a.row.name.localeCompare(b.row.name));
+
+  const el = document.getElementById('leaderboard');
+  if (!entries.length) { el.innerHTML = '<p class="lb-note">No models match the current filters.</p>'; return; }
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const rowsHtml = entries.map((e, i) => `
+    <tr>
+      <td class="num lb-rank">${i + 1}</td>
+      <td>${esc(e.row.name)}</td>
+      <td>${esc(creatorLabel(e.row.creator))}</td>
+      <td class="num">${e.metrics.length}</td>
+      <td class="lb-metrics" title="${esc(e.metrics.join(', '))}">${e.metrics.map(esc).join(', ')}</td>
+      <td>${e.pareto.map(p => `<span class="lb-badge">${esc(p)}</span>`).join('')}</td>
+    </tr>`).join('');
+  el.innerHTML = `<table class="lb">
+    <thead><tr><th>#</th><th>Model</th><th>Creator</th><th>Metrics won</th><th>Top-ranked metrics</th><th>Pareto optimal</th></tr></thead>
+    <tbody>${rowsHtml}</tbody></table>`;
 }
 
 const DEFAULT_X = fieldOf('Price'), DEFAULT_Y = fieldOf('Intelligence');
@@ -406,6 +563,8 @@ function updateURL() {
   if (openWeightsOnly.checked) p.set('ow', '1');
   const excl = Object.entries(creatorChecks).filter(([, cb]) => !cb.checked).map(([cr]) => cr);
   if (excl.length) p.set('excl', excl.join('\t'));
+  const exclCo = Object.entries(countryChecks).filter(([, cb]) => !cb.checked).map(([co]) => co);
+  if (exclCo.length) p.set('exclco', exclCo.join('\t'));
   for (const [field, { min, max }] of Object.entries(rangeFilters)) {
     if (min.value !== '' || max.value !== '') p.set('r.' + field, min.value + ':' + max.value);
   }
@@ -433,6 +592,10 @@ function loadFromURL() {
     const excl = new Set(p.get('excl').split('\t'));
     for (const [cr, cb] of Object.entries(creatorChecks)) cb.checked = !excl.has(cr);
   }
+  if (p.has('exclco')) {
+    const exclCo = new Set(p.get('exclco').split('\t'));
+    for (const [co, cb] of Object.entries(countryChecks)) cb.checked = !exclCo.has(co);
+  }
   for (const [key, val] of p.entries()) {
     if (!key.startsWith('r.')) continue;
     const field = key.slice(2);
@@ -441,7 +604,7 @@ function loadFromURL() {
     rangeFilters[field].min.value = mn ?? '';
     rangeFilters[field].max.value = mx ?? '';
   }
-  if (p.has('excl') || p.has('ow') || [...p.keys()].some(k => k.startsWith('r.')))
+  if (p.has('excl') || p.has('exclco') || p.has('ow') || [...p.keys()].some(k => k.startsWith('r.')))
     document.getElementById('filters').open = true;
 }
 
