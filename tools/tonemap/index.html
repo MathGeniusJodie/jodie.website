@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HDR Tonemap Tester</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+  #controls {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    padding: 12px 20px;
+    background: #16213e;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #0f3460;
+    z-index: 10;
+  }
+  #controls label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  #controls select, #controls input[type=range] {
+    background: #0f3460;
+    color: #e0e0e0;
+    border: 1px solid #533483;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+  #controls select { min-width: 220px; }
+  #brightnessVal {
+    font-variant-numeric: tabular-nums;
+    min-width: 3ch;
+    text-align: right;
+  }
+  #chooseBtn {
+    background: #533483;
+    color: #e0e0e0;
+    border: 1px solid #7b2cbf;
+    border-radius: 4px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  #chooseBtn:hover { background: #7b2cbf; }
+  #canvasWrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+  }
+  canvas#glCanvas {
+    max-width: 95vw;
+    max-height: calc(100vh - 60px);
+    object-fit: contain;
+    display: block;
+  }
+  #dropOverlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 52, 96, 0.85);
+    z-index: 100;
+    pointer-events: none;
+  }
+  #dropOverlay.hidden { display: none; }
+  #dropOverlay.dragging { background: rgba(83, 52, 131, 0.9); }
+  #dropOverlay .text {
+    font-size: 28px;
+    color: #e0e0e0;
+    border: 3px dashed #7b2cbf;
+    padding: 60px 80px;
+    border-radius: 16px;
+  }
+  #dropOverlay .text.hidden { display: none; }
+  #errorOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    color: #ff6b6b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 40px;
+    font-family: monospace;
+    font-size: 15px;
+    white-space: pre-wrap;
+    text-align: center;
+  }
+  #errorOverlay.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <label>
+    Algorithm
+    <select id="algoSelect">
+      <option value="0">Jodie Reinhard 2</option>
+      <option value="1">Standard Reinhard</option>
+      <option value="2">Reinhard Luminance</option>
+      <option value="3">Reinhard Extended</option>
+      <option value="4">ACES Filmic</option>
+      <option value="5">Uncharted 2 (Hable)</option>
+      <option value="6">Khronos PBR Neutral</option>
+      <option value="7">Linear (No Tonemap)</option>
+    </select>
+  </label>
+  <label>
+    Brightness
+    <input type="range" id="brightnessSlider" min="1" max="10" step="0.1" value="1">
+    <span id="brightnessVal">1.0</span>&times;
+  </label>
+  <button id="chooseBtn">Choose Image</button>
+  <input type="file" id="fileInput" accept="image/*" style="display:none">
+</div>
+
+<div id="canvasWrap">
+  <canvas id="glCanvas" width="640" height="480"></canvas>
+</div>
+
+<div id="dropOverlay">
+  <div class="text" id="dropText">Drop an image here</div>
+</div>
+
+<div id="errorOverlay" class="hidden"></div>
+
+<script>
+(function() {
+  "use strict";
+
+  // ── DOM refs ──
+  const canvas = document.getElementById("glCanvas");
+  const dropOverlay = document.getElementById("dropOverlay");
+  const dropText = document.getElementById("dropText");
+  const errorOverlay = document.getElementById("errorOverlay");
+  const brightnessSlider = document.getElementById("brightnessSlider");
+  const brightnessVal = document.getElementById("brightnessVal");
+  const algoSelect = document.getElementById("algoSelect");
+  const chooseBtn = document.getElementById("chooseBtn");
+  const fileInput = document.getElementById("fileInput");
+
+  // ── State ──
+  let dirty = true;
+  let hasImage = false;
+  let brightness = 1.0;
+  let algo = 0;
+
+  // ── Error display ──
+  function showError(msg) {
+    errorOverlay.textContent = msg;
+    errorOverlay.classList.remove("hidden");
+  }
+
+  // ── WebGL init ──
+  let gl;
+  try {
+    gl = canvas.getContext("webgl", { preserveDrawingBuffer: false });
+    if (!gl) {
+      gl = canvas.getContext("experimental-webgl", { preserveDrawingBuffer: false });
+    }
+  } catch(e) {
+    showError("Failed to get WebGL context: " + e.message);
+    return;
+  }
+  if (!gl) {
+    showError("WebGL is not supported by your browser.");
+    return;
+  }
+
+  // Handle context loss
+  canvas.addEventListener("webglcontextlost", function(e) {
+    e.preventDefault();
+    showError("WebGL context lost. Try reloading the page.");
+  });
+
+  // ── Shaders (GLSL ES 1.0 for WebGL1) ──
+  const vertSrc = [
+    "attribute vec2 a_pos;",
+    "varying vec2 v_uv;",
+    "void main() {",
+    "  v_uv = a_pos * 0.5 + 0.5;",
+    "  gl_Position = vec4(a_pos, 0.0, 1.0);",
+    "}"
+  ].join("\n");
+
+  const fragSrc = [
+    "precision highp float;",
+    "",
+    "uniform sampler2D u_tex;",
+    "uniform float u_brightness;",
+    "uniform int u_algo;",
+    "",
+    "varying vec2 v_uv;",
+    "",
+    "vec3 srgbToLinear(vec3 c) {",
+    "  return mix(",
+    "    c / 12.92,",
+    "    pow((c + 0.055) / 1.055, vec3(2.4)),",
+    "    step(0.04045, c)",
+    "  );",
+    "}",
+    "",
+    "vec3 linearToSrgb(vec3 c) {",
+    "  return mix(",
+    "    c * 12.92,",
+    "    1.055 * pow(c, vec3(1.0/2.4)) - 0.055,",
+    "    step(0.0031308, c)",
+    "  );",
+    "}",
+    "",
+    "vec3 jodieReinhard2(const vec3 color) {",
+    "  float luma = dot(color, vec3(.2126, .7152, .0722));",
+    "  vec4 m = vec4(color, luma) / (luma + 1.);",
+    "  float channelMax = max(max(max(m.r,m.g),m.b),1.);",
+    "  vec3 clamped = m.rgb/channelMax;",
+    "  float x = (m.a - m.a*channelMax)",
+    "      /(m.a - channelMax);",
+    "  return mix(clamped, vec3(1), x);",
+    "}",
+    "",
+    "vec3 reinhardTonemap(const vec3 color) {",
+    "  return color / (color + 1.0);",
+    "}",
+    "",
+    "vec3 reinhardLuminance(const vec3 color) {",
+    "  float luma = dot(color, vec3(0.2126, 0.7152, 0.0722));",
+    "  float mappedLuma = luma / (luma + 1.0);",
+    "  float scale = (luma > 0.0) ? mappedLuma / luma : 0.0;",
+    "  return color * scale;",
+    "}",
+    "",
+    "vec3 reinhardExtended(const vec3 color) {",
+    "  float L_white = 4.0;",
+    "  float luma = dot(color, vec3(0.2126, 0.7152, 0.0722));",
+    "  float numerator = luma * (1.0 + luma / (L_white * L_white));",
+    "  float mappedLuma = numerator / (1.0 + luma);",
+    "  float scale = (luma > 0.0) ? mappedLuma / luma : 0.0;",
+    "  return color * scale;",
+    "}",
+    "",
+    "vec3 acesFilmic(const vec3 color) {",
+    "  // Stephen Hill's ACES approximation (sRGB input, sRGB output)",
+    "  vec3 a = color * (2.51 * color + 0.03);",
+    "  vec3 b = color * (2.43 * color + 0.59) + 0.14;",
+    "  return clamp(a / b, 0.0, 1.0);",
+    "}",
+    "",
+    "vec3 uncharted2Partial(vec3 x) {",
+    "  float A = 0.15;",
+    "  float B = 0.50;",
+    "  float C = 0.10;",
+    "  float D = 0.20;",
+    "  float E = 0.02;",
+    "  float F = 0.30;",
+    "  return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;",
+    "}",
+    "",
+    "vec3 uncharted2Tonemap(const vec3 color) {",
+    "  float exposure = 2.0;",
+    "  float W = 11.2;",
+    "  vec3 curr = uncharted2Partial(color * exposure);",
+    "  vec3 whiteScale = vec3(1.0) / uncharted2Partial(vec3(W));",
+    "  return curr * whiteScale;",
+    "}",
+    "",
+    "vec3 khronosPbrNeutral(vec3 color) {",
+    "  float startCompression = 0.8 - 0.04;",
+    "  float desaturation = 0.15;",
+    "  float x = min(color.r, min(color.g, color.b));",
+    "  float offset = (x < 0.08) ? x - 6.25 * x * x : 0.04;",
+    "  color -= offset;",
+    "  float peak = max(color.r, max(color.g, color.b));",
+    "  if (peak > startCompression) {",
+    "    float d = 1.0 - startCompression;",
+    "    float newPeak = 1.0 - d * d / (peak + d - startCompression);",
+    "    float scale = newPeak / peak;",
+    "    color = color * scale;",
+    "    peak = newPeak;",
+    "  }",
+    "  if (color.r > peak) color.r = peak;",
+    "  if (color.g > peak) color.g = peak;",
+    "  if (color.b > peak) color.b = peak;",
+    "  // saturation reduction",
+    "  float f = max(0.0, max(color.r, max(color.g, color.b)) - max(color.r, min(color.g, color.b)));",
+    "  f = min(f, desaturation);",
+    "  float ma = max(color.r, max(color.g, color.b));",
+    "  color = mix(color, vec3(ma), f);",
+    "  return color;",
+    "}",
+    "",
+    "vec3 linearTonemap(const vec3 color) {",
+    "  return color;",
+    "}",
+    "",
+    "vec3 tonemap(const vec3 color, int algo) {",
+    "  if (algo == 0) {",
+    "    return jodieReinhard2(color);",
+    "  } else if (algo == 1) {",
+    "    return reinhardTonemap(color);",
+    "  } else if (algo == 2) {",
+    "    return reinhardLuminance(color);",
+    "  } else if (algo == 3) {",
+    "    return reinhardExtended(color);",
+    "  } else if (algo == 4) {",
+    "    return acesFilmic(color);",
+    "  } else if (algo == 5) {",
+    "    return uncharted2Tonemap(color);",
+    "  } else if (algo == 6) {",
+    "    return khronosPbrNeutral(color);",
+    "  } else {",
+    "    return linearTonemap(color);",
+    "  }",
+    "}",
+    "",
+    "void main() {",
+    "  vec4 texColor = texture2D(u_tex, v_uv);",
+    "  vec3 linear = srgbToLinear(texColor.rgb);",
+    "  linear *= u_brightness;",
+    "  vec3 mapped = tonemap(linear, u_algo);",
+    "  vec3 srgb = linearToSrgb(clamp(mapped, 0.0, 1.0));",
+    "  gl_FragColor = vec4(srgb, 1.0);",
+    "}"
+  ].join("\n");
+
+  // ── Compile shaders ──
+  function compileShader(src, type) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      var log = gl.getShaderInfoLog(s);
+      gl.deleteShader(s);
+      throw new Error("Shader compile error:\n" + log);
+    }
+    return s;
+  }
+
+  var program;
+  try {
+    var vs = compileShader(vertSrc, gl.VERTEX_SHADER);
+    var fs = compileShader(fragSrc, gl.FRAGMENT_SHADER);
+    program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      throw new Error("Program link error:\n" + gl.getProgramInfoLog(program));
+    }
+  } catch(e) {
+    showError(e.message);
+    return;
+  }
+
+  gl.useProgram(program);
+
+  // ── Geometry: full-screen triangle ──
+  var posLoc = gl.getAttribLocation(program, "a_pos");
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  // Single triangle covering clip space
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    -1, -1,
+     3, -1,
+    -1,  3
+  ]), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  // ── Uniform locations ──
+  var uTex = gl.getUniformLocation(program, "u_tex");
+  var uBrightness = gl.getUniformLocation(program, "u_brightness");
+  var uAlgo = gl.getUniformLocation(program, "u_algo");
+
+  // ── Texture ──
+  var tex = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  // Initialize with 1x1 transparent pixel
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+    new Uint8Array([0, 0, 0, 255]));
+  gl.uniform1i(uTex, 0);
+
+  // ── Image loading ──
+  var offscreen = document.createElement("canvas");
+  var offCtx = offscreen.getContext("2d");
+
+  function loadImage(src) {
+    var img = new Image();
+    img.onload = function() {
+      offscreen.width = img.width;
+      offscreen.height = img.height;
+      offCtx.drawImage(img, 0, 0);
+      canvas.width = img.width;
+      canvas.height = img.height;
+      gl.viewport(0, 0, img.width, img.height);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, offscreen);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      hasImage = true;
+      dropOverlay.classList.add("hidden");
+      dirty = true;
+    };
+    img.onerror = function() {
+      showError("Failed to load image.");
+    };
+    if (typeof src === "string") {
+      img.src = src;
+    } else {
+      // Blob
+      img.src = URL.createObjectURL(src);
+    }
+  }
+
+  // ── Drag and drop ──
+  document.addEventListener("dragover", function(e) {
+    e.preventDefault();
+    dropOverlay.classList.remove("hidden");
+    dropOverlay.classList.add("dragging");
+    dropText.classList.remove("hidden");
+  });
+  document.addEventListener("dragleave", function(e) {
+    if (e.relatedTarget === null || !document.contains(e.relatedTarget)) {
+      dropOverlay.classList.add("dragging");
+      if (hasImage) {
+        dropOverlay.classList.remove("dragging");
+        dropOverlay.classList.add("hidden");
+      }
+    }
+  });
+  document.addEventListener("drop", function(e) {
+    e.preventDefault();
+    dropOverlay.classList.remove("dragging");
+    if (!hasImage) {
+      dropOverlay.classList.add("hidden");
+    }
+    var files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files.length > 0) {
+      var file = files[0];
+      if (file.type.startsWith("image/")) {
+        loadImage(file);
+      } else {
+        showError("Dropped file is not an image.");
+      }
+    }
+  });
+
+  // ── File picker ──
+  chooseBtn.addEventListener("click", function() {
+    fileInput.click();
+  });
+  fileInput.addEventListener("change", function() {
+    if (fileInput.files && fileInput.files.length > 0) {
+      loadImage(fileInput.files[0]);
+    }
+  });
+
+  // ── Controls ──
+  brightnessSlider.addEventListener("input", function() {
+    brightness = parseFloat(brightnessSlider.value);
+    brightnessVal.textContent = brightness.toFixed(1);
+    dirty = true;
+  });
+  algoSelect.addEventListener("change", function() {
+    algo = parseInt(algoSelect.value, 10);
+    dirty = true;
+  });
+
+  // ── Render loop ──
+  function render() {
+    if (dirty && hasImage) {
+      gl.uniform1f(uBrightness, brightness);
+      gl.uniform1i(uAlgo, algo);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      dirty = false;
+    }
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>
