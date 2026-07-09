@@ -124,9 +124,8 @@ const NAME_TO_ID = Object.fromEntries(FIELDS.map(f => [f.name, f.id]));
 const PRETTY_TO_ID = Object.fromEntries(FIELDS.map(f => [f.pretty_name, f.id]));
 
 const ALIASES = {
-  Speed: NAME_TO_ID['median_end_to_end_response_time_medium_prompt'],
-  Price: NAME_TO_ID['intelligence_index_run_cost'],
-  Intelligence: NAME_TO_ID['intelligence_index_v4_1'],
+  Speed: NAME_TO_ID['median_output_speed'],
+  Intelligence: NAME_TO_ID['intelligence_index'],
 };
 
 // resolve an input's text to a short field id: alias, pretty name, original name, or id
@@ -330,7 +329,7 @@ makeCombobox(xSel, FIELD_OPTIONS);
 makeCombobox(ySel, FIELD_OPTIONS);
 makeCombobox(cSel, ['(none)', ...FIELD_OPTIONS]);
 
-xSel.value = 'Price';
+xSel.value = 'Price 1m Blended';
 ySel.value = 'Intelligence';
 
 // Country is fixed per creator; resolve it once instead of on every filter pass.
@@ -486,11 +485,10 @@ const LB_METRICS = FIELDS.filter(f => !LB_SKIP.has(f.name))
   .map(f => ({ ...f, dir: f.direction === 'min' ? -1 : 1 }));
 
 // Pareto trade-offs: each cost axis (lower better) vs Intelligence Index (higher better).
-const Q_ID = NAME_TO_ID['intelligence_index_v4_1'];
+const Q_ID = NAME_TO_ID['intelligence_index'];
 const LB_PARETO = [
-  { label: 'Price / Quality', cost: NAME_TO_ID['intelligence_index_run_cost'] },
-  { label: 'Speed / Quality', cost: NAME_TO_ID['median_end_to_end_response_time_medium_prompt'] },
-  { label: 'Size / Quality',  cost: NAME_TO_ID['parameters'] },
+  { label: 'Price / Quality', cost: NAME_TO_ID['price_1m_blended'] },
+  { label: 'Speed / Quality', cost: NAME_TO_ID['median_end_to_end_response_time'] },
 ];
 
 function renderLeaderboard(rows) {
@@ -547,7 +545,7 @@ function renderLeaderboard(rows) {
     <tbody>${rowsHtml}</tbody></table>`;
 }
 
-const DEFAULT_X = fieldOf('Price'), DEFAULT_Y = fieldOf('Intelligence');
+const DEFAULT_X = fieldOf('Price 1m Blended'), DEFAULT_Y = fieldOf('Intelligence');
 
 function updateURL() {
   const xf = fieldOf(xSel.value), yf = fieldOf(ySel.value), cf = fieldOf(cSel.value);
@@ -569,7 +567,12 @@ function updateURL() {
     if (min.value !== '' || max.value !== '') p.set('r.' + field, min.value + ':' + max.value);
   }
   const qs = p.toString();
-  history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  try {
+    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  } catch (e) {
+    // file:// origins are opaque, so Chrome blocks history.replaceState
+    // whenever it would change the URL; harmless to skip.
+  }
 }
 
 function loadFromURL() {
