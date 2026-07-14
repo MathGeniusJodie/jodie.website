@@ -126,6 +126,7 @@ const PRETTY_TO_ID = Object.fromEntries(FIELDS.map(f => [f.pretty_name, f.id]));
 const ALIASES = {
   Speed: NAME_TO_ID['median_output_speed'],
   Intelligence: NAME_TO_ID['intelligence_index'],
+  Price: NAME_TO_ID['intelligence_index_cost_answer'],
 };
 
 // resolve an input's text to a short field id: alias, pretty name, original name, or id
@@ -329,7 +330,7 @@ makeCombobox(xSel, FIELD_OPTIONS);
 makeCombobox(ySel, FIELD_OPTIONS);
 makeCombobox(cSel, ['(none)', ...FIELD_OPTIONS]);
 
-xSel.value = 'Price 1m Blended';
+xSel.value = 'Price';
 ySel.value = 'Intelligence';
 
 // Country is fixed per creator; resolve it once instead of on every filter pass.
@@ -487,7 +488,7 @@ const LB_METRICS = FIELDS.filter(f => !LB_SKIP.has(f.name))
 // Pareto trade-offs: each cost axis (lower better) vs Intelligence Index (higher better).
 const Q_ID = NAME_TO_ID['intelligence_index'];
 const LB_PARETO = [
-  { label: 'Price / Quality', cost: NAME_TO_ID['price_1m_blended'] },
+  { label: 'Price / Quality', cost: NAME_TO_ID['intelligence_index_cost_answer'] },
   { label: 'Speed / Quality', cost: NAME_TO_ID['median_end_to_end_response_time'] },
 ];
 
@@ -545,7 +546,7 @@ function renderLeaderboard(rows) {
     <tbody>${rowsHtml}</tbody></table>`;
 }
 
-const DEFAULT_X = fieldOf('Price 1m Blended'), DEFAULT_Y = fieldOf('Intelligence');
+const DEFAULT_X = fieldOf('Price'), DEFAULT_Y = fieldOf('Intelligence');
 
 function updateURL() {
   const xf = fieldOf(xSel.value), yf = fieldOf(ySel.value), cf = fieldOf(cSel.value);
