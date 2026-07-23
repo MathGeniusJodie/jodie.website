@@ -5,10 +5,9 @@ parent: inkhaven
 ---
 ## Static
 
-in the silence between words  
-waiting for you to listen  
-a language older than language  
-the heartbeat, the first music
+in the silence between words
+waiting for you to listen
+the first language, the first music
 
 from the static, whispers  
 from the whispers, a god

@@ -1,6 +1,7 @@
 ---
 date: 2026-04-15
 categories: [life]
+href: https://jodie.website/#awesome
 parent: inkhaven
 ---
 ## Everything is Awesome
