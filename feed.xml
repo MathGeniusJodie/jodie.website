@@ -4,11 +4,33 @@
         <description><![CDATA[Personal blog by Jodie covering math, poetry, web development, and life]]></description>
         <link>https://jodie.website</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 23 Jul 2026 16:55:44 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 24 Jul 2026 01:25:26 GMT</lastBuildDate>
         <atom:link href="https://jodie.website/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 23 Jul 2026 16:55:44 GMT</pubDate>
+        <pubDate>Fri, 24 Jul 2026 01:25:26 GMT</pubDate>
         <language><![CDATA[en]]></language>
         <ttl>60</ttl>
+        <item>
+            <title><![CDATA[The world isn't fine, but you can be]]></title>
+            <description><![CDATA[<p>People living comfortably in the first world complain about how hard it is to see so much suffering in the world. They aren't starving. They aren't being bombed. They're watching it on their big TV, while eating delicious pizza in an air-conditioned apartment. They <em>are</em> suffering, but not because of the suffering on the screen.</p>
+<h3>You're not selfish for suffering.</h3>
+<p>You don't need to frame your suffering as empathy for people more deserving of empathy than you. That doesn't make you more empathetic and moral. It's not inconsiderate to suffer for yourself because others suffer more.</p>
+<h3>You're not selfish for being happy.</h3>
+<p>Lack of sadness isn't lack of caring. If someone thinks happy people are morally suspect, maybe their moral framework sucks. Being happy is good! If you're not allowed to be happy until everyone else is happy, then nobody gets to be happy EVER.</p>
+<h3>Put on the goddamn oxygen mask!</h3>
+<p>Being depressed is exhausting, you don't have the energy to fix the world's problems if you're depressed. Accept help even if you think others deserve it more than you. Once you're better, you can help too. We need all the hands we can get.</p>]]></description>
+            <link>https://jodie.website#suffering</link>
+            <guid isPermaLink="false">https://jodie.website#suffering</guid>
+            <category><![CDATA[life]]></category>
+            <dc:creator><![CDATA[Jodie]]></dc:creator>
+            <pubDate>Thu, 23 Jul 2026 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p>People living comfortably in the first world complain about how hard it is to see so much suffering in the world. They aren't starving. They aren't being bombed. They're watching it on their big TV, while eating delicious pizza in an air-conditioned apartment. They <em>are</em> suffering, but not because of the suffering on the screen.</p>
+<h3>You're not selfish for suffering.</h3>
+<p>You don't need to frame your suffering as empathy for people more deserving of empathy than you. That doesn't make you more empathetic and moral. It's not inconsiderate to suffer for yourself because others suffer more.</p>
+<h3>You're not selfish for being happy.</h3>
+<p>Lack of sadness isn't lack of caring. If someone thinks happy people are morally suspect, maybe their moral framework sucks. Being happy is good! If you're not allowed to be happy until everyone else is happy, then nobody gets to be happy EVER.</p>
+<h3>Put on the goddamn oxygen mask!</h3>
+<p>Being depressed is exhausting, you don't have the energy to fix the world's problems if you're depressed. Accept help even if you think others deserve it more than you. Once you're better, you can help too. We need all the hands we can get.</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Everything is Awesome]]></title>
             <description><![CDATA[<p>— Written as part of <a href="#inkhaven">We Have Inkhaven at Home</a></p>
@@ -1579,7 +1601,7 @@ the first language, the first music</p>
         </item>
         <item>
             <title><![CDATA[Solstice Talk]]></title>
-            <description><![CDATA[<p>— <em>Read at the 2025 <a href="https://en.wikipedia.org/wiki/Secular_Solstice" target="_blank">Secular Solstice</a> celebration</em></p>
+            <description><![CDATA[<p>— <em>Read at the 2025 <a href="https://www.secularsolstice.com/songs/01f77402-fb22-43f0-9a6e-d94d667af6e3" target="_blank">Secular Solstice</a> celebration</em></p>
 <p>At first glance humans aren't very equipped for survival. We have no claws to defend ourselves, no fur to protect us from the cold and the sun. But what we have is one unique trait that allowed us to thrive: imagining the future.</p>
 <p>Through predictive modelling, long term planning, and a fair bit of wishful thinking, we didn't just hope a better world was possible, we were able to execute on our plans and mould the world into the shape of our fantasies.</p>
 <p>We imagined a world where a mother didn't have to watch her child die of smallpox… and then we made that world real. Our ancestors looked at the sky and imagined touching it. And their grandchildren left footprints on the moon.</p>
@@ -1590,7 +1612,7 @@ the first language, the first music</p>
             <category><![CDATA[life]]></category>
             <dc:creator><![CDATA[Jodie]]></dc:creator>
             <pubDate>Sun, 21 Dec 2025 00:00:00 GMT</pubDate>
-            <content:encoded><![CDATA[<p>— <em>Read at the 2025 <a href="https://en.wikipedia.org/wiki/Secular_Solstice" target="_blank">Secular Solstice</a> celebration</em></p>
+            <content:encoded><![CDATA[<p>— <em>Read at the 2025 <a href="https://www.secularsolstice.com/songs/01f77402-fb22-43f0-9a6e-d94d667af6e3" target="_blank">Secular Solstice</a> celebration</em></p>
 <p>At first glance humans aren't very equipped for survival. We have no claws to defend ourselves, no fur to protect us from the cold and the sun. But what we have is one unique trait that allowed us to thrive: imagining the future.</p>
 <p>Through predictive modelling, long term planning, and a fair bit of wishful thinking, we didn't just hope a better world was possible, we were able to execute on our plans and mould the world into the shape of our fantasies.</p>
 <p>We imagined a world where a mother didn't have to watch her child die of smallpox… and then we made that world real. Our ancestors looked at the sky and imagined touching it. And their grandchildren left footprints on the moon.</p>

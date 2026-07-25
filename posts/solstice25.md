@@ -4,7 +4,7 @@ categories: [life]
 ---
 ## Solstice Talk
 
-— _Read at the 2025 [Secular Solstice](https://en.wikipedia.org/wiki/Secular_Solstice) celebration_
+— _Read at the 2025 [Secular Solstice](https://www.secularsolstice.com/songs/01f77402-fb22-43f0-9a6e-d94d667af6e3) celebration_
 
 At first glance humans aren't very equipped for survival. We have no claws to defend ourselves, no fur to protect us from the cold and the sun. But what we have is one unique trait that allowed us to thrive: imagining the future.
 
