@@ -26,7 +26,7 @@ Let's try adding 383 to our input and shifting left by 8 bits, making sure to ne
   -f32::from_bits((x + 383.).to_bits() &lt;&lt; 8)
 }</code></pre>
 
-![](https://static2.mtlws.ca/exp2_approx.png)
+<img loading="lazy" src="https://static2.mtlws.ca/exp2_approx.png" class="img-adapt-dark" alt="" width="480" height="480">
 
 It works!
 
@@ -36,7 +36,7 @@ To do log2 we just do the reverse: shift the exponent into the mantissa, set the
 	f32::from_bits((x).to_bits() &gt;&gt; 8 | 256_f32.to_bits()) - 383.
 }</code></pre>
 
-![](https://static2.mtlws.ca/log2_approx.png)
+<img loading="lazy" src="https://static2.mtlws.ca/log2_approx.png" class="img-adapt-dark" alt="" width="480" height="480">
 
 Boom! Easy as that.
 
