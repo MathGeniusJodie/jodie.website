@@ -17,7 +17,7 @@ arms outstretched but never touching
 pressing our palms to the glass
 searching for a pulse behind the glow
 
-under the the neon rain  
+under the neon rain  
 we stand, mouths open
 
 we mistake the flicker for warmth  

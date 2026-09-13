@@ -16,4 +16,3 @@ Now the meta-reason why you don't learn HTML and cooking is probably that you do
 
 Can't fix X because of Y? That's just another todo. Can't fix Y because of Z? Write that down too. You've turned moaning into a step-by-step plan.
 
-Found something outside your control? You've still made progress. You found out that your real reason was further down the chain. You can file the task under "impossible" and forget about it instead of filing it under "I'm too lazy" and letting it nag at you.
