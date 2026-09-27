@@ -13,15 +13,7 @@ Not because I watched it get its beak cut off and felt nothing, but because I wa
 
 Most restaurants have one vegetarian option that only exists so they can say they tried. If you're a normal person who wants to eat with friends, well fuck you, you're eating fries.
 
-I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life.
-
-### My body hates the obvious solution
-
-The first thing anyone suggests when you try to eat less meat is legumes. Cheap, nutritious, available.
-
-They also make me fart.
-
-I've tried soaking them overnight. I've tried "just push through it, your gut adapts." My gut did not adapt. I also tried soylent, the only decent vegan meal replacement shake. Similar results. Worse than the beans actually.
+I cook a real meal once a day. Sometimes zero. I drink a premade protein shake instead. These shakes are load-bearing to my quality of life. I tried soylent, the only decent vegan meal replacement shake. My gut hates it. It also happens to be more expensive.
 
 ### Next time someone tells you they could never go vegan, send them a recipe.
 
